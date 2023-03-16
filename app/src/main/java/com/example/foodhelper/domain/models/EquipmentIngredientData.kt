@@ -5,3 +5,4 @@ data class EquipmentIngredientData(
     val name: String,
     val image: String
 )
+

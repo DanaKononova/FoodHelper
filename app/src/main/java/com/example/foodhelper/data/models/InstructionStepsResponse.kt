@@ -7,4 +7,4 @@ data class InstructionStepsResponse (
     @SerializedName("ingredients") val ingredients: List<EquipmentIngredientResponse>? = null,
     @SerializedName("number") val number: Int? = null,
     @SerializedName("step") val step: String? = null
-        )
+)

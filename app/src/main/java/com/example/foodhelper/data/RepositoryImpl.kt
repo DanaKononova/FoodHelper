@@ -1,11 +1,13 @@
 package com.example.foodhelper.data
 
-import com.example.foodhelper.data.mappers.FoodResultsMapper
-import com.example.foodhelper.data.mappers.InstructionsMapper
-import com.example.foodhelper.data.mappers.NutrientsMapper
+import com.example.foodhelper.data.db.instructions.EquipmentIngredientsEntity
+import com.example.foodhelper.data.mappers.*
 import com.example.foodhelper.data.network.AnalyzedInstructionService
 import com.example.foodhelper.data.network.FoodService
 import com.example.foodhelper.data.network.NutritionService
+import com.example.foodhelper.data.source.FoodDataBaseSource
+import com.example.foodhelper.data.source.InstructionsDataBaseSource
+import com.example.foodhelper.data.source.NutritionDataBaseSource
 import com.example.foodhelper.data.source.UserDataSource
 import com.example.foodhelper.domain.Repository
 import com.example.foodhelper.domain.models.FoodData
@@ -21,39 +23,98 @@ class RepositoryImpl @Inject constructor(
     private val analyzedInstructionService: AnalyzedInstructionService,
     private val userSource: UserDataSource,
     private val foodMapper: FoodResultsMapper,
+    private val foodEntityMapper: FoodEntityMapper,
     private val nutrientsMapper: NutrientsMapper,
-    private val instructionsMapper: InstructionsMapper
+    private val nutrientsEntityMapper: NutrientsEntityMapper,
+    private val instructionsMapper: InstructionsMapper,
+    private val instructionsEntityMapper: InstructionsEntityMapper,
+    private val foodDataBaseSource: FoodDataBaseSource,
+    private val nutritionDataBaseSource: NutritionDataBaseSource,
+    private val instructionsDataBaseSource: InstructionsDataBaseSource
 ) : Repository {
-    override suspend fun getFoodList(query: String): List<FoodData> {
+    override suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
-            val foodList =
-                (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                    ?: throw Exception()).results
-            if (foodList != null) {
-                foodList.map { foodMapper(it) }
-            } else listOf()
+            if (isConnected) {
+                val response =
+                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).results
+                val foodList = (response ?: listOf()).map { foodMapper(it) }
+                foodDataBaseSource.delete(foodDataBaseSource.getAll())
+                foodDataBaseSource.insertAll(foodList)
+                foodList.map { foodEntityMapper(it) }
+            } else {
+                foodDataBaseSource.getAll().map { foodEntityMapper(it) }
+            }
         }
     }
 
-    override suspend fun getNutrientsList(id: String): List<NutrientsData> {
+    override suspend fun getNutrientsList(id: String, isConnected: Boolean): List<NutrientsData> {
         return withContext(Dispatchers.IO) {
-            val nutrientsList =
-                (nutritionService.getNutrition(id, userSource.getUserToken()).execute().body()
-                    ?: throw Exception()).nutrients
-            if (nutrientsList != null) {
-                nutrientsList.map { nutrientsMapper(it) }
-            } else listOf()
+            if (isConnected) {
+                val response =
+                    (nutritionService.getNutrition(id, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).nutrients
+                val nutrientsList = (response ?: listOf()).map { nutrientsMapper(it) }
+                nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
+                nutritionDataBaseSource.insertAll(nutrientsList)
+                nutrientsList.map { nutrientsEntityMapper(it) }
+            } else {
+                nutritionDataBaseSource.getAll().map { nutrientsEntityMapper(it) }
+            }
         }
     }
 
-    override suspend fun getInstructionsList(id: String): List<List<InstructionsData>> {
+    override suspend fun getInstructionsList(id: String, isConnected: Boolean)
+            : List<InstructionsData> {
         return withContext(Dispatchers.IO) {
-            val instructionsList =
-                (analyzedInstructionService.getInstruction(id, userSource.getUserToken()).execute().body()
-                    ?: throw Exception())
-            if (instructionsList != null) {
-                instructionsList.map { it.steps?.map { instructionsMapper(it) } ?: listOf() }
-            } else listOf()
+            if (isConnected) {
+                val response =
+                    (analyzedInstructionService.getInstruction(id, userSource.getUserToken())
+                        .execute().body() ?: throw Exception())
+                for (i in response.indices) {
+                    instructionsDataBaseSource.deleteInstructions(instructionsDataBaseSource.getAllInstructions())
+                }
+                instructionsDataBaseSource.deleteEquipmentIngredients(instructionsDataBaseSource.getAllEquipmentIngredients())
+                var equipmentEntity: List<EquipmentIngredientsEntity> = listOf()
+                var ingredientsEntity: List<EquipmentIngredientsEntity> = listOf()
+                val instructionsList =
+                    response[0].steps?.map {
+                        val instructionsEntity = instructionsMapper(it)
+                        if (it.equipment != null) {
+                            equipmentEntity =
+                                instructionsMapper.equipmentIngredientMapper(it.equipment)
+                            instructionsDataBaseSource.insertAllEquipmentIngredients(equipmentEntity)
+                        }
+                        if (it.ingredients != null) {
+                            ingredientsEntity =
+                                instructionsMapper.equipmentIngredientMapper(it.ingredients)
+                            instructionsDataBaseSource.insertAllEquipmentIngredients(
+                                ingredientsEntity
+                            )
+                        }
+                        instructionsDataBaseSource.insertAllInstructions(instructionsEntity)
+                        instructionsEntityMapper(
+                            instructionsEntity,
+                            equipmentEntity,
+                            ingredientsEntity
+                        )
+                    } ?: listOf()
+                instructionsList
+            } else {
+                val equipmentIngredientsList =
+                    instructionsDataBaseSource.getAllEquipmentIngredients()
+                var equipmentEntity: List<EquipmentIngredientsEntity> = listOf()
+                var ingredientsEntity: List<EquipmentIngredientsEntity> = listOf()
+                var j = 0;
+                instructionsDataBaseSource.getAllInstructions()
+                    .map {
+                            equipmentEntity = equipmentIngredientsList.subList(j, j + it.equipment)
+                            j += it.equipment
+                            ingredientsEntity = equipmentIngredientsList.subList(j, j + it.ingredients)
+                            j += it.ingredients
+                            instructionsEntityMapper(it, equipmentEntity, ingredientsEntity)
+                    }
+            }
         }
     }
 

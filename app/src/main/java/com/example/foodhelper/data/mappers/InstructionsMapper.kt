@@ -1,5 +1,7 @@
 package com.example.foodhelper.data.mappers
 
+import com.example.foodhelper.data.db.instructions.EquipmentIngredientsEntity
+import com.example.foodhelper.data.db.instructions.InstructionsEntity
 import com.example.foodhelper.data.models.EquipmentIngredientResponse
 import com.example.foodhelper.data.models.InstructionStepsResponse
 import com.example.foodhelper.data.models.InstructionsResponse
@@ -12,22 +14,19 @@ import javax.inject.Inject
 class InstructionsMapper @Inject constructor() {
     operator fun invoke(instructionStepsResponse: InstructionStepsResponse) =
         with(instructionStepsResponse) {
-            InstructionsData(
-                equipment = if (instructionStepsResponse.equipment != null) equipmentIngredientMapper(
-                    instructionStepsResponse.equipment
-                ) else listOf(),
-                ingredient = if (instructionStepsResponse.ingredients != null) equipmentIngredientMapper(
-                    instructionStepsResponse.ingredients
-                ) else listOf(),
+            InstructionsEntity(
+                equipment = if (instructionStepsResponse.equipment != null) instructionStepsResponse.equipment.size
+                else 0,
+                ingredients = if (instructionStepsResponse.ingredients != null) instructionStepsResponse.ingredients.size
+                else 0,
                 number = instructionStepsResponse.number ?: 0,
                 step = instructionStepsResponse.step ?: ""
             )
         }
 
-
-    private fun equipmentIngredientMapper(elements: List<EquipmentIngredientResponse>): List<EquipmentIngredientData> {
+    fun equipmentIngredientMapper(elements: List<EquipmentIngredientResponse>): List<EquipmentIngredientsEntity> {
         return elements.map {
-            EquipmentIngredientData(
+            EquipmentIngredientsEntity(
                 id = it.id ?: 0,
                 name = it.name ?: "",
                 image = it.image ?: ""
