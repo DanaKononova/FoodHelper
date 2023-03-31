@@ -1,4 +1,4 @@
-package com.example.foodhelper.ui
+package com.example.foodhelper.ui.recipePage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodhelper.R
 import com.example.foodhelper.domain.Repository
-import com.example.foodhelper.domain.models.FoodData
 import com.example.foodhelper.domain.models.InstructionsData
 import com.example.foodhelper.domain.models.NutrientsData
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -14,14 +13,9 @@ import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class FoodViewModel @Inject constructor(
+class RecipeViewModel @Inject constructor(
     private val repository: Repository
-): ViewModel() {
-    private val _foodLiveData = MutableLiveData<List<FoodData>>()
-    val foodLiveData: LiveData<List<FoodData>> get() = _foodLiveData
-
-    private val _nutrientsLiveData = MutableLiveData<List<NutrientsData>>()
-    val nutrientsLiveData: LiveData<List<NutrientsData>> get() = _nutrientsLiveData
+) : ViewModel() {
 
     private val _instructionsLiveData = MutableLiveData<List<InstructionsData>>()
     val instructionsLiveData: LiveData<List<InstructionsData>> get() = _instructionsLiveData
@@ -38,9 +32,6 @@ class FoodViewModel @Inject constructor(
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
             _noInternetLiveData.value = true
-            _foodLiveData.value = repository.getFoodList("", !(noInternetLiveData.value ?: false))
-            _nutrientsLiveData.value = repository.getNutrientsList("", !(noInternetLiveData.value ?: false))
-            _instructionsLiveData.value = repository.getInstructionsList("", !(noInternetLiveData.value ?: false))
 
             when (throwable) {
                 is SocketTimeoutException -> {
@@ -51,24 +42,12 @@ class FoodViewModel @Inject constructor(
         }
     }
 
-    fun getFoodList(query: String) {
-        viewModelScope.launch(handler) {
-            _noInternetLiveData.value = false
-            _foodLiveData.value = repository.getFoodList(query, !(noInternetLiveData.value ?: false))
-        }
-    }
-
-    fun getNutrientsList(id: String) {
-        viewModelScope.launch(handler) {
-            _noInternetLiveData.value = false
-            _nutrientsLiveData.value = repository.getNutrientsList(id, !(noInternetLiveData.value ?: false))
-        }
-    }
-
     fun getInstructionsList(id: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _instructionsLiveData.value = repository.getInstructionsList(id, !(noInternetLiveData.value ?: false))
+            _instructionsLiveData.value =
+                repository.getInstructionsList(id, false)
+                //repository.getInstructionsList(id, !(noInternetLiveData.value ?: false))
         }
     }
 

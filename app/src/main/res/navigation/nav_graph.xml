@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.foodhelper.ui.mainPage.FoodMainFragment"
+        android:label="Main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_searchFoodFragment"
+            app:destination="@id/searchFoodFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFoodFragment"
+        android:name="com.example.foodhelper.ui.searchPage.SearchFoodFragment"
+        android:label="fragment_search_food"
+        tools:layout="@layout/fragment_search_food" >
+        <action
+            android:id="@+id/action_searchFoodFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="com.example.foodhelper.ui.recipePage.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe">
+        <argument
+            android:name="foodId"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="image"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="recipeName"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_recipeFragment_to_nutritionFragment"
+            app:destination="@id/nutritionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nutritionFragment"
+        android:name="com.example.foodhelper.ui.nutritionPage.NutritionFragment"
+        android:label="fragment_nutrition"
+        tools:layout="@layout/fragment_nutrition">
+        <argument
+            android:name="foodId"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="image"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="recipeName"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+</navigation>

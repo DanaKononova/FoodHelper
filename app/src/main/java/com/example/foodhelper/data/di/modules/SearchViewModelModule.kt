@@ -2,15 +2,15 @@ package com.example.foodhelper.data.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.example.foodhelper.data.di.ViewModelKey
-import com.example.foodhelper.ui.mainPage.FoodViewModel
+import com.example.foodhelper.ui.searchPage.SearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface ViewModelModule {
+interface SearchViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(FoodViewModel::class)
-    fun bindLoginViewModel(viewModel: FoodViewModel): ViewModel
+    @ViewModelKey(SearchViewModel::class)
+    fun bindLoginViewModel(viewModel: SearchViewModel): ViewModel
 }

@@ -2,4 +2,18 @@
     <string name="app_name">Food Helper</string>
     <string name="socketTimeout">Internet error</string>
     <string name="exception">Unknown error</string>
+    <string name="breakfastTv">Best for breakfast</string>
+    <string name="brunchTv">Best for brunch</string>
+    <string name="lunchTv">Best for lunch</string>
+    <string name="dinnerTv">Best for dinner</string>
+    <string-array name="meals">
+        <item>Breakfast</item>
+        <item>Brunch</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+    <string name="searchBt">Search</string>
+    <string name="equipmentTv">Equipment</string>
+    <string name="ingredientTv">Ingredients</string>
+    <string name="nutritionBt">Count nutrition</string>
 </resources>

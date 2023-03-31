@@ -71,9 +71,7 @@ class RepositoryImpl @Inject constructor(
                 val response =
                     (analyzedInstructionService.getInstruction(id, userSource.getUserToken())
                         .execute().body() ?: throw Exception())
-                for (i in response.indices) {
-                    instructionsDataBaseSource.deleteInstructions(instructionsDataBaseSource.getAllInstructions())
-                }
+                instructionsDataBaseSource.deleteInstructions(instructionsDataBaseSource.getAllInstructions())
                 instructionsDataBaseSource.deleteEquipmentIngredients(instructionsDataBaseSource.getAllEquipmentIngredients())
                 var equipmentEntity: List<EquipmentIngredientsEntity> = listOf()
                 var ingredientsEntity: List<EquipmentIngredientsEntity> = listOf()
