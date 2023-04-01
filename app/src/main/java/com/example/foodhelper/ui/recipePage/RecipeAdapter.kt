@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvRecipeListBinding
-import com.example.foodhelper.domain.models.InstructionsData
+import com.example.domain.models.InstructionsData
 
 class RecipeAdapter() : RecyclerView.Adapter<RecipeViewHolder>() {
 

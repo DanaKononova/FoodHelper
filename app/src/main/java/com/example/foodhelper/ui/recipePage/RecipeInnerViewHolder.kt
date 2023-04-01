@@ -3,9 +3,7 @@ package com.example.foodhelper.ui.recipePage
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodhelper.databinding.RvEquipmentIngredientListBinding
-import com.example.foodhelper.databinding.RvRecipeListBinding
-import com.example.foodhelper.domain.models.EquipmentIngredientData
-import com.example.foodhelper.domain.models.InstructionsData
+import com.example.domain.models.EquipmentIngredientData
 
 class RecipeInnerViewHolder  (
     private val binding: RvEquipmentIngredientListBinding,

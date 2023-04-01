@@ -12,11 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.foodhelper.data.di.ViewModelFactory
+import com.example.core.ViewModelFactory
 import com.example.foodhelper.databinding.FragmentRecipeBinding
-import com.example.foodhelper.domain.models.InstructionsData
+import com.example.domain.models.InstructionsData
 import com.example.foodhelper.ui.FoodApp
-import com.example.foodhelper.ui.mainPage.FoodMainFragmentDirections
 import javax.inject.Inject
 
 class RecipeFragment : Fragment() {

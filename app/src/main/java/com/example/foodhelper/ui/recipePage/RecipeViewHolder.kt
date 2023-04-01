@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvRecipeListBinding
-import com.example.foodhelper.domain.models.InstructionsData
+import com.example.domain.models.InstructionsData
 
 class RecipeViewHolder (
     private val binding: RvRecipeListBinding,

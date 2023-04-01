@@ -2,14 +2,10 @@ package com.example.foodhelper.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.example.foodhelper.R
-import com.example.foodhelper.data.di.ViewModelFactory
 import com.example.foodhelper.databinding.ActivityMainBinding
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

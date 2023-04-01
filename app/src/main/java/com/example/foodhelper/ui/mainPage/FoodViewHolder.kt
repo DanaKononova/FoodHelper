@@ -3,7 +3,7 @@ package com.example.foodhelper.ui.mainPage
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodhelper.databinding.RvMainFoodListBinding
-import com.example.foodhelper.domain.models.FoodData
+import com.example.domain.models.FoodData
 
 class FoodViewHolder(
     private val binding: RvMainFoodListBinding,

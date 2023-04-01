@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvEquipmentIngredientListBinding
-import com.example.foodhelper.domain.models.EquipmentIngredientData
+import com.example.domain.models.EquipmentIngredientData
 
 class RecipeInnerAdapter(
     private val isIngredients: Boolean

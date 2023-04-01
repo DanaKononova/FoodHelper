@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvMainFoodListBinding
-import com.example.foodhelper.domain.models.FoodData
+import com.example.domain.models.FoodData
 
 class FoodAdapter(
     private val itemClick: (String, String, String) -> Unit

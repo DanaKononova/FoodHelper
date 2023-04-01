@@ -10,16 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.foodhelper.R
-import com.example.foodhelper.data.di.ViewModelFactory
+import com.example.core.ViewModelFactory
 import com.example.foodhelper.databinding.FragmentNutritionBinding
-import com.example.foodhelper.databinding.FragmentRecipeBinding
-import com.example.foodhelper.domain.models.InstructionsData
-import com.example.foodhelper.domain.models.NutrientsData
+import com.example.domain.models.NutrientsData
 import com.example.foodhelper.ui.FoodApp
-import com.example.foodhelper.ui.recipePage.RecipeAdapter
-import com.example.foodhelper.ui.recipePage.RecipeFragmentArgs
-import com.example.foodhelper.ui.recipePage.RecipeViewModel
 import javax.inject.Inject
 
 class NutritionFragment : Fragment() {
@@ -46,28 +40,28 @@ class NutritionFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recipeId = args.foodId
-        val nutritionList = mutableListOf<NutrientsData>()
-        val recycler = binding.rvNutritionList
-
-        val adapter = NutritionAdapter()
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-
-        binding.RecipeNameNutr.text = args.recipeName
-        Glide
-            .with(view)
-            .load(args.image)
-            .into(binding.recipeImgNutr)
-
-        viewModel.nutrientsLiveData.observe(viewLifecycleOwner){
-            nutritionList.clear()
-            nutritionList.addAll(it)
-            adapter.setInstructions(it)
-        }
-
-        viewModel.getNutrientsList(recipeId)
-        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+//        val recipeId = args.foodId
+//        val nutritionList = mutableListOf<NutrientsData>()
+//        val recycler = binding.rvNutritionList
+//
+//        val adapter = NutritionAdapter()
+//        recycler.adapter = adapter
+//        recycler.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+//
+//        binding.RecipeNameNutr.text = args.recipeName
+//        Glide
+//            .with(view)
+//            .load(args.image)
+//            .into(binding.recipeImgNutr)
+//
+//        viewModel.nutrientsLiveData.observe(viewLifecycleOwner){
+//            nutritionList.clear()
+//            nutritionList.addAll(it)
+//            adapter.setInstructions(it)
+//        }
+//
+//        viewModel.getNutrientsList(recipeId)
+//        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
     }
 
     override fun onDestroyView() {

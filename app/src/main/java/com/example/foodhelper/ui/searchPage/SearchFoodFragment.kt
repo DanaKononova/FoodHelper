@@ -10,9 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foodhelper.data.di.ViewModelFactory
+import com.example.core.ViewModelFactory
 import com.example.foodhelper.databinding.FragmentSearchFoodBinding
-import com.example.foodhelper.domain.models.FoodData
+import com.example.domain.models.FoodData
 import com.example.foodhelper.ui.FoodApp
 import com.example.foodhelper.ui.mainPage.FoodAdapter
 import javax.inject.Inject

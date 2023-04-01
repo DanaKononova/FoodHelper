@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodhelper.R
-import com.example.foodhelper.domain.Repository
-import com.example.foodhelper.domain.models.InstructionsData
-import com.example.foodhelper.domain.models.NutrientsData
+import com.example.domain.Repository
+import com.example.domain.models.InstructionsData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
