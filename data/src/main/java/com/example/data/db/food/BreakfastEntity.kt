@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "food_table")
-data class FoodEntity(
+@Entity(tableName = "breakfast_table")
+data class BreakfastEntity(
     @PrimaryKey(autoGenerate = true) val foodId: Int = 0,
     @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "title") var title: String,

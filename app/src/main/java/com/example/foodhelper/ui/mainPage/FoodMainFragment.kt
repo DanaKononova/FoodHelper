@@ -74,8 +74,14 @@ class FoodMainFragment : Fragment() {
                         selectedView.setTextColor(Color.WHITE)
                     }
                     query = meals[position]
+                    println(query)
                     mealTv.text = textMeals[position]
-                    viewModel.getFoodList(query)
+                    when (query){
+                        meals[0] -> viewModel.getBreakfastList(query)
+                        meals[1] -> viewModel.getBrunchList(query)
+                        meals[2] -> viewModel.getLunchList(query)
+                        meals[3] -> viewModel.getDinnerList(query)
+                    }
                     viewModel.setToken("3d56490658e6406590fe5079373f64fe")
                 }
 
@@ -107,9 +113,6 @@ class FoodMainFragment : Fragment() {
         viewModel.foodLiveData.observe(viewLifecycleOwner) {
             adapter.setFood(it)
         }
-
-        viewModel.getFoodList(query)
-        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
 
         searchBt.setOnClickListener {
             val action = FoodMainFragmentDirections.actionMainFragmentToSearchFoodFragment()

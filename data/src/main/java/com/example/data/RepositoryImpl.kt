@@ -39,11 +39,71 @@ class RepositoryImpl @Inject constructor(
                     (foodService.getFood(query, userSource.getUserToken()).execute().body()
                         ?: throw Exception()).results
                 val foodList = (response ?: listOf()).map { foodMapper(it) }
-                foodDataBaseSource.delete(foodDataBaseSource.getAll())
-                foodDataBaseSource.insertAll(foodList)
+                foodList.map { foodEntityMapper(it) }
+            } else emptyList()
+        }
+    }
+
+    override suspend fun getBreakfastList(query: String, isConnected: Boolean): List<FoodData> {
+        return withContext(Dispatchers.IO) {
+            if (isConnected) {
+                val response =
+                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).results
+                val foodList = (response ?: listOf()).map { foodMapper(it) }
+                foodDataBaseSource.deleteAllBreakfast(foodDataBaseSource.getAllBreakfast())
+                foodDataBaseSource.insertAllBreakfast(foodList)
                 foodList.map { foodEntityMapper(it) }
             } else {
-                foodDataBaseSource.getAll().map { foodEntityMapper(it) }
+                foodDataBaseSource.getAllBreakfast().map { foodEntityMapper(it) }
+            }
+        }
+    }
+
+    override suspend fun getBrunchList(query: String, isConnected: Boolean): List<FoodData> {
+        return withContext(Dispatchers.IO) {
+            if (isConnected) {
+                val response =
+                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).results
+                val foodList = (response ?: listOf()).map { foodMapper.toBrunchEntity(it) }
+                foodDataBaseSource.deleteAllBrunch(foodDataBaseSource.getAllBrunch())
+                foodDataBaseSource.insertAllBrunch(foodList)
+                foodList.map { foodEntityMapper(it) }
+            } else {
+                foodDataBaseSource.getAllBrunch().map { foodEntityMapper(it) }
+            }
+        }
+    }
+
+    override suspend fun getLunchList(query: String, isConnected: Boolean): List<FoodData> {
+        return withContext(Dispatchers.IO) {
+            if (isConnected) {
+                val response =
+                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).results
+                val foodList = (response ?: listOf()).map { foodMapper.toLunchEntity(it) }
+                foodDataBaseSource.deleteAllLunch(foodDataBaseSource.getAllLunch())
+                foodDataBaseSource.insertAllLunch(foodList)
+                foodList.map { foodEntityMapper(it) }
+            } else {
+                foodDataBaseSource.getAllLunch().map { foodEntityMapper(it) }
+            }
+        }
+    }
+
+    override suspend fun getDinnerList(query: String, isConnected: Boolean): List<FoodData> {
+        return withContext(Dispatchers.IO) {
+            if (isConnected) {
+                val response =
+                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
+                        ?: throw Exception()).results
+                val foodList = (response ?: listOf()).map { foodMapper.toDinnerEntity(it) }
+                foodDataBaseSource.deleteAllDinner(foodDataBaseSource.getAllDinner())
+                foodDataBaseSource.insertAllDinner(foodList)
+                foodList.map { foodEntityMapper(it) }
+            } else {
+                foodDataBaseSource.getAllDinner().map { foodEntityMapper(it) }
             }
         }
     }

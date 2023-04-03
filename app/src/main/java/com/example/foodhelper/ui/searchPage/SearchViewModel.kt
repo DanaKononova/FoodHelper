@@ -8,9 +8,12 @@ import com.example.foodhelper.R
 import com.example.domain.Repository
 import com.example.domain.models.FoodData
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 import javax.inject.Inject
+import kotlin.jvm.internal.Intrinsics.Kotlin
 
 class SearchViewModel @Inject constructor(
     private val repository: Repository
@@ -31,7 +34,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _noInternetLiveData.value = true
             _searchLiveData.value =
-                repository.getFoodList("", !(noInternetLiveData.value ?: false))
+                repository.getBreakfastList("", !(noInternetLiveData.value ?: false))
 
             when (throwable) {
                 is SocketTimeoutException -> {
@@ -42,11 +45,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    private val searchDebouncer = Debouncer(1000)
+
     fun getFoodList(query: String) {
+        searchDebouncer.debounce {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _searchLiveData.value =
-                repository.getFoodList(query, !(noInternetLiveData.value ?: false))
+                _searchLiveData.value =
+                    repository.getFoodList(query, !(noInternetLiveData.value ?: false))
+            }
         }
     }
 
