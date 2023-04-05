@@ -2,7 +2,7 @@ package com.example.foodhelper.ui.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.example.core.ViewModelKey
-import com.example.foodhelper.ui.searchPage.SearchViewModel
+import com.example.foodhelper.ui.search_page.SearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

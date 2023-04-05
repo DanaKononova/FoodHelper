@@ -1,18 +1,27 @@
 package com.example.data
 
 import com.example.data.db.instructions.EquipmentIngredientsEntity
-import com.example.data.mappers.*
-import com.example.data.network.AnalyzedInstructionService
-import com.example.data.network.FoodService
-import com.example.data.network.NutritionService
+import com.example.data.mappers.food_mapper.FoodEntityMapper
+import com.example.data.mappers.food_mapper.FoodResultsMapper
+import com.example.data.mappers.generate_template_mapper.GenerateTemplateMapper
+import com.example.data.mappers.get_templates_mapper.TemplatesMapper
+import com.example.data.mappers.instructions_mapper.InstructionsEntityMapper
+import com.example.data.mappers.instructions_mapper.InstructionsMapper
+import com.example.data.mappers.nutrients_mapper.NutrientsEntityMapper
+import com.example.data.mappers.nutrients_mapper.NutrientsMapper
+import com.example.data.mappers.user_mapper.UserMapper
+import com.example.data.network.*
 import com.example.data.source.FoodDataBaseSource
 import com.example.data.source.InstructionsDataBaseSource
 import com.example.data.source.NutritionDataBaseSource
 import com.example.data.source.UserDataSource
 import com.example.domain.Repository
-import com.example.domain.models.FoodData
-import com.example.domain.models.InstructionsData
-import com.example.domain.models.NutrientsData
+import com.example.domain.models.food.FoodData
+import com.example.domain.models.generate_template.GenerateTemplateData
+import com.example.domain.models.get_templates.TemplatesData
+import com.example.domain.models.instructions.InstructionsData
+import com.example.domain.models.nutrients.NutrientsData
+import com.example.domain.models.user.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,13 +30,19 @@ class RepositoryImpl @Inject constructor(
     private val foodService: FoodService,
     private val nutritionService: NutritionService,
     private val analyzedInstructionService: AnalyzedInstructionService,
-    private val userSource: UserDataSource,
+    private val userService: ContactUserService,
+    private val mealTemplatesService: MealTemplatesService,
+    private val generateTemplateService: GenerateTemplateService,
     private val foodMapper: FoodResultsMapper,
     private val foodEntityMapper: FoodEntityMapper,
     private val nutrientsMapper: NutrientsMapper,
     private val nutrientsEntityMapper: NutrientsEntityMapper,
     private val instructionsMapper: InstructionsMapper,
     private val instructionsEntityMapper: InstructionsEntityMapper,
+    private val userMapper: UserMapper,
+    private val generateTemplateMapper: GenerateTemplateMapper,
+    private val templatesMapper: TemplatesMapper,
+    private val userSource: UserDataSource,
     private val foodDataBaseSource: FoodDataBaseSource,
     private val nutritionDataBaseSource: NutritionDataBaseSource,
     private val instructionsDataBaseSource: InstructionsDataBaseSource
@@ -161,18 +176,66 @@ class RepositoryImpl @Inject constructor(
             } else {
                 val equipmentIngredientsList =
                     instructionsDataBaseSource.getAllEquipmentIngredients()
-                var equipmentEntity: List<EquipmentIngredientsEntity> = listOf()
-                var ingredientsEntity: List<EquipmentIngredientsEntity> = listOf()
-                var j = 0;
+                var equipmentEntity: List<EquipmentIngredientsEntity>
+                var ingredientsEntity: List<EquipmentIngredientsEntity>
+                var j = 0
                 instructionsDataBaseSource.getAllInstructions()
                     .map {
-                            equipmentEntity = equipmentIngredientsList.subList(j, j + it.equipment)
-                            j += it.equipment
-                            ingredientsEntity = equipmentIngredientsList.subList(j, j + it.ingredients)
-                            j += it.ingredients
-                            instructionsEntityMapper(it, equipmentEntity, ingredientsEntity)
+                        equipmentEntity = equipmentIngredientsList.subList(j, j + it.equipment)
+                        j += it.equipment
+                        ingredientsEntity = equipmentIngredientsList.subList(j, j + it.ingredients)
+                        j += it.ingredients
+                        instructionsEntityMapper(it, equipmentEntity, ingredientsEntity)
                     }
             }
+        }
+    }
+
+    override suspend fun getUserInfo(
+        username: String,
+        firstName: String,
+        lastName: String,
+        email: String
+    ): UserData {
+        return withContext(Dispatchers.IO) {
+            val response =
+                (userService.getUser(
+                    User(username, firstName, lastName, email),
+                    userSource.getUserToken()
+                ).execute().body() ?: throw Exception())
+            val user = userMapper(response)
+            user
+        }
+    }
+
+    override suspend fun getTemplates(username: String, hash: String): List<TemplatesData> {
+        return withContext(Dispatchers.IO) {
+            val response =
+                (mealTemplatesService.getTemplates(username, hash, userSource.getUserToken())
+                    .execute().body()
+                    ?: throw Exception()).templates
+            val templates = (response ?: listOf()).map { templatesMapper(it) }
+            templates
+        }
+    }
+
+    override suspend fun generateTemplate(
+        timeFrame: String,
+        targetCalories: String,
+        diet: String,
+        exclude: String
+    ): GenerateTemplateData {
+        return withContext(Dispatchers.IO) {
+            val response =
+                (generateTemplateService.generateTemplate(
+                    timeFrame,
+                    targetCalories.toInt(),
+                    diet,
+                    exclude,
+                    userSource.getUserToken()
+                ).execute().body() ?: throw Exception())
+            val generatedTemplate = generateTemplateMapper(response)
+            generatedTemplate
         }
     }
 

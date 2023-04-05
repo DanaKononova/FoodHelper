@@ -16,4 +16,13 @@
     <string name="equipmentTv">Equipment</string>
     <string name="ingredientTv">Ingredients</string>
     <string name="nutritionBt">Count nutrition</string>
+    <string name="userBt">User</string>
+    <string name="addTemplateBt">Add meal</string>
+    <string name="nutrientsHeader">Nutrient name</string>
+    <string name="amountHeader">Amount</string>
+    <string name="percentHeader">Percent of daily need</string>
+    <string name="nutrientsAbout1">Nutrients are the substances found in food which drive biological activity, and are essential for the human body. They are categorized as proteins, fats, carbohydrates (sugars, dietary fiber), vitamins, and minerals, and perform the following vital functions.</string>
+    <string name="nutrientsAbout2">To read more about nutrients click on the link</string>
+    <string name="nutrientsurl">https://www.healthline.com/health/food-nutrition/six-essential-nutrients</string>
+
 </resources>

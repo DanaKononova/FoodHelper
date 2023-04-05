@@ -2,7 +2,7 @@ package com.example.foodhelper.ui.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.example.core.ViewModelKey
-import com.example.foodhelper.ui.nutritionPage.NutritionViewModel
+import com.example.foodhelper.ui.nutrition_page.NutritionViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

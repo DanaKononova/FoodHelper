@@ -1,13 +1,13 @@
 package com.example.data.network
 
-import com.example.data.models.InstructionsResponse
+import com.example.data.models.instructions.InstructionsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AnalyzedInstructionService {
-    @GET("{id}/analyzedInstructions")
+    @GET("recipes/{id}/analyzedInstructions")
     fun getInstruction(
         @Path("id") id: String,
         @Query("apiKey") token: String
