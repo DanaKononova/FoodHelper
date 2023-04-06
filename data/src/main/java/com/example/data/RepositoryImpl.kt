@@ -219,7 +219,38 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun generateTemplate(
+    override suspend fun generateWeekTemplate(
+        timeFrame: String,
+        targetCalories: String,
+        diet: String,
+        exclude: String,
+        day: String
+    ): GenerateTemplateData {
+        return withContext(Dispatchers.IO) {
+            val response = when (day) {
+                "monday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.monday ?: throw Exception())
+                "tuesday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.tuesday ?: throw Exception())
+                "wednesday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.wednesday ?: throw Exception())
+                "thursday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.thursday ?: throw Exception())
+                "friday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.friday ?: throw Exception())
+                "saturday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.saturday ?: throw Exception())
+                "sunday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.sunday ?: throw Exception())
+                else -> {(generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                    .execute().body()?.week?.monday ?: throw Exception())}
+            }
+            val generatedTemplate = generateTemplateMapper(response)
+            generatedTemplate
+        }
+    }
+
+    override suspend fun generateDayTemplate(
         timeFrame: String,
         targetCalories: String,
         diet: String,
@@ -227,9 +258,9 @@ class RepositoryImpl @Inject constructor(
     ): GenerateTemplateData {
         return withContext(Dispatchers.IO) {
             val response =
-                (generateTemplateService.generateTemplate(
+                (generateTemplateService.generateDayTemplate(
                     timeFrame,
-                    targetCalories.toInt(),
+                    targetCalories,
                     diet,
                     exclude,
                     userSource.getUserToken()

@@ -53,44 +53,42 @@ class FoodMainFragment : Fragment() {
         val spinner = binding.mealSpinner
         var query = meals[0]
 
-        if (spinner != null) {
-            spinner.adapter = this.context?.let {
-                ArrayAdapter(
-                    it,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    meals
-                )
-            }
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (parent?.getChildAt(0) != null) {
-                        val selectedView = parent.getChildAt(0) as TextView
-                        selectedView.setTextColor(Color.WHITE)
-                    }
-                    query = meals[position]
-                    println(query)
-                    mealTv.text = textMeals[position]
-                    when (query){
-                        meals[0] -> viewModel.getBreakfastList(query)
-                        meals[1] -> viewModel.getBrunchList(query)
-                        meals[2] -> viewModel.getLunchList(query)
-                        meals[3] -> viewModel.getDinnerList(query)
-                    }
-                    viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+        spinner.adapter = this.context?.let {
+            ArrayAdapter(
+                it,
+                android.R.layout.simple_spinner_dropdown_item,
+                meals
+            )
+        }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.WHITE)
                 }
+                query = meals[position]
+                println(query)
+                mealTv.text = textMeals[position]
+                when (query){
+                    meals[0] -> viewModel.getBreakfastList(query)
+                    meals[1] -> viewModel.getBrunchList(query)
+                    meals[2] -> viewModel.getLunchList(query)
+                    meals[3] -> viewModel.getDinnerList(query)
+                }
+                viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+            }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    query = meals[0]
-                    mealTv.text = textMeals[0]
-                    if (parent?.getChildAt(0) != null) {
-                        val selectedView = parent.getChildAt(0) as TextView
-                        selectedView.setTextColor(Color.WHITE)
-                    }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                query = meals[0]
+                mealTv.text = textMeals[0]
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.WHITE)
                 }
             }
         }

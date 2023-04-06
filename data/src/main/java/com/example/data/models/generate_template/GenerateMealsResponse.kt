@@ -8,4 +8,5 @@ data class GenerateMealsResponse(
     @SerializedName("readyInMinutes") val readyInMinutes: Int? = null,
     @SerializedName("servings") val servings: Int? = null,
     @SerializedName("sourceUrl") val sourceUrl: String? = null,
+    @SerializedName("imageType") val imageType: String? = null,
 )

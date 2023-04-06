@@ -1,9 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.generate_plan_page.GeneratePlanFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/planNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/planNameTv"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <EditText
+            android:id="@+id/planNameEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:hint="@string/plan_name"
+            android:inputType="text"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/planNameTv"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <View
+            android:id="@+id/delimetr"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/dark_red"
+            app:layout_constraintTop_toBottomOf="@+id/planNameEdit" />
+
+        <TextView
+            android:id="@+id/filtersTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/filters"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delimetr"/>
+
+        <TextView
+            android:id="@+id/timeFrameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/timeFrameTv"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/timeFrameSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/timeFrameSpinner" />
+        <Spinner
+            android:id="@+id/timeFrameSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/plan_name"
+            app:layout_constraintStart_toEndOf="@+id/timeFrameTv"
+            app:layout_constraintTop_toBottomOf="@+id/filtersTv" />
+
+        <TextView
+            android:id="@+id/targetCaloriesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/targetCaloriesTv"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/targetCaloriesEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/targetCaloriesEdit" />
+        <EditText
+            android:id="@+id/targetCaloriesEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="number"
+            android:hint="@string/targetCaloriesHint"
+            android:inputType="number"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@+id/targetCaloriesTv"
+            app:layout_constraintTop_toBottomOf="@+id/timeFrameSpinner"
+            app:layout_constraintWidth_percent="0.2" />
+
+        <TextView
+            android:id="@+id/dietTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dietTv"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/dietBt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dietBt" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dietBt"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/round_button"
+            android:text="@string/dietBt"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@+id/dietTv"
+            app:layout_constraintTop_toBottomOf="@+id/targetCaloriesEdit" />
+        <TextView
+            android:id="@+id/selectedDietTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/dietBt"
+            app:layout_constraintStart_toEndOf="@+id/dietBt"
+            app:layout_constraintTop_toTopOf="@+id/dietBt" />
+
+        <TextView
+            android:id="@+id/excludeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/excludeTv"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/excludeEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/excludeEdit" />
+        <EditText
+            android:id="@+id/excludeEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="text"
+            android:hint="@string/excludeHint"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/excludeTv"
+            app:layout_constraintTop_toBottomOf="@+id/dietBt"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <View
+            android:id="@+id/delimetr2"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/dark_red"
+            app:layout_constraintTop_toBottomOf="@+id/excludeEdit" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/getPlanBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
+            android:text="@string/getPlanBt"
+            android:textSize="11sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
+
+        <Spinner
+            android:id="@+id/daysSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@+id/getPlanBt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMealPlanList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/getPlanBt" />
+
+        <TextView
+            android:id="@+id/mealPlanNutrientsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mealPlanNutrientsTv"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvMealPlanList" />
+
+        <TextView
+            android:id="@+id/caloriesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caloriesTv"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
+        <TextView
+            android:id="@+id/caloriesAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/caloriesTv"
+            app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
+
+        <TextView
+            android:id="@+id/carbohydratesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carbohydratesTv"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
+        <TextView
+            android:id="@+id/carbohydratesAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/carbohydratesTv"
+            app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
+
+        <TextView
+            android:id="@+id/fatTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fatTv"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
+        <TextView
+            android:id="@+id/fatAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/fatTv"
+            app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
+
+        <TextView
+            android:id="@+id/proteinTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/proteinTv"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fatTv"/>
+        <TextView
+            android:id="@+id/proteinAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/proteinTv"
+            app:layout_constraintTop_toBottomOf="@+id/fatTv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

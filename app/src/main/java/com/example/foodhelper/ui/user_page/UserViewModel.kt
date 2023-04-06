@@ -66,18 +66,6 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun generateTemplate(
-        timeFrame: String,
-        targetCalories: String,
-        diet: String,
-        exclude: String
-    ) {
-        viewModelScope.launch(handler) {
-            _generateTemplateLiveData.value =
-                repository.generateTemplate(timeFrame, targetCalories, diet, exclude)
-        }
-    }
-
     fun setToken(token: String) {
         repository.setToken(token)
     }

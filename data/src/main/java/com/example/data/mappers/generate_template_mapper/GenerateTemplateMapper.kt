@@ -23,7 +23,7 @@ class GenerateTemplateMapper @Inject constructor() {
                 nutrients = if (generateTemplateResponse.nutrients != null) nutrientsMapper(
                     generateTemplateResponse.nutrients
                 )
-                else NutrientsTemplateData(0, 0, 0, 0),
+                else NutrientsTemplateData(0.0, 0.0, 0.0, 0.0),
             )
         }
 
@@ -34,17 +34,18 @@ class GenerateTemplateMapper @Inject constructor() {
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
                 servings = it.servings ?: 0,
-                sourceUrl = it.sourceUrl ?: ""
+                sourceUrl = it.sourceUrl ?: "",
+                imageType = it.imageType ?: ""
             )
         }
     }
 
     fun nutrientsMapper(elements: NutrientsTemplateResponse): NutrientsTemplateData {
         return NutrientsTemplateData(
-            calories = elements.calories ?: 0,
-            carbohydrates = elements.carbohydrates ?: 0,
-            fat = elements.fat ?: 0,
-            protein = elements.protein ?: 0
+            calories = elements.calories ?: 0.0,
+            carbohydrates = elements.carbohydrates ?: 0.0,
+            fat = elements.fat ?: 0.0,
+            protein = elements.protein ?: 0.0
         )
     }
 }

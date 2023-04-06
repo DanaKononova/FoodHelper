@@ -24,5 +24,49 @@
     <string name="nutrientsAbout1">Nutrients are the substances found in food which drive biological activity, and are essential for the human body. They are categorized as proteins, fats, carbohydrates (sugars, dietary fiber), vitamins, and minerals, and perform the following vital functions.</string>
     <string name="nutrientsAbout2">To read more about nutrients click on the link</string>
     <string name="nutrientsurl">https://www.healthline.com/health/food-nutrition/six-essential-nutrients</string>
+    <string name="planNameTv">Choose meal plan name</string>
+    <string name="plan_name">plan name</string>
+    <string-array name="timeFrame">
+        <item>day</item>
+        <item>week</item>
+    </string-array>
+    <string name="timeFrameTv">Choome time frame</string>
+    <string name="filters">Choose filters</string>
+    <string name="targetCaloriesHint">calories</string>
+    <string name="targetCaloriesTv">Set target calories</string>
+    <string name="dietBt">Diet</string>
+    <string name="dietTv">Choose diet</string>
+    <string name="excludeHint">exclude products</string>
+    <string-array name="diets">
+        <item>Gluten Free</item>
+        <item>Ketogenic</item>
+        <item>Vegetarian</item>
+        <item>Lacto-Vegetarian</item>
+        <item>Ovo-Vegetarian</item>
+        <item>Vegan</item>
+        <item>Pescetarian</item>
+        <item>Paleo</item>
+        <item>Primal</item>
+        <item>Low FODMAP</item>
+        <item>Whole30</item>
+    </string-array>
+    <string name="excludeTv">Choose products to exclude</string>
+    <string name="meal_image">meal Image</string>
+    <string name="getPlanBt">Get Meal Plan</string>
+    <string name="mealPlanNutrientsTv">Meal Plan Nutrients</string>
+    <string name="caloriesTv">Calories:  </string>
+    <string name="carbohydratesTv">Carbohydrates:  </string>
+    <string name="fatTv">Fat:  </string>
+    <string name="proteinTv">Protein:  </string>
+    <string name="title_home">meals</string>
+    <string-array name="days">
+        <item>monday</item>
+        <item>tuesday</item>
+        <item>wednesday</item>
+        <item>thursday</item>
+        <item>friday</item>
+        <item>saturday</item>
+        <item>sunday</item>
+    </string-array>
 
 </resources>

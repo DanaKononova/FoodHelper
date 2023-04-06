@@ -41,9 +41,6 @@ class UserFragment : Fragment() {
             binding.hash.text = it.hash
         }
 
-        viewModel.generateTemplate("day", "2500", "vegeterian", "")
-        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
-
 //        viewModel.getTemplates("dana888", "8b751e68e925d423af52131dd867b141fe803080")
 //        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
 

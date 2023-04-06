@@ -103,19 +103,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvNutritionList"
-            app:layout_constraintBottom_toTopOf="@+id/nutrUrlTv"/>
+            app:layout_constraintBottom_toTopOf="@+id/nutrAbout2Tv"/>
 
         <TextView
             android:id="@+id/nutrAbout2Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nutrientsAbout2"
-            android:paddingTop="30dp"
             android:textAlignment="center"
-            android:textSize="13sp"
+            android:textSize="12sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvNutritionList"
+            app:layout_constraintTop_toBottomOf="@+id/nutrAbout1Tv"
             app:layout_constraintBottom_toTopOf="@+id/nutrUrlTv"/>
 
         <TextView

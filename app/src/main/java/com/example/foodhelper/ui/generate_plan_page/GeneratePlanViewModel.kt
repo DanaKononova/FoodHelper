@@ -40,11 +40,13 @@ class GeneratePlanViewModel @Inject constructor(
         timeFrame: String,
         targetCalories: String,
         diet: String,
-        exclude: String
+        exclude: String,
+        day: String
     ) {
         viewModelScope.launch(handler) {
-            _generateTemplateLiveData.value =
-                repository.generateTemplate(timeFrame, targetCalories, diet, exclude)
+            _generateTemplateLiveData.value = if (timeFrame == "week")
+                repository.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, day)
+            else repository.generateDayTemplate(timeFrame, targetCalories, diet, exclude)
         }
     }
 
