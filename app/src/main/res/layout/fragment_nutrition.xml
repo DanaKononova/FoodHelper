@@ -1,137 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.nutrition_page.NutritionFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/RecipeNameNutr"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/dark_red"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/RecipeNameNutr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/dark_red"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/recipeImgNutr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecipeNameNutr" />
 
-        <ImageView
-            android:id="@+id/recipeImgNutr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/RecipeNameNutr" />
+    <TextView
+        android:id="@+id/nutrHeader"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.30"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrientsHeader"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/black"
+        android:paddingEnd="5dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/rvNutritionList"
+        app:layout_constraintEnd_toStartOf="@+id/amountHeader"
+        app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
 
-        <TextView
-            android:id="@+id/nutrHeader"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.30"
-            android:layout_height="wrap_content"
-            android:text="@string/nutrientsHeader"
-            android:textAlignment="center"
-            android:fontFamily="sans-serif-black"
-            android:textColor="@color/black"
-            android:paddingEnd="5dp"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/rvNutritionList"
-            app:layout_constraintEnd_toStartOf="@+id/amountHeader"
-            app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
+    <TextView
+        android:id="@+id/amountHeader"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.25"
+        android:layout_height="wrap_content"
+        android:text="@string/amountHeader"
+        android:fontFamily="sans-serif-black"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/nutrHeader"
+        app:layout_constraintEnd_toStartOf="@+id/percentHeader"
+        app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
 
-        <TextView
-            android:id="@+id/amountHeader"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.25"
-            android:layout_height="wrap_content"
-            android:text="@string/amountHeader"
-            android:fontFamily="sans-serif-black"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/nutrHeader"
-            app:layout_constraintEnd_toStartOf="@+id/percentHeader"
-            app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
+    <TextView
+        android:id="@+id/percentHeader"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_height="wrap_content"
+        android:text="@string/percentHeader"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/amountHeader"
+        app:layout_constraintEnd_toEndOf="@+id/rvNutritionList"
+        app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
 
-        <TextView
-            android:id="@+id/percentHeader"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.3"
-            android:layout_height="wrap_content"
-            android:text="@string/percentHeader"
-            android:textAlignment="center"
-            android:fontFamily="sans-serif-black"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/amountHeader"
-            app:layout_constraintEnd_toEndOf="@+id/rvNutritionList"
-            app:layout_constraintTop_toBottomOf="@+id/recipeImgNutr"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNutritionList"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.9"
+        android:background="@color/light_red"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingStart="10dp"
+        android:divider="@drawable/my_divider"
+        android:dividerHeight="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/percentHeader" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNutritionList"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.9"
-            android:background="@color/light_red"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            android:paddingStart="10dp"
-            android:divider="@drawable/my_divider"
-            android:dividerHeight="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/percentHeader" />
+    <TextView
+        android:id="@+id/nutrAbout1Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrientsAbout1"
+        android:paddingTop="30dp"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nutrAbout2Tv" />
 
-        <TextView
-            android:id="@+id/nutrAbout1Tv"
+    <TextView
+        android:id="@+id/nutrAbout2Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrientsAbout2"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nutrUrlTv"/>
+
+    <TextView
+        android:id="@+id/nutrUrlTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrientsurl"
+        android:textSize="13sp"
+        android:textColor="@color/teal_700"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@id/constrLayoutBottom" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrLayoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.08"
+        android:background="@color/dark_red"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/homeBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nutrientsAbout1"
-            android:paddingTop="30dp"
-            android:textAlignment="center"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvNutritionList"
-            app:layout_constraintBottom_toTopOf="@+id/nutrAbout2Tv"/>
-
-        <TextView
-            android:id="@+id/nutrAbout2Tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nutrientsAbout2"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:textStyle="italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nutrAbout1Tv"
-            app:layout_constraintBottom_toTopOf="@+id/nutrUrlTv"/>
-
-        <TextView
-            android:id="@+id/nutrUrlTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nutrientsurl"
-            android:textSize="13sp"
-            android:textColor="@color/teal_700"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/ic_baseline_home_24"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toBottomOf="@+id/nutrAbout2Tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/searchBt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/homeTv"/>
+        <TextView
+            android:id="@+id/homeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchBt"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/homeBt"
+            app:layout_constraintEnd_toEndOf="@+id/homeBt"
+            app:layout_constraintTop_toBottomOf="@+id/homeBt"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/searchBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_search_24"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/homeBt"
+            app:layout_constraintEnd_toStartOf="@+id/addTemplateBt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/searchTv"/>
+        <TextView
+            android:id="@+id/searchTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchBt"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/searchBt"
+            app:layout_constraintEnd_toEndOf="@+id/searchBt"
+            app:layout_constraintTop_toBottomOf="@+id/searchBt"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/addTemplateBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_playlist_add_24"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/addTemplateTv"
+            app:layout_constraintStart_toEndOf="@+id/searchBt"
+            app:layout_constraintEnd_toStartOf="@+id/userBt"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/addTemplateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addTemplateBt"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/addTemplateBt"
+            app:layout_constraintEnd_toEndOf="@+id/addTemplateBt"
+            app:layout_constraintTop_toBottomOf="@+id/addTemplateBt"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/userBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_person_24"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/userTv"
+            app:layout_constraintStart_toEndOf="@+id/addTemplateBt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/userTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/userBt"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/userBt"
+            app:layout_constraintEnd_toEndOf="@+id/userBt"
+            app:layout_constraintTop_toBottomOf="@+id/userBt"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

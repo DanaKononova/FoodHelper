@@ -117,15 +117,15 @@ class GeneratePlanFragment : Fragment() {
 
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("Выберите элемент")
-            builder.setSingleChoiceItems(diets, checkedItem) { dialog, which ->
+            builder.setSingleChoiceItems(diets, checkedItem) { _, which ->
                 checkedItem = which
             }
 
-            builder.setPositiveButton("OK") { dialog, which ->
+            builder.setPositiveButton("OK") { _, _ ->
                 selectedDiet.text = diets[checkedItem] // получить выбранный элемент
             }
 
-            builder.setNegativeButton("Отмена") { dialog, which ->
+            builder.setNegativeButton("Отмена") { _, _ ->
             }
 
             val dialog = builder.create()

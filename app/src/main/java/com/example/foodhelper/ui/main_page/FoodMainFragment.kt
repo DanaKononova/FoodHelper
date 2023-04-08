@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.foodhelper.R
 import com.example.core.ViewModelFactory
+import com.example.foodhelper.R
 import com.example.foodhelper.databinding.FragmentMainBinding
 import com.example.foodhelper.ui.FoodApp
 import javax.inject.Inject
