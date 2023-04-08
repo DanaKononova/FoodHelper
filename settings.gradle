@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Food Helper"
 include ':app'
+include ':core'
+include ':data'
+include ':domain'

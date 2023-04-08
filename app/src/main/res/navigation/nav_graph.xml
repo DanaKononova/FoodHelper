@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.foodhelper.ui.mainPage.FoodMainFragment"
+        android:name="com.example.foodhelper.ui.main_page.FoodMainFragment"
         android:label="Main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -16,11 +16,17 @@
         <action
             android:id="@+id/action_mainFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_generatePlanFragment"
+            app:destination="@id/generatePlanFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/searchFoodFragment"
-        android:name="com.example.foodhelper.ui.searchPage.SearchFoodFragment"
+        android:name="com.example.foodhelper.ui.search_page.SearchFoodFragment"
         android:label="fragment_search_food"
         tools:layout="@layout/fragment_search_food" >
         <action
@@ -29,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.foodhelper.ui.recipePage.RecipeFragment"
+        android:name="com.example.foodhelper.ui.recipe_page.RecipeFragment"
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe">
         <argument
@@ -50,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
-        android:name="com.example.foodhelper.ui.nutritionPage.NutritionFragment"
+        android:name="com.example.foodhelper.ui.nutrition_page.NutritionFragment"
         android:label="fragment_nutrition"
         tools:layout="@layout/fragment_nutrition">
         <argument
@@ -65,6 +71,20 @@
             android:name="recipeName"
             app:argType="string"
             android:defaultValue="" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.foodhelper.ui.user_page.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/generatePlanFragment"
+        android:name="com.example.foodhelper.ui.generate_plan_page.GeneratePlanFragment"
+        android:label="fragment_generate_plan"
+        tools:layout="@layout/fragment_generate_plan" >
+        <action
+            android:id="@+id/action_generatePlanFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
 
 </navigation>
