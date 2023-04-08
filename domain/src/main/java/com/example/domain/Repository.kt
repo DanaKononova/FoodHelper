@@ -26,9 +26,9 @@ interface Repository {
 
     suspend fun getTemplates(username: String, hash: String): List<TemplatesData>
 
-    suspend fun generateWeekTemplate(timeFrame: String, targetCalories: String, diet: String, exclude: String, day: String): GenerateTemplateData
+    suspend fun weekTemplateToDB(timeFrame: String, targetCalories: String, diet: String, exclude: String)
 
-    suspend fun generateDayTemplate(timeFrame: String, targetCalories: String, diet: String, exclude: String): GenerateTemplateData
+    suspend fun generateDayTemplate(day: String): GenerateTemplateData
 
     fun setToken(token: String)
 }
