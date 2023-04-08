@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@+id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.foodhelper.ui.main_page.FoodMainFragment"
+        android:name="com.example.foodhelper.main_page.FoodMainFragment"
         android:label="Main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/searchFoodFragment"
-        android:name="com.example.foodhelper.ui.search_page.SearchFoodFragment"
+        android:name="com.example.foodhelper.search_page.SearchFoodFragment"
         android:label="fragment_search_food"
         tools:layout="@layout/fragment_search_food" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.foodhelper.ui.recipe_page.RecipeFragment"
+        android:name="com.example.foodhelper.recipe_page.RecipeFragment"
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe">
         <argument
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
-        android:name="com.example.foodhelper.ui.nutrition_page.NutritionFragment"
+        android:name="com.example.foodhelper.nutrition_page.NutritionFragment"
         android:label="fragment_nutrition"
         tools:layout="@layout/fragment_nutrition">
         <argument
@@ -74,12 +74,12 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.foodhelper.ui.user_page.UserFragment"
+        android:name="com.example.foodhelper.user_page.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
     <fragment
         android:id="@+id/generatePlanFragment"
-        android:name="com.example.foodhelper.ui.generate_plan_page.GeneratePlanFragment"
+        android:name="com.example.foodhelper.generate_plan_page.GeneratePlanFragment"
         android:label="fragment_generate_plan"
         tools:layout="@layout/fragment_generate_plan" >
         <action
