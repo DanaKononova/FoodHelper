@@ -30,7 +30,7 @@
         <item>day</item>
         <item>week</item>
     </string-array>
-    <string name="timeFrameTv">Choome time frame</string>
+    <string name="timeFrameTv">Time frame: week</string>
     <string name="filters">Choose filters</string>
     <string name="targetCaloriesHint">calories</string>
     <string name="targetCaloriesTv">Set target calories</string>
@@ -68,5 +68,8 @@
         <item>saturday</item>
         <item>sunday</item>
     </string-array>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

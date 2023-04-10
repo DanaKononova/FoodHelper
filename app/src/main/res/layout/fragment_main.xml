@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main_page.FoodMainFragment">
+    tools:context=".main_page.FoodMainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrLayout"
@@ -41,98 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.83"
+        app:layout_constraintHeight_percent="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constrLayout" />
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvFoodList"
-        app:menu="@menu/nav_menu" />
-
-
-
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/constrLayoutBottom"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintHeight_percent="0.08"-->
-<!--        android:background="@color/dark_red"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/rvFoodList">-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/searchBt"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/ic_baseline_search_24"-->
-<!--            app:layout_constraintVertical_chainStyle="packed"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/addTemplateBt"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/searchTv"/>-->
-<!--        <TextView-->
-<!--            android:id="@+id/searchTv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/searchBt"-->
-<!--            android:textSize="12sp"-->
-<!--            android:textColor="@color/white"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/searchBt"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/searchBt"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/searchBt"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/addTemplateBt"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/ic_baseline_playlist_add_24"-->
-<!--            app:layout_constraintVertical_chainStyle="packed"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/addTemplateTv"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/searchBt"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/userBt"-->
-<!--            app:layout_constraintTop_toTopOf="parent"/>-->
-<!--        <TextView-->
-<!--            android:id="@+id/addTemplateTv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/addTemplateBt"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="12sp"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/addTemplateBt"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/addTemplateBt"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/addTemplateBt"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/userBt"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/ic_baseline_person_24"-->
-<!--            app:layout_constraintVertical_chainStyle="packed"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/userTv"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/addTemplateBt"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"/>-->
-<!--        <TextView-->
-<!--            android:id="@+id/userTv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/userBt"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="12sp"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/userBt"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/userBt"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/userBt"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
