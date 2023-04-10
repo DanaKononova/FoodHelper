@@ -17,10 +17,10 @@ class FoodViewModel @Inject constructor(
 ) : ViewModel() {
     private val _foodLiveData = MutableLiveData<List<FoodData>>()
     val foodLiveData: LiveData<List<FoodData>> get() = _foodLiveData
-    private var wasBreakfastRequest = true
-    private var wasBrunchRequest = true
-    private var wasLunchRequest = true
-    private var wasDinnerRequest = true
+    private var wasBreakfastRequest = false
+    private var wasBrunchRequest = false
+    private var wasLunchRequest = false
+    private var wasDinnerRequest = false
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData

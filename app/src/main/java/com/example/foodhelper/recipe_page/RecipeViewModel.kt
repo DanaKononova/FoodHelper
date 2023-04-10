@@ -45,8 +45,7 @@ class RecipeViewModel @Inject constructor(
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
             _instructionsLiveData.value =
-                repository.getInstructionsList(id, false)
-                //repository.getInstructionsList(id, !(noInternetLiveData.value ?: false))
+                repository.getInstructionsList(id, !(noInternetLiveData.value ?: false))
         }
     }
 
