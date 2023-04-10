@@ -1,9 +1,11 @@
 package com.example.data
 
 import com.example.data.db.instructions.EquipmentIngredientsEntity
+import com.example.data.db.meal_plan.NutrientsEntity
 import com.example.data.mappers.food_mapper.FoodEntityMapper
 import com.example.data.mappers.food_mapper.FoodResultsMapper
 import com.example.data.mappers.generate_template_mapper.GenerateTemplateMapper
+import com.example.data.mappers.generate_template_mapper.TemplateEntityMapper
 import com.example.data.mappers.get_templates_mapper.TemplatesMapper
 import com.example.data.mappers.instructions_mapper.InstructionsEntityMapper
 import com.example.data.mappers.instructions_mapper.InstructionsMapper
@@ -11,10 +13,7 @@ import com.example.data.mappers.nutrients_mapper.NutrientsEntityMapper
 import com.example.data.mappers.nutrients_mapper.NutrientsMapper
 import com.example.data.mappers.user_mapper.UserMapper
 import com.example.data.network.*
-import com.example.data.source.FoodDataBaseSource
-import com.example.data.source.InstructionsDataBaseSource
-import com.example.data.source.NutritionDataBaseSource
-import com.example.data.source.UserDataSource
+import com.example.data.source.*
 import com.example.domain.Repository
 import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
@@ -41,11 +40,13 @@ class RepositoryImpl @Inject constructor(
     private val instructionsEntityMapper: InstructionsEntityMapper,
     private val userMapper: UserMapper,
     private val generateTemplateMapper: GenerateTemplateMapper,
+    private val templateEntityMapper: TemplateEntityMapper,
     private val templatesMapper: TemplatesMapper,
     private val userSource: UserDataSource,
     private val foodDataBaseSource: FoodDataBaseSource,
     private val nutritionDataBaseSource: NutritionDataBaseSource,
-    private val instructionsDataBaseSource: InstructionsDataBaseSource
+    private val instructionsDataBaseSource: InstructionsDataBaseSource,
+    private val mealPlanDBSource: MealPlanDataBaseSource
 ) : Repository {
     override suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
@@ -219,54 +220,76 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun generateWeekTemplate(
+    override suspend fun weekTemplateToDB(
         timeFrame: String,
         targetCalories: String,
         diet: String,
         exclude: String,
-        day: String
-    ): GenerateTemplateData {
-        return withContext(Dispatchers.IO) {
-            val response = when (day) {
-                "monday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.monday ?: throw Exception())
-                "tuesday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.tuesday ?: throw Exception())
-                "wednesday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.wednesday ?: throw Exception())
-                "thursday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.thursday ?: throw Exception())
-                "friday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.friday ?: throw Exception())
-                "saturday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.saturday ?: throw Exception())
-                "sunday" -> (generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.sunday ?: throw Exception())
-                else -> {(generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                    .execute().body()?.week?.monday ?: throw Exception())}
+    ) {
+        withContext(Dispatchers.IO) {
+            val response = generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
+                .execute().body()?.week ?: throw Exception()
+            mealPlanDBSource.deleteAllMonday(mealPlanDBSource.getAllMonday())
+            mealPlanDBSource.deleteAllTuesday(mealPlanDBSource.getAllTuesday())
+            mealPlanDBSource.deleteAllWednesday(mealPlanDBSource.getAllWednesday())
+            mealPlanDBSource.deleteAllThursday(mealPlanDBSource.getAllThursday())
+            mealPlanDBSource.deleteAllFriday(mealPlanDBSource.getAllFriday())
+            mealPlanDBSource.deleteAllSaturday(mealPlanDBSource.getAllSaturday())
+            mealPlanDBSource.deleteAllSunday(mealPlanDBSource.getAllSunday())
+            mealPlanDBSource.deleteAllNutrients(mealPlanDBSource.getAllNutrients())
+
+            response.monday?.let { monday ->
+                monday.meals?.let { generateTemplateMapper.toMondayEntity(it) }?.let { mealPlanDBSource.insertAllMonday(it) }
+                monday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            val generatedTemplate = generateTemplateMapper(response)
-            generatedTemplate
+            response.tuesday?.let { tuesday ->
+                tuesday.meals?.let { generateTemplateMapper.toTuesdayEntity(it) }?.let { mealPlanDBSource.insertAllTuesday(it) }
+                tuesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
+            response.wednesday?.let { wednesday ->
+                wednesday.meals?.let { generateTemplateMapper.toWednesdayEntity(it) }?.let { mealPlanDBSource.insertAllWednesday(it) }
+                wednesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
+            response.thursday?.let { thursday ->
+                thursday.meals?.let { generateTemplateMapper.toThursdayEntity(it) }?.let { mealPlanDBSource.insertAllThursday(it) }
+                thursday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
+            response.friday?.let { friday ->
+                friday.meals?.let { generateTemplateMapper.toFridayEntity(it) }?.let { mealPlanDBSource.insertAllFriday(it) }
+                friday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
+            response.saturday?.let { saturday ->
+                saturday.meals?.let { generateTemplateMapper.toSaturdayEntity(it) }?.let { mealPlanDBSource.insertAllSaturday(it) }
+                saturday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
+            response.sunday?.let { sunday ->
+                sunday.meals?.let { generateTemplateMapper.toSundayEntity(it) }?.let { mealPlanDBSource.insertAllSunday(it) }
+                sunday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+            }
         }
     }
 
     override suspend fun generateDayTemplate(
-        timeFrame: String,
-        targetCalories: String,
-        diet: String,
-        exclude: String
+        day: String
     ): GenerateTemplateData {
-        return withContext(Dispatchers.IO) {
-            val response =
-                (generateTemplateService.generateDayTemplate(
-                    timeFrame,
-                    targetCalories,
-                    diet,
-                    exclude,
-                    userSource.getUserToken()
-                ).execute().body() ?: throw Exception())
-            val generatedTemplate = generateTemplateMapper(response)
-            generatedTemplate
+        val nutrientsList = mealPlanDBSource.getAllNutrients()
+        return when (day) {
+            "monday" -> GenerateTemplateData(templateEntityMapper.mondayMealsMapper(mealPlanDBSource.getAllMonday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[0]))
+            "tuesday" -> GenerateTemplateData(templateEntityMapper.tuesdayMealsMapper(mealPlanDBSource.getAllTuesday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[1]))
+            "wednesday" -> GenerateTemplateData(templateEntityMapper.wednesdayMealsMapper(mealPlanDBSource.getAllWednesday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[2]))
+            "thursday" -> GenerateTemplateData(templateEntityMapper.thursdayMealsMapper(mealPlanDBSource.getAllThursday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[3]))
+            "friday" -> GenerateTemplateData(templateEntityMapper.fridayMealsMapper(mealPlanDBSource.getAllFriday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[4]))
+            "saturday" -> GenerateTemplateData(templateEntityMapper.saturdayMealsMapper(mealPlanDBSource.getAllSaturday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[5]))
+            "sunday" -> GenerateTemplateData(templateEntityMapper.sundayMealsMapper(mealPlanDBSource.getAllSunday()),
+                    templateEntityMapper.nutrientsMapper(nutrientsList[6]))
+            else -> GenerateTemplateData(templateEntityMapper.mondayMealsMapper(mealPlanDBSource.getAllMonday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[0]))
         }
     }
 

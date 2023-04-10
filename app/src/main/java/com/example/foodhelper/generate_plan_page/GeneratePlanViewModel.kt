@@ -44,9 +44,16 @@ class GeneratePlanViewModel @Inject constructor(
         day: String
     ) {
         viewModelScope.launch(handler) {
-            _generateTemplateLiveData.value = if (timeFrame == "week")
-                repository.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, day)
-            else repository.generateDayTemplate(timeFrame, targetCalories, diet, exclude)
+            repository.weekTemplateToDB(timeFrame, targetCalories, diet, exclude)
+            _generateTemplateLiveData.value = repository.generateDayTemplate(day)
+        }
+    }
+
+    fun getDatTemplate(
+        day: String
+    ) {
+        viewModelScope.launch(handler) {
+            _generateTemplateLiveData.value = repository.generateDayTemplate(day)
         }
     }
 

@@ -45,55 +45,30 @@ class GeneratePlanFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val timeFrameSpinner = binding.timeFrameSpinner
-        val timeFrames = resources.getStringArray(R.array.timeFrame)
-        var timeFrame = ""
+        val timeFrame = "week"
         val days = resources.getStringArray(R.array.days)
         var day = ""
         val daysSpinner = binding.daysSpinner
-        timeFrameSpinner.adapter = this.activity?.let {
+        daysSpinner.adapter = activity?.let {
             ArrayAdapter(
                 it,
                 android.R.layout.simple_spinner_dropdown_item,
-                timeFrames
+                days
             )
         }
-        timeFrameSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                timeFrame = timeFrames[position]
-                if (timeFrame == "week") {
-                    daysSpinner.isVisible = true
-                    daysSpinner.adapter = activity?.let {
-                        ArrayAdapter(
-                            it,
-                            android.R.layout.simple_spinner_dropdown_item,
-                            days
-                        )
-                    }
-                    daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            day = days[position]
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            if (day == "") day = days[0]
-                        }
-                    }
-                }
+                day = days[position]
+                viewModel.getDatTemplate(day)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                if (timeFrame == "") timeFrame = timeFrames[0]
+                if (day == "") day = days[0]
             }
         }
 
@@ -102,7 +77,7 @@ class GeneratePlanFragment : Fragment() {
             targetCalories = it.toString()
         }
 
-        var selectedDiet = binding.selectedDietTv
+        val selectedDiet = binding.selectedDietTv
         binding.dietBt.setOnClickListener {
             val diets = resources.getStringArray(R.array.diets)
             var checkedItem = 0
@@ -150,10 +125,10 @@ class GeneratePlanFragment : Fragment() {
             mealsList.clear()
             mealsList.addAll(it.meals)
             adapter.setFood(mealsList)
-            binding.caloriesAmount.text = it.nutrients.calories.toString()
-            binding.carbohydratesAmount.text = it.nutrients.carbohydrates.toString()
-            binding.fatAmount.text = it.nutrients.fat.toString()
-            binding.proteinAmount.text = it.nutrients.protein.toString()
+            binding.caloriesAmount.text = getString(R.string.caloriesTv) + it.nutrients.calories.toString()
+            binding.carbohydratesAmount.text = getString(R.string.carbohydratesTv) + it.nutrients.carbohydrates.toString()
+            binding.fatAmount.text = getString(R.string.fatTv) + it.nutrients.fat.toString()
+            binding.proteinAmount.text = getString(R.string.proteinTv) + it.nutrients.protein.toString()
             binding.caloriesTv.isVisible = true
             binding.carbohydratesTv.isVisible = true
             binding.fatTv.isVisible = true
