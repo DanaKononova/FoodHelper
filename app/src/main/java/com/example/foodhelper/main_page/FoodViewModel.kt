@@ -33,6 +33,7 @@ class FoodViewModel @Inject constructor(
 
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
+            println(throwable.message)
             _noInternetLiveData.value = true
             _foodLiveData.value = repository.getBreakfastList("", false)
 

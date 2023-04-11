@@ -8,8 +8,8 @@ import retrofit2.http.Query
 
 interface NutritionService {
     @GET("recipes/{id}/nutritionWidget.json")
-    fun getNutrition(
+    suspend fun getNutrition(
         @Path("id") id: String,
         @Query("apiKey") token: String
-    ): Call<NutritionResponse>
+    ): NutritionResponse
 }

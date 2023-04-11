@@ -6,10 +6,10 @@ import retrofit2.http.*
 
 interface ContactUserService {
     @POST("users/connect")
-    fun getUser(
+    suspend fun getUser(
         @Body user: User,
         @Query("apiKey") token: String
-    ): Call<UserResponse>
+    ): UserResponse
 }
 
 

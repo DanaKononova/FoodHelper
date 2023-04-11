@@ -1,7 +1,7 @@
 package com.example.data.models.nutrition
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 class NutritionResponse {
-    @SerializedName("bad") val nutrients: List<NutrientsListResponse>? = null
+    @Json(name = "good") val good: List<NutrientsListResponse>? = null
 }

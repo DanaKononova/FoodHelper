@@ -51,9 +51,7 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
             if (isConnected) {
-                val response =
-                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).results
+                val response = (foodService.getFood(query, userSource.getUserToken())).results
                 val foodList = (response ?: listOf()).map { foodMapper(it) }
                 foodList.map { foodEntityMapper(it) }
             } else emptyList()
@@ -63,10 +61,9 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getBreakfastList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
             if (isConnected) {
-                val response =
-                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).results
-                val foodList = (response ?: listOf()).map { foodMapper(it) }
+                val response = (foodService.getFood(query, userSource.getUserToken()))
+
+                val foodList = (response.results ?: listOf()).map { foodMapper(it) }
                 foodDataBaseSource.deleteAllBreakfast(foodDataBaseSource.getAllBreakfast())
                 foodDataBaseSource.insertAllBreakfast(foodList)
                 foodList.map { foodEntityMapper(it) }
@@ -80,8 +77,7 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).results
+                    (foodService.getFood(query, userSource.getUserToken())).results
                 val foodList = (response ?: listOf()).map { foodMapper.toBrunchEntity(it) }
                 foodDataBaseSource.deleteAllBrunch(foodDataBaseSource.getAllBrunch())
                 foodDataBaseSource.insertAllBrunch(foodList)
@@ -96,8 +92,7 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).results
+                    (foodService.getFood(query, userSource.getUserToken())).results
                 val foodList = (response ?: listOf()).map { foodMapper.toLunchEntity(it) }
                 foodDataBaseSource.deleteAllLunch(foodDataBaseSource.getAllLunch())
                 foodDataBaseSource.insertAllLunch(foodList)
@@ -112,8 +107,7 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (foodService.getFood(query, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).results
+                    (foodService.getFood(query, userSource.getUserToken())).results
                 val foodList = (response ?: listOf()).map { foodMapper.toDinnerEntity(it) }
                 foodDataBaseSource.deleteAllDinner(foodDataBaseSource.getAllDinner())
                 foodDataBaseSource.insertAllDinner(foodList)
@@ -128,8 +122,7 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (nutritionService.getNutrition(id, userSource.getUserToken()).execute().body()
-                        ?: throw Exception()).nutrients
+                    (nutritionService.getNutrition(id, userSource.getUserToken())).good
                 val nutrientsList = (response ?: listOf()).map { nutrientsMapper(it) }
                 nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
                 nutritionDataBaseSource.insertAll(nutrientsList)
@@ -145,8 +138,7 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (analyzedInstructionService.getInstruction(id, userSource.getUserToken())
-                        .execute().body() ?: throw Exception())
+                    (analyzedInstructionService.getInstruction(id, userSource.getUserToken()))
                 instructionsDataBaseSource.deleteInstructions(instructionsDataBaseSource.getAllInstructions())
                 instructionsDataBaseSource.deleteEquipmentIngredients(instructionsDataBaseSource.getAllEquipmentIngredients())
                 var equipmentEntity: List<EquipmentIngredientsEntity> = listOf()
@@ -200,10 +192,10 @@ class RepositoryImpl @Inject constructor(
     ): UserData {
         return withContext(Dispatchers.IO) {
             val response =
-                (userService.getUser(
+                userService.getUser(
                     User(username, firstName, lastName, email),
                     userSource.getUserToken()
-                ).execute().body() ?: throw Exception())
+                )
             val user = userMapper(response)
             user
         }
@@ -212,9 +204,7 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getTemplates(username: String, hash: String): List<TemplatesData> {
         return withContext(Dispatchers.IO) {
             val response =
-                (mealTemplatesService.getTemplates(username, hash, userSource.getUserToken())
-                    .execute().body()
-                    ?: throw Exception()).templates
+                (mealTemplatesService.getTemplates(username, hash, userSource.getUserToken())).templates
             val templates = (response ?: listOf()).map { templatesMapper(it) }
             templates
         }
@@ -227,8 +217,7 @@ class RepositoryImpl @Inject constructor(
         exclude: String,
     ) {
         withContext(Dispatchers.IO) {
-            val response = generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken())
-                .execute().body()?.week ?: throw Exception()
+            val response = generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken()).week
             mealPlanDBSource.deleteAllMonday(mealPlanDBSource.getAllMonday())
             mealPlanDBSource.deleteAllTuesday(mealPlanDBSource.getAllTuesday())
             mealPlanDBSource.deleteAllWednesday(mealPlanDBSource.getAllWednesday())
@@ -238,31 +227,31 @@ class RepositoryImpl @Inject constructor(
             mealPlanDBSource.deleteAllSunday(mealPlanDBSource.getAllSunday())
             mealPlanDBSource.deleteAllNutrients(mealPlanDBSource.getAllNutrients())
 
-            response.monday?.let { monday ->
+            response?.monday?.let { monday ->
                 monday.meals?.let { generateTemplateMapper.toMondayEntity(it) }?.let { mealPlanDBSource.insertAllMonday(it) }
                 monday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.tuesday?.let { tuesday ->
+            response?.tuesday?.let { tuesday ->
                 tuesday.meals?.let { generateTemplateMapper.toTuesdayEntity(it) }?.let { mealPlanDBSource.insertAllTuesday(it) }
                 tuesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.wednesday?.let { wednesday ->
+            response?.wednesday?.let { wednesday ->
                 wednesday.meals?.let { generateTemplateMapper.toWednesdayEntity(it) }?.let { mealPlanDBSource.insertAllWednesday(it) }
                 wednesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.thursday?.let { thursday ->
+            response?.thursday?.let { thursday ->
                 thursday.meals?.let { generateTemplateMapper.toThursdayEntity(it) }?.let { mealPlanDBSource.insertAllThursday(it) }
                 thursday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.friday?.let { friday ->
+            response?.friday?.let { friday ->
                 friday.meals?.let { generateTemplateMapper.toFridayEntity(it) }?.let { mealPlanDBSource.insertAllFriday(it) }
                 friday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.saturday?.let { saturday ->
+            response?.saturday?.let { saturday ->
                 saturday.meals?.let { generateTemplateMapper.toSaturdayEntity(it) }?.let { mealPlanDBSource.insertAllSaturday(it) }
                 saturday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }
-            response.sunday?.let { sunday ->
+            response?.sunday?.let { sunday ->
                 sunday.meals?.let { generateTemplateMapper.toSundayEntity(it) }?.let { mealPlanDBSource.insertAllSunday(it) }
                 sunday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
             }

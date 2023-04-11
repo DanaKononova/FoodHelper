@@ -1,8 +1,8 @@
 package com.example.data.models.get_templates
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class PlansResponse(
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("name") val name: String? = null,
+    @Json(name = "id") val id: String? = null,
+    @Json(name = "name") val name: String? = null,
 )

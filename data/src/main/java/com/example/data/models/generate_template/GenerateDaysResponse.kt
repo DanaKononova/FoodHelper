@@ -1,13 +1,13 @@
 package com.example.data.models.generate_template
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class GenerateDaysResponse(
-    @SerializedName("monday") val monday: GenerateTemplateResponse? = null,
-    @SerializedName("tuesday") val tuesday: GenerateTemplateResponse? = null,
-    @SerializedName("wednesday") val wednesday: GenerateTemplateResponse? = null,
-    @SerializedName("thursday") val thursday: GenerateTemplateResponse? = null,
-    @SerializedName("friday") val friday: GenerateTemplateResponse? = null,
-    @SerializedName("saturday") val saturday: GenerateTemplateResponse? = null,
-    @SerializedName("sunday") val sunday: GenerateTemplateResponse? = null
+    @Json(name = "monday") val monday: GenerateTemplateResponse? = null,
+    @Json(name = "tuesday") val tuesday: GenerateTemplateResponse? = null,
+    @Json(name = "wednesday") val wednesday: GenerateTemplateResponse? = null,
+    @Json(name = "thursday") val thursday: GenerateTemplateResponse? = null,
+    @Json(name = "friday") val friday: GenerateTemplateResponse? = null,
+    @Json(name = "saturday") val saturday: GenerateTemplateResponse? = null,
+    @Json(name = "sunday") val sunday: GenerateTemplateResponse? = null
 )

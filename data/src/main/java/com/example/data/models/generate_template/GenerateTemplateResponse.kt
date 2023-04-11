@@ -1,8 +1,8 @@
 package com.example.data.models.generate_template
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class GenerateTemplateResponse(
-    @SerializedName("meals") val meals: List<GenerateMealsResponse>? = null,
-    @SerializedName("nutrients") val nutrients: NutrientsTemplateResponse? = null
+    @Json(name = "meals") val meals: List<GenerateMealsResponse>? = null,
+    @Json(name = "nutrients") val nutrients: NutrientsTemplateResponse? = null
 )

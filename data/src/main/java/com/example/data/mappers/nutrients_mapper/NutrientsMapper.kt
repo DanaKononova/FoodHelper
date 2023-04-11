@@ -8,7 +8,7 @@ class NutrientsMapper @Inject constructor() {
     operator fun invoke(nutrientsListResponse: NutrientsListResponse) =
         with(nutrientsListResponse) {
             NutritionEntity(
-                name = nutrientsListResponse.name ?: "",
+                title = nutrientsListResponse.title ?: "",
                 amount = nutrientsListResponse.amount ?: "",
                 percentOfDailyNeeds = nutrientsListResponse.percentOfDailyNeeds ?: 0.0f
             )
