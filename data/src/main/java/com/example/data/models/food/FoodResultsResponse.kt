@@ -1,10 +1,10 @@
 package com.example.data.models.food
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class FoodResultsResponse(
-    @SerializedName("id") val id: Int? = null,
-    @SerializedName("title") val title: String? = null,
-    @SerializedName("image") val image: String? = null,
-    @SerializedName("imageType") val imageType: String? = null
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "title") val title: String? = null,
+    @Json(name = "image") val image: String? = null,
+    @Json(name = "imageType") val imageType: String? = null
 )

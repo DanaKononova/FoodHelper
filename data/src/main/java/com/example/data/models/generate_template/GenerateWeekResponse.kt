@@ -1,7 +1,7 @@
 package com.example.data.models.generate_template
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class GenerateWeekResponse (
-    @SerializedName("week") val week: GenerateDaysResponse? = null,
+    @Json(name = "week") val week: GenerateDaysResponse? = null,
 )

@@ -8,9 +8,9 @@ import retrofit2.http.Query
 
 interface MealTemplatesService {
     @GET("mealplanner/{username}/templates")
-    fun getTemplates(
+    suspend fun getTemplates(
         @Path("username") username: String,
         @Query("hash") hash: String,
         @Query("apiKey") token: String
-    ): Call<TemplatesResponse>
+    ): TemplatesResponse
 }

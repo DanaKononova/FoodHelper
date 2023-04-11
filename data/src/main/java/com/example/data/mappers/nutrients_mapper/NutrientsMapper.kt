@@ -9,7 +9,7 @@ class NutrientsMapper @Inject constructor() {
         with(nutrientsListResponse) {
             NutritionEntity(
                 name = nutrientsListResponse.name ?: "",
-                amount = nutrientsListResponse.amount ?: "",
+                amount = nutrientsListResponse.amount ?: 0.0f,
                 percentOfDailyNeeds = nutrientsListResponse.percentOfDailyNeeds ?: 0.0f
             )
         }

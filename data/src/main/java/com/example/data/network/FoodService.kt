@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface FoodService {
     @GET("recipes/complexSearch")
-    fun getFood(
+    suspend fun getFood(
         @Query("query") query: String,
         @Query("apiKey") token: String
-    ): Call<FoodResponse>
+    ): FoodResponse
 }

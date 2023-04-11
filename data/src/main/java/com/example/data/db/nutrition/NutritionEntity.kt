@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class NutritionEntity(
     @PrimaryKey(autoGenerate = true) val foodId: Int = 0,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "amount") var amount: String,
+    @ColumnInfo(name = "amount") var amount: Float,
     @ColumnInfo(name = "percentOfDailyNeeds") val percentOfDailyNeeds: Float,
 )

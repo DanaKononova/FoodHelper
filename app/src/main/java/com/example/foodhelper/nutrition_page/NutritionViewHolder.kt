@@ -10,7 +10,7 @@ class NutritionViewHolder (
 
     fun onBind(item: NutrientsData) {
         binding.nutrName.text = item.name
-        binding.amount.text = item.amount
+        binding.amount.text = item.amount.toString()
         binding.percent.text = "${item.percentOfDailyNeeds}%"
     }
 }

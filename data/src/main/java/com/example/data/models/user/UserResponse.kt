@@ -1,9 +1,9 @@
 package com.example.data.models.user
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 class UserResponse (
-    @SerializedName("username") val username: String? = null,
-    @SerializedName("spoonacularPassword") val spoonacularPassword: String? = null,
-    @SerializedName("hash") val hash: String? = null
+    @Json(name = "username") val username: String? = null,
+    @Json(name = "spoonacularPassword") val spoonacularPassword: String? = null,
+    @Json(name = "hash") val hash: String? = null
 )
