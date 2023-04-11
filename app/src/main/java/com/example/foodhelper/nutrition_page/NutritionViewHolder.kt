@@ -9,7 +9,7 @@ class NutritionViewHolder (
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: NutrientsData) {
-        binding.nutrName.text = item.name
+        binding.nutrName.text = item.title
         binding.amount.text = item.amount.toString()
         binding.percent.text = "${item.percentOfDailyNeeds}%"
     }

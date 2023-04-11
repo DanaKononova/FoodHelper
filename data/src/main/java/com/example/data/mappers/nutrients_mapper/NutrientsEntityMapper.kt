@@ -7,8 +7,8 @@ import javax.inject.Inject
 class NutrientsEntityMapper @Inject constructor() {
     operator fun invoke(nutritionEntity: NutritionEntity) = with(nutritionEntity) {
         NutrientsData(
-            name = nutritionEntity.name ?: "",
-            amount = nutritionEntity.amount ?: 0.0f,
+            title = nutritionEntity.title ?: "",
+            amount = nutritionEntity.amount ?: "",
             percentOfDailyNeeds = nutritionEntity.percentOfDailyNeeds ?: 0.0f
         )
     }
