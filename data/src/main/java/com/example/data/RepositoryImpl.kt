@@ -120,19 +120,16 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getNutrientsList(id: String, isConnected: Boolean): List<NutrientsData> {
         return withContext(Dispatchers.IO) {
-//            if (isConnected) {
-//                val response =
-//                    (nutritionService.getNutrition(id, userSource.getUserToken())).good
-//                val nutrientsList = (response ?: listOf()).map { nutrientsMapper(it) }
-//                nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
-//                nutritionDataBaseSource.insertAll(nutrientsList)
-//                nutrientsList.map { nutrientsEntityMapper(it) }
-//            } else {
-//                nutritionDataBaseSource.getAll().map { nutrientsEntityMapper(it) }
-//            }
-            val calories = (nutritionService.getNutrition(id, userSource.getUserToken())).calories
-            val carbs = (nutritionService.getNutrition(id, userSource.getUserToken())).carbs
-            listOf( NutrientsData(calories ?: "", carbs ?: "", 0.0f))
+            if (isConnected) {
+                val response =
+                    (nutritionService.getNutrition(id, userSource.getUserToken())).good
+                val nutrientsList = (response ?: listOf()).map { nutrientsMapper(it) }
+                nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
+                nutritionDataBaseSource.insertAll(nutrientsList)
+                nutrientsList.map { nutrientsEntityMapper(it) }
+            } else {
+                nutritionDataBaseSource.getAll().map { nutrientsEntityMapper(it) }
+            }
         }
     }
 
