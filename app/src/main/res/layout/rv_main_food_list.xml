@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="200dp">
 
     <TextView
         android:id="@+id/foodTv"
@@ -13,8 +13,8 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/foodImg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +23,10 @@
     <ImageView
         android:id="@+id/foodImg"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
         app:layout_constraintWidth_percent="0.8"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingBottom="20dp"
         android:transitionName="image_transition"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

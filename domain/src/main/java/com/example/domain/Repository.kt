@@ -2,10 +2,8 @@ package com.example.domain
 
 import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
-import com.example.domain.models.get_templates.TemplatesData
 import com.example.domain.models.instructions.InstructionsData
 import com.example.domain.models.nutrients.NutrientsData
-import com.example.domain.models.user.UserData
 
 interface Repository {
     suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData>
@@ -22,13 +20,14 @@ interface Repository {
 
     suspend fun getInstructionsList(id: String, isConnected: Boolean): List<InstructionsData>
 
-    suspend fun getUserInfo(username: String, firstName: String, lastName: String, email: String): UserData
-
-    suspend fun getTemplates(username: String, hash: String): List<TemplatesData>
-
     suspend fun weekTemplateToDB(timeFrame: String, targetCalories: String, diet: String, exclude: String)
 
     suspend fun generateDayTemplate(day: String): GenerateTemplateData
 
+    suspend fun addPlanToDB(plan: String)
+
+    suspend fun getPlans() : List<String>
+
     fun setToken(token: String)
+
 }

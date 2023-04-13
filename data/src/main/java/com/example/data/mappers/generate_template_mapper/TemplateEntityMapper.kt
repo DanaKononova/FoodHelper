@@ -1,15 +1,13 @@
 package com.example.data.mappers.generate_template_mapper
 
-import com.example.data.db.meal_plan.*
-import com.example.data.models.generate_template.GenerateMealsResponse
-import com.example.data.models.generate_template.NutrientsTemplateResponse
+import com.example.data.db.current_plan.*
 import com.example.domain.models.generate_template.GenerateMealsData
 import com.example.domain.models.generate_template.NutrientsTemplateData
 import javax.inject.Inject
 
 class TemplateEntityMapper @Inject constructor() {
 
-    fun mondayMealsMapper(elements: List<MondayEntity>): List<GenerateMealsData> {
+    fun mondayMealsMapper(elements: List<MondayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -22,7 +20,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun tuesdayMealsMapper(elements: List<TuesdayEntity>): List<GenerateMealsData> {
+    fun tuesdayMealsMapper(elements: List<TuesdayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -35,7 +33,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun wednesdayMealsMapper(elements: List<WednesdayEntity>): List<GenerateMealsData> {
+    fun wednesdayMealsMapper(elements: List<WednesdayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -48,7 +46,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun thursdayMealsMapper(elements: List<ThursdayEntity>): List<GenerateMealsData> {
+    fun thursdayMealsMapper(elements: List<ThursdayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -61,7 +59,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun fridayMealsMapper(elements: List<FridayEntity>): List<GenerateMealsData> {
+    fun fridayMealsMapper(elements: List<FridayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -74,7 +72,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun saturdayMealsMapper(elements: List<SaturdayEntity>): List<GenerateMealsData> {
+    fun saturdayMealsMapper(elements: List<SaturdayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -87,7 +85,7 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun sundayMealsMapper(elements: List<SundayEntity>): List<GenerateMealsData> {
+    fun sundayMealsMapper(elements: List<SundayCurrentEntity>): List<GenerateMealsData> {
         return elements.map {
             GenerateMealsData(
                 id = it.id,
@@ -100,12 +98,12 @@ class TemplateEntityMapper @Inject constructor() {
         }
     }
 
-    fun nutrientsMapper(nutrientsEntity: NutrientsEntity): NutrientsTemplateData {
+    fun nutrientsMapper(nutrientsCurrentEntity: NutrientsCurrentEntity): NutrientsTemplateData {
         return NutrientsTemplateData(
-            calories = nutrientsEntity.calories,
-            carbohydrates = nutrientsEntity.carbohydrates,
-            fat = nutrientsEntity.fat,
-            protein = nutrientsEntity.protein
+            calories = nutrientsCurrentEntity.calories,
+            carbohydrates = nutrientsCurrentEntity.carbohydrates,
+            fat = nutrientsCurrentEntity.fat,
+            protein = nutrientsCurrentEntity.protein
         )
     }
 }

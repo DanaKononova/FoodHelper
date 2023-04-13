@@ -53,6 +53,8 @@
     <string name="excludeTv">Choose products to exclude</string>
     <string name="meal_image">meal Image</string>
     <string name="getPlanBt">Get Meal Plan</string>
+    <string name="servingTv">Serving portions</string>
+    <string name="readyImMinutesTv">Ready in: </string>
     <string name="mealPlanNutrientsTv">Meal Plan Nutrients</string>
     <string name="caloriesTv">Calories:  </string>
     <string name="carbohydratesTv">Carbohydrates:  </string>
@@ -71,5 +73,6 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="add_plan_Bt">Add Plan</string>
 
 </resources>

@@ -1,23 +1,15 @@
 package com.example.data.mappers.generate_template_mapper
 
-import com.example.data.db.instructions.EquipmentIngredientsEntity
-import com.example.data.db.instructions.InstructionsEntity
-import com.example.data.db.meal_plan.*
+import com.example.data.db.current_plan.*
 import com.example.data.models.generate_template.GenerateMealsResponse
-import com.example.data.models.generate_template.GenerateTemplateResponse
 import com.example.data.models.generate_template.NutrientsTemplateResponse
-import com.example.data.models.instructions.EquipmentIngredientResponse
-import com.example.data.models.instructions.InstructionStepsResponse
-import com.example.domain.models.generate_template.GenerateMealsData
-import com.example.domain.models.generate_template.GenerateTemplateData
-import com.example.domain.models.generate_template.NutrientsTemplateData
 import javax.inject.Inject
 
 class GenerateTemplateMapper @Inject constructor() {
 
-    fun toMondayEntity(elements: List<GenerateMealsResponse>): List<MondayEntity> {
+    fun toMondayEntity(elements: List<GenerateMealsResponse>): List<MondayCurrentEntity> {
         return elements.map {
-            MondayEntity(
+            MondayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -28,9 +20,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toTuesdayEntity(elements: List<GenerateMealsResponse>): List<TuesdayEntity> {
+    fun toTuesdayEntity(elements: List<GenerateMealsResponse>): List<TuesdayCurrentEntity> {
         return elements.map {
-            TuesdayEntity(
+            TuesdayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -41,9 +33,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toWednesdayEntity(elements: List<GenerateMealsResponse>): List<WednesdayEntity> {
+    fun toWednesdayEntity(elements: List<GenerateMealsResponse>): List<WednesdayCurrentEntity> {
         return elements.map {
-            WednesdayEntity(
+            WednesdayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -54,9 +46,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toThursdayEntity(elements: List<GenerateMealsResponse>): List<ThursdayEntity> {
+    fun toThursdayEntity(elements: List<GenerateMealsResponse>): List<ThursdayCurrentEntity> {
         return elements.map {
-            ThursdayEntity(
+            ThursdayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -67,9 +59,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toFridayEntity(elements: List<GenerateMealsResponse>): List<FridayEntity> {
+    fun toFridayEntity(elements: List<GenerateMealsResponse>): List<FridayCurrentEntity> {
         return elements.map {
-            FridayEntity(
+            FridayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -80,9 +72,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toSaturdayEntity(elements: List<GenerateMealsResponse>): List<SaturdayEntity> {
+    fun toSaturdayEntity(elements: List<GenerateMealsResponse>): List<SaturdayCurrentEntity> {
         return elements.map {
-            SaturdayEntity(
+            SaturdayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -93,9 +85,9 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toSundayEntity(elements: List<GenerateMealsResponse>): List<SundayEntity> {
+    fun toSundayEntity(elements: List<GenerateMealsResponse>): List<SundayCurrentEntity> {
         return elements.map {
-            SundayEntity(
+            SundayCurrentEntity(
                 id = it.id ?: 0,
                 title = it.title ?: "",
                 readyInMinutes = it.readyInMinutes ?: 0,
@@ -106,8 +98,8 @@ class GenerateTemplateMapper @Inject constructor() {
         }
     }
 
-    fun toNutrientsEntity(elements: NutrientsTemplateResponse): NutrientsEntity {
-        return NutrientsEntity(
+    fun toNutrientsEntity(elements: NutrientsTemplateResponse): NutrientsCurrentEntity {
+        return NutrientsCurrentEntity(
             calories = elements.calories ?: 0.0,
             carbohydrates = elements.carbohydrates ?: 0.0,
             fat = elements.fat ?: 0.0,

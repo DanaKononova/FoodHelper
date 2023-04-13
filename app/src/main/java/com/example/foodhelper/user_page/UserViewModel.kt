@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.Repository
 import com.example.domain.models.generate_template.GenerateTemplateData
 import com.example.domain.models.get_templates.TemplatesData
-import com.example.domain.models.user.UserData
 import com.example.foodhelper.R
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -18,14 +17,8 @@ class UserViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _userLiveData = MutableLiveData<UserData>()
-    val userLiveData: LiveData<UserData> get() = _userLiveData
-
-    private val _templatesLiveData = MutableLiveData<List<TemplatesData>>()
-    val templatesLiveData: LiveData<List<TemplatesData>> get() = _templatesLiveData
-
-    private val _generateTemplateLiveData = MutableLiveData<GenerateTemplateData>()
-    val generateTemplateLiveData: LiveData<GenerateTemplateData> get() = _generateTemplateLiveData
+    private val _plansLiveData = MutableLiveData<List<String>>()
+    val plansLiveData: LiveData<List<String>> get() = _plansLiveData
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
@@ -44,25 +37,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUserInfo(
-        username: String,
-        firstName: String,
-        lastName: String,
-        email: String
-    ) {
+    fun getPlans() {
         viewModelScope.launch(handler) {
-            _userLiveData.value =
-                repository.getUserInfo(username, firstName, lastName, email)
-        }
-    }
-
-    fun getTemplates(
-        username: String,
-        hash: String
-    ) {
-        viewModelScope.launch(handler) {
-            _templatesLiveData.value =
-                repository.getTemplates(username, hash)
+            _plansLiveData.value = repository.getPlans()
         }
     }
 

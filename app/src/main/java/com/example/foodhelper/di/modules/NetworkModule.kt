@@ -43,11 +43,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun getContactUserService(retrofit: Retrofit): ContactUserService =
-        retrofit.create(ContactUserService::class.java)
-
-    @Provides
-    @Singleton
     fun getMealTemplatesService(retrofit: Retrofit): MealTemplatesService =
         retrofit.create(MealTemplatesService::class.java)
 

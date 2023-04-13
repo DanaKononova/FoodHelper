@@ -1,9 +1,9 @@
 package com.example.data
 
 import com.example.data.db.instructions.EquipmentIngredientsEntity
-import com.example.data.db.meal_plan.NutrientsEntity
 import com.example.data.mappers.food_mapper.FoodEntityMapper
 import com.example.data.mappers.food_mapper.FoodResultsMapper
+import com.example.data.mappers.generate_template_mapper.CurrentToMealPlansMapper
 import com.example.data.mappers.generate_template_mapper.GenerateTemplateMapper
 import com.example.data.mappers.generate_template_mapper.TemplateEntityMapper
 import com.example.data.mappers.get_templates_mapper.TemplatesMapper
@@ -11,16 +11,13 @@ import com.example.data.mappers.instructions_mapper.InstructionsEntityMapper
 import com.example.data.mappers.instructions_mapper.InstructionsMapper
 import com.example.data.mappers.nutrients_mapper.NutrientsEntityMapper
 import com.example.data.mappers.nutrients_mapper.NutrientsMapper
-import com.example.data.mappers.user_mapper.UserMapper
 import com.example.data.network.*
 import com.example.data.source.*
 import com.example.domain.Repository
 import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
-import com.example.domain.models.get_templates.TemplatesData
 import com.example.domain.models.instructions.InstructionsData
 import com.example.domain.models.nutrients.NutrientsData
-import com.example.domain.models.user.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -29,7 +26,6 @@ class RepositoryImpl @Inject constructor(
     private val foodService: FoodService,
     private val nutritionService: NutritionService,
     private val analyzedInstructionService: AnalyzedInstructionService,
-    private val userService: ContactUserService,
     private val mealTemplatesService: MealTemplatesService,
     private val generateTemplateService: GenerateTemplateService,
     private val foodMapper: FoodResultsMapper,
@@ -38,15 +34,16 @@ class RepositoryImpl @Inject constructor(
     private val nutrientsEntityMapper: NutrientsEntityMapper,
     private val instructionsMapper: InstructionsMapper,
     private val instructionsEntityMapper: InstructionsEntityMapper,
-    private val userMapper: UserMapper,
     private val generateTemplateMapper: GenerateTemplateMapper,
     private val templateEntityMapper: TemplateEntityMapper,
     private val templatesMapper: TemplatesMapper,
+    private val currentToMealPlansMapper: CurrentToMealPlansMapper,
     private val userSource: UserDataSource,
     private val foodDataBaseSource: FoodDataBaseSource,
     private val nutritionDataBaseSource: NutritionDataBaseSource,
     private val instructionsDataBaseSource: InstructionsDataBaseSource,
-    private val mealPlanDBSource: MealPlanDataBaseSource
+    private val currentPlanDBSource: CurrentPlanDataBaseSource,
+    private val mealPlansDBSource: MealPlansDataBaseSource,
 ) : Repository {
     override suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
@@ -122,8 +119,9 @@ class RepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             if (isConnected) {
                 val response =
-                    (nutritionService.getNutrition(id, userSource.getUserToken())).good
-                val nutrientsList = (response ?: listOf()).map { nutrientsMapper(it) }
+                    nutritionService.getNutrition(id, userSource.getUserToken())
+
+                val nutrientsList = (response.good ?: listOf()).map { nutrientsMapper(it) }
                 nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
                 nutritionDataBaseSource.insertAll(nutrientsList)
                 nutrientsList.map { nutrientsEntityMapper(it) }
@@ -184,32 +182,6 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserInfo(
-        username: String,
-        firstName: String,
-        lastName: String,
-        email: String
-    ): UserData {
-        return withContext(Dispatchers.IO) {
-            val response =
-                userService.getUser(
-                    User(username, firstName, lastName, email),
-                    userSource.getUserToken()
-                )
-            val user = userMapper(response)
-            user
-        }
-    }
-
-    override suspend fun getTemplates(username: String, hash: String): List<TemplatesData> {
-        return withContext(Dispatchers.IO) {
-            val response =
-                (mealTemplatesService.getTemplates(username, hash, userSource.getUserToken())).templates
-            val templates = (response ?: listOf()).map { templatesMapper(it) }
-            templates
-        }
-    }
-
     override suspend fun weekTemplateToDB(
         timeFrame: String,
         targetCalories: String,
@@ -218,67 +190,180 @@ class RepositoryImpl @Inject constructor(
     ) {
         withContext(Dispatchers.IO) {
             val response = generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken()).week
-            mealPlanDBSource.deleteAllMonday(mealPlanDBSource.getAllMonday())
-            mealPlanDBSource.deleteAllTuesday(mealPlanDBSource.getAllTuesday())
-            mealPlanDBSource.deleteAllWednesday(mealPlanDBSource.getAllWednesday())
-            mealPlanDBSource.deleteAllThursday(mealPlanDBSource.getAllThursday())
-            mealPlanDBSource.deleteAllFriday(mealPlanDBSource.getAllFriday())
-            mealPlanDBSource.deleteAllSaturday(mealPlanDBSource.getAllSaturday())
-            mealPlanDBSource.deleteAllSunday(mealPlanDBSource.getAllSunday())
-            mealPlanDBSource.deleteAllNutrients(mealPlanDBSource.getAllNutrients())
+            currentPlanDBSource.deleteAllMonday(currentPlanDBSource.getAllMonday())
+            currentPlanDBSource.deleteAllTuesday(currentPlanDBSource.getAllTuesday())
+            currentPlanDBSource.deleteAllWednesday(currentPlanDBSource.getAllWednesday())
+            currentPlanDBSource.deleteAllThursday(currentPlanDBSource.getAllThursday())
+            currentPlanDBSource.deleteAllFriday(currentPlanDBSource.getAllFriday())
+            currentPlanDBSource.deleteAllSaturday(currentPlanDBSource.getAllSaturday())
+            currentPlanDBSource.deleteAllSunday(currentPlanDBSource.getAllSunday())
+            currentPlanDBSource.deleteAllNutrients(currentPlanDBSource.getAllNutrients())
 
             response?.monday?.let { monday ->
-                monday.meals?.let { generateTemplateMapper.toMondayEntity(it) }?.let { mealPlanDBSource.insertAllMonday(it) }
-                monday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                monday.meals?.let { generateTemplateMapper.toMondayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllMonday(it) }
+                monday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.tuesday?.let { tuesday ->
-                tuesday.meals?.let { generateTemplateMapper.toTuesdayEntity(it) }?.let { mealPlanDBSource.insertAllTuesday(it) }
-                tuesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                tuesday.meals?.let { generateTemplateMapper.toTuesdayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllTuesday(it) }
+                tuesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.wednesday?.let { wednesday ->
-                wednesday.meals?.let { generateTemplateMapper.toWednesdayEntity(it) }?.let { mealPlanDBSource.insertAllWednesday(it) }
-                wednesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                wednesday.meals?.let { generateTemplateMapper.toWednesdayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllWednesday(it) }
+                wednesday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.thursday?.let { thursday ->
-                thursday.meals?.let { generateTemplateMapper.toThursdayEntity(it) }?.let { mealPlanDBSource.insertAllThursday(it) }
-                thursday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                thursday.meals?.let { generateTemplateMapper.toThursdayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllThursday(it) }
+                thursday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.friday?.let { friday ->
-                friday.meals?.let { generateTemplateMapper.toFridayEntity(it) }?.let { mealPlanDBSource.insertAllFriday(it) }
-                friday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                friday.meals?.let { generateTemplateMapper.toFridayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllFriday(it) }
+                friday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.saturday?.let { saturday ->
-                saturday.meals?.let { generateTemplateMapper.toSaturdayEntity(it) }?.let { mealPlanDBSource.insertAllSaturday(it) }
-                saturday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                saturday.meals?.let { generateTemplateMapper.toSaturdayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllSaturday(it) }
+                saturday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
             response?.sunday?.let { sunday ->
-                sunday.meals?.let { generateTemplateMapper.toSundayEntity(it) }?.let { mealPlanDBSource.insertAllSunday(it) }
-                sunday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }?.let { mealPlanDBSource.insertAllNutrients(it) }
+                sunday.meals?.let { generateTemplateMapper.toSundayEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllSunday(it) }
+                sunday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
+                    ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
+
+//            mealPlansDBSource.deleteAllMonday(mealPlansDBSource.getAllMonday())
+//            mealPlansDBSource.deleteAllTuesday(mealPlansDBSource.getAllTuesday())
+//            mealPlansDBSource.deleteAllWednesday(mealPlansDBSource.getAllWednesday())
+//            mealPlansDBSource.deleteAllThursday(mealPlansDBSource.getAllThursday())
+//            mealPlansDBSource.deleteAllFriday(mealPlansDBSource.getAllFriday())
+//            mealPlansDBSource.deleteAllSaturday(mealPlansDBSource.getAllSaturday())
+//            mealPlansDBSource.deleteAllSunday(mealPlansDBSource.getAllSunday())
+//            mealPlansDBSource.deleteAllNutrients(mealPlansDBSource.getAllNutrients())
         }
     }
 
     override suspend fun generateDayTemplate(
         day: String
     ): GenerateTemplateData {
-        val nutrientsList = mealPlanDBSource.getAllNutrients()
+        val nutrientsList = currentPlanDBSource.getAllNutrients()
         return when (day) {
-            "monday" -> GenerateTemplateData(templateEntityMapper.mondayMealsMapper(mealPlanDBSource.getAllMonday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[0]))
-            "tuesday" -> GenerateTemplateData(templateEntityMapper.tuesdayMealsMapper(mealPlanDBSource.getAllTuesday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[1]))
-            "wednesday" -> GenerateTemplateData(templateEntityMapper.wednesdayMealsMapper(mealPlanDBSource.getAllWednesday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[2]))
-            "thursday" -> GenerateTemplateData(templateEntityMapper.thursdayMealsMapper(mealPlanDBSource.getAllThursday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[3]))
-            "friday" -> GenerateTemplateData(templateEntityMapper.fridayMealsMapper(mealPlanDBSource.getAllFriday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[4]))
-            "saturday" -> GenerateTemplateData(templateEntityMapper.saturdayMealsMapper(mealPlanDBSource.getAllSaturday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[5]))
-            "sunday" -> GenerateTemplateData(templateEntityMapper.sundayMealsMapper(mealPlanDBSource.getAllSunday()),
-                    templateEntityMapper.nutrientsMapper(nutrientsList[6]))
-            else -> GenerateTemplateData(templateEntityMapper.mondayMealsMapper(mealPlanDBSource.getAllMonday()),
-                templateEntityMapper.nutrientsMapper(nutrientsList[0]))
+            "monday" -> GenerateTemplateData(
+                templateEntityMapper.mondayMealsMapper(currentPlanDBSource.getAllMonday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[0])
+            )
+            "tuesday" -> GenerateTemplateData(
+                templateEntityMapper.tuesdayMealsMapper(currentPlanDBSource.getAllTuesday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[1])
+            )
+            "wednesday" -> GenerateTemplateData(
+                templateEntityMapper.wednesdayMealsMapper(currentPlanDBSource.getAllWednesday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[2])
+            )
+            "thursday" -> GenerateTemplateData(
+                templateEntityMapper.thursdayMealsMapper(currentPlanDBSource.getAllThursday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[3])
+            )
+            "friday" -> GenerateTemplateData(
+                templateEntityMapper.fridayMealsMapper(currentPlanDBSource.getAllFriday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[4])
+            )
+            "saturday" -> GenerateTemplateData(
+                templateEntityMapper.saturdayMealsMapper(currentPlanDBSource.getAllSaturday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[5])
+            )
+            "sunday" -> GenerateTemplateData(
+                templateEntityMapper.sundayMealsMapper(currentPlanDBSource.getAllSunday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[6])
+            )
+            else -> GenerateTemplateData(
+                templateEntityMapper.mondayMealsMapper(currentPlanDBSource.getAllMonday()),
+                templateEntityMapper.nutrientsMapper(nutrientsList[0])
+            )
+        }
+    }
+
+    override suspend fun addPlanToDB(plan: String) {
+        withContext(Dispatchers.IO) {
+            mealPlansDBSource.deleteMonday(plan)
+            mealPlansDBSource.deleteTuesday(plan)
+            mealPlansDBSource.deleteWednesday(plan)
+            mealPlansDBSource.deleteThursday(plan)
+            mealPlansDBSource.deleteFriday(plan)
+            mealPlansDBSource.deleteSaturday(plan)
+            mealPlansDBSource.deleteSunday(plan)
+            mealPlansDBSource.deleteNutrients(plan)
+
+            mealPlansDBSource.insertAllMonday(
+                currentToMealPlansMapper.toMondayEntity(
+                    currentPlanDBSource.getAllMonday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllTuesday(
+                currentToMealPlansMapper.toTuesdayEntity(
+                    currentPlanDBSource.getAllTuesday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllWednesday(
+                currentToMealPlansMapper.toWednesdayEntity(
+                    currentPlanDBSource.getAllWednesday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllThursday(
+                currentToMealPlansMapper.toThursdayEntity(
+                    currentPlanDBSource.getAllThursday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllFriday(
+                currentToMealPlansMapper.toFridayEntity(
+                    currentPlanDBSource.getAllFriday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllSaturday(
+                currentToMealPlansMapper.toSaturdayEntity(
+                    currentPlanDBSource.getAllSaturday(),
+                    plan
+                )
+            )
+            mealPlansDBSource.insertAllSunday(
+                currentToMealPlansMapper.toSundayEntity(
+                    currentPlanDBSource.getAllSunday(),
+                    plan
+                )
+            )
+            currentPlanDBSource.getAllNutrients().map {
+                mealPlansDBSource.insertAllNutrients(
+                    currentToMealPlansMapper.toNutrientsEntity(
+                        it,
+                        plan
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun getPlans(): List<String> {
+        return withContext(Dispatchers.IO) {
+            val plans = mutableListOf<String>()
+            mealPlansDBSource.getMondayPlans().map {
+                plans.add(it.plan)
+            }
+            plans
         }
     }
 

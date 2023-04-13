@@ -6,8 +6,10 @@ import com.example.data.db.food.FoodDao
 import com.example.data.db.food.FoodDataBase
 import com.example.data.db.instructions.InstructionsDao
 import com.example.data.db.instructions.InstructionsDataBase
-import com.example.data.db.meal_plan.MealPlanDao
-import com.example.data.db.meal_plan.MealPlanDataBase
+import com.example.data.db.current_plan.CurrentPlanDao
+import com.example.data.db.current_plan.CurrentPlanDataBase
+import com.example.data.db.meal_plans.MealPlansDao
+import com.example.data.db.meal_plans.MealPlansDataBase
 import com.example.data.db.nutrition.NutritionDao
 import com.example.data.db.nutrition.NutritionDataBase
 import dagger.Module
@@ -39,8 +41,15 @@ class DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideMealPlanDataBase(context: Context): MealPlanDataBase {
-        return Room.databaseBuilder(context, MealPlanDataBase::class.java, "MealPlanList")
+    fun provideCurrentPlanDataBase(context: Context): CurrentPlanDataBase {
+        return Room.databaseBuilder(context, CurrentPlanDataBase::class.java, "CurrentPlanList")
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMealPlansDataBase(context: Context): MealPlansDataBase {
+        return Room.databaseBuilder(context, MealPlansDataBase::class.java, "MealPlansList")
             .build()
     }
 
@@ -58,5 +67,9 @@ class DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideMealPlanDao(db: MealPlanDataBase): MealPlanDao = db.mealPlanDao()
+    fun provideCurrentPlanDao(db: CurrentPlanDataBase): CurrentPlanDao = db.currentPlanDao()
+
+    @Provides
+    @Singleton
+    fun provideMealPlansDao(db: MealPlansDataBase): MealPlansDao = db.mealPlansDao()
 }

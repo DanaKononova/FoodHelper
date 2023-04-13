@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".generate_plan_page.GeneratePlanFragment">
 
@@ -29,6 +30,8 @@
             android:layout_height="wrap_content"
             android:autofillHints="name"
             android:hint="@string/plan_name"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/gray"
             android:inputType="text"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,6 +83,8 @@
             android:layout_height="wrap_content"
             android:autofillHints="number"
             android:hint="@string/targetCaloriesHint"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/gray"
             android:inputType="number"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
@@ -103,6 +108,7 @@
             android:layout_marginStart="24dp"
             android:background="@drawable/round_button"
             android:text="@string/dietBt"
+            android:textColor="@color/black"
             android:textSize="11sp"
             app:layout_constraintStart_toEndOf="@+id/dietTv"
             app:layout_constraintTop_toBottomOf="@+id/targetCaloriesEdit" />
@@ -111,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:textColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="@+id/dietBt"
             app:layout_constraintStart_toEndOf="@+id/dietBt"
             app:layout_constraintTop_toTopOf="@+id/dietBt" />
@@ -131,6 +138,7 @@
             android:autofillHints="text"
             android:hint="@string/excludeHint"
             android:inputType="text"
+            android:textColor="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/excludeTv"
             app:layout_constraintTop_toBottomOf="@+id/dietBt"
@@ -150,10 +158,23 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_button"
             android:text="@string/getPlanBt"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@id/addPlanBt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addPlanBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
+            android:text="@string/add_plan_Bt"
+            android:textColor="@color/black"
             android:textSize="11sp"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/getPlanBt"
             app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
 
         <Spinner
@@ -177,6 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mealPlanNutrientsTv"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:visibility="invisible"
             android:layout_marginTop="20dp"
@@ -188,31 +210,38 @@
             android:id="@+id/caloriesTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
             android:text="@string/caloriesTv"
+            android:textColor="@color/gray"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
+
         <TextView
             android:id="@+id/caloriesAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/caloriesTv"
-            app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
+            app:layout_constraintTop_toTopOf="@+id/caloriesTv" />
 
         <TextView
             android:id="@+id/carbohydratesTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/carbohydratesTv"
+            android:textColor="@color/gray"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
         <TextView
             android:id="@+id/carbohydratesAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/carbohydratesTv"
             app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
 
@@ -221,14 +250,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fatTv"
+            android:textColor="@color/gray"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
         <TextView
             android:id="@+id/fatAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/fatTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
 
@@ -237,14 +268,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/proteinTv"
+            android:textColor="@color/gray"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/fatTv"/>
         <TextView
             android:id="@+id/proteinAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:paddingBottom="60dp"
             app:layout_constraintStart_toEndOf="@+id/proteinTv"
             app:layout_constraintTop_toBottomOf="@+id/fatTv" />

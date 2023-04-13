@@ -1,13 +1,14 @@
-package com.example.data.db.meal_plan
+package com.example.data.db.meal_plans
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "friday_table")
-data class FridayEntity(
+@Entity(tableName = "sunday_table")
+data class SundayEntity(
     @PrimaryKey(autoGenerate = true) val foodId: Int = 0,
     @ColumnInfo("id") val id: Int,
+    @ColumnInfo("plan") val plan: String,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("readyInMinutes") val readyInMinutes: Int,
     @ColumnInfo("servings") val servings: Int,

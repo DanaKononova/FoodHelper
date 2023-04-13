@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".nutrition_page.NutritionFragment">
 
@@ -93,9 +94,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nutrientsAbout1"
-        android:paddingTop="30dp"
-        android:textAlignment="center"
+        android:textAlignment="gravity"
         android:textSize="13sp"
+        android:textColor="@color/black"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/nutrAbout2Tv" />
@@ -108,6 +112,7 @@
         android:textAlignment="center"
         android:textSize="12sp"
         android:textStyle="italic"
+        android:textColor="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/nutrUrlTv"/>
@@ -120,6 +125,7 @@
         android:textSize="13sp"
         android:textColor="@color/teal_700"
         android:textAlignment="center"
+        android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_chainStyle="packed"

@@ -14,8 +14,8 @@ class MealPlanViewHolder (
 
     fun onBind(item: GenerateMealsData) {
         binding.mealItemTv.text = item.title
-        binding.servingTv.text = item.servings.toString()
-        binding.readyInTv.text = item.readyInMinutes.toString()
+        binding.servingTv.text = "serving portions: " + item.servings.toString()
+        binding.readyInTv.text = "ready in: " + item.readyInMinutes.toString() + " min"
 
         Glide
             .with(itemView)

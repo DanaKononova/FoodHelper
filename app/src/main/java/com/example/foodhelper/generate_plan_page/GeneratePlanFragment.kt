@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -46,6 +47,11 @@ class GeneratePlanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val timeFrame = "week"
+        var plan = ""
+        binding.planNameEdit.addTextChangedListener {
+            plan = it.toString()
+        }
+
         val days = resources.getStringArray(R.array.days)
         var day = ""
         val daysSpinner = binding.daysSpinner
@@ -64,7 +70,7 @@ class GeneratePlanFragment : Fragment() {
                 id: Long
             ) {
                 day = days[position]
-                viewModel.getDatTemplate(day)
+                viewModel.getDayTemplate(day)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -125,10 +131,10 @@ class GeneratePlanFragment : Fragment() {
             mealsList.clear()
             mealsList.addAll(it.meals)
             adapter.setFood(mealsList)
-            binding.caloriesAmount.text = getString(R.string.caloriesTv) + it.nutrients.calories.toString()
-            binding.carbohydratesAmount.text = getString(R.string.carbohydratesTv) + it.nutrients.carbohydrates.toString()
-            binding.fatAmount.text = getString(R.string.fatTv) + it.nutrients.fat.toString()
-            binding.proteinAmount.text = getString(R.string.proteinTv) + it.nutrients.protein.toString()
+            binding.caloriesAmount.text = it.nutrients.calories.toString()
+            binding.carbohydratesAmount.text = it.nutrients.carbohydrates.toString()
+            binding.fatAmount.text =  it.nutrients.fat.toString()
+            binding.proteinAmount.text = it.nutrients.protein.toString()
             binding.caloriesTv.isVisible = true
             binding.carbohydratesTv.isVisible = true
             binding.fatTv.isVisible = true
@@ -139,6 +145,10 @@ class GeneratePlanFragment : Fragment() {
         binding.getPlanBt.setOnClickListener {
             viewModel.generateTemplate(timeFrame, targetCalories, selectedDiet.text.toString(), exclude, day)
             viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+        }
+        binding.addPlanBt.setOnClickListener{
+            if (plan != "") viewModel.addPlan(plan)
+            else Toast.makeText(requireContext(), "Enter plan name", Toast.LENGTH_LONG).show()
         }
 
     }

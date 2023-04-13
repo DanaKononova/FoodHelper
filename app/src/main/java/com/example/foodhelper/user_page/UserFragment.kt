@@ -35,19 +35,13 @@ class UserFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.userLiveData.observe(viewLifecycleOwner){
-            binding.spoonacularPassword.text = it.spoonacularPassword
-            binding.username.text = it.username
-            binding.hash.text = it.hash
+        viewModel.plansLiveData.observe(viewLifecycleOwner){
+            it.map { plan ->
+                println(plan)
+            }
         }
 
-//        viewModel.getTemplates("dana888", "8b751e68e925d423af52131dd867b141fe803080")
-//        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
-
-//        viewModel.getUserInfo("dana888", "Dana", "Kononova", "dana.kononova@mail.ru")
-//        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
-
-      //  username":"dana888","spoonacularPassword":"biryanion97annattoextract","hash":"8b751e68e925d423af52131dd867b141fe803080"
+        viewModel.getPlans()
     }
 
     override fun onDestroyView() {
