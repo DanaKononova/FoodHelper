@@ -7,31 +7,162 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".user_page.UserFragment">
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="name"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/currentConstr"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.65"
+        android:background="@drawable/current_plan_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/spoonacularPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="password"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/hash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hash"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spoonacularPassword" />
+        app:layout_constraintBottom_toTopOf="@+id/plansTv">
 
+        <TextView
+            android:id="@+id/currentPlanTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Meal Plan:"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/currentPlanNameTv" />
+
+        <TextView
+            android:id="@+id/currentPlanNameTv"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/very_dark_red"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentPlanTv" />
+
+        <TextView
+            android:id="@+id/mealPlanNutrientsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mealPlanNutrientsTv"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentPlanNameTv" />
+
+        <TextView
+            android:id="@+id/caloriesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/caloriesTv"
+            android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
+
+        <TextView
+            android:id="@+id/caloriesAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/caloriesTv"
+            app:layout_constraintTop_toTopOf="@+id/caloriesTv" />
+
+        <TextView
+            android:id="@+id/carbohydratesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carbohydratesTv"
+            android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
+            app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
+        <TextView
+            android:id="@+id/carbohydratesAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/carbohydratesTv"
+            app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
+
+        <TextView
+            android:id="@+id/fatTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fatTv"
+            android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
+            app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
+        <TextView
+            android:id="@+id/fatAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/fatTv"
+            app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
+
+        <TextView
+            android:id="@+id/proteinTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/proteinTv"
+            android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="@+id/caloriesTv"
+            app:layout_constraintTop_toBottomOf="@+id/fatTv"/>
+        <TextView
+            android:id="@+id/proteinAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/proteinTv"
+            app:layout_constraintTop_toBottomOf="@+id/fatTv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCurrentMeals"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.50"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/proteinAmount"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/plansTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All your plans:"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/rvPlansList"
+        app:layout_constraintTop_toBottomOf="@id/currentConstr" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPlansList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plansTv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

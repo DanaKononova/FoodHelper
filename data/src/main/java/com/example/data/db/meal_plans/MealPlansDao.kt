@@ -10,6 +10,9 @@ interface MealPlansDao {
     @Query("SELECT DISTINCT plan, * FROM monday_table GROUP BY plan")
     fun getMondayPlans(): List<MondayEntity>
 
+    @Query("SELECT * FROM monday_table WHERE plan = :planName")
+    fun getMondayByPlan(planName: String): List<MondayEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllMonday(news: List<MondayEntity>)
 
@@ -24,6 +27,9 @@ interface MealPlansDao {
 
     @Query("SELECT DISTINCT plan, * FROM tuesday_table GROUP BY plan")
     fun getTuesdayPlans(): List<TuesdayEntity>
+
+    @Query("SELECT * FROM tuesday_table WHERE plan = :planName")
+    fun getTuesdayByPlan(planName: String): List<TuesdayEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllTuesday(news: List<TuesdayEntity>)
@@ -40,6 +46,9 @@ interface MealPlansDao {
     @Query("SELECT DISTINCT plan, * FROM wednesday_table GROUP BY plan")
     fun getWednesdayPlans(): List<WednesdayEntity>
 
+    @Query("SELECT * FROM wednesday_table WHERE plan = :planName")
+    fun getWednesdayByPlan(planName: String): List<WednesdayEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllWednesday(news: List<WednesdayEntity>)
 
@@ -54,6 +63,9 @@ interface MealPlansDao {
 
     @Query("SELECT DISTINCT plan, * FROM thursday_table GROUP BY plan")
     fun getThursdayPlans(): List<ThursdayEntity>
+
+    @Query("SELECT * FROM thursday_table WHERE plan = :planName")
+    fun getThursdayByPlan(planName: String): List<ThursdayEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllThursday(news: List<ThursdayEntity>)
@@ -70,6 +82,9 @@ interface MealPlansDao {
     @Query("SELECT DISTINCT plan, * FROM friday_table GROUP BY plan")
     fun getFridayPlans(): List<FridayEntity>
 
+    @Query("SELECT * FROM friday_table WHERE plan = :planName")
+    fun getFridayByPlan(planName: String): List<FridayEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllFriday(news: List<FridayEntity>)
 
@@ -84,6 +99,9 @@ interface MealPlansDao {
 
     @Query("SELECT DISTINCT plan, * FROM saturday_table GROUP BY plan")
     fun getSaturdayPlans(): List<SaturdayEntity>
+
+    @Query("SELECT * FROM saturday_table WHERE plan = :planName")
+    fun getSaturdayByPlan(planName: String): List<SaturdayEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllSaturday(news: List<SaturdayEntity>)
@@ -100,6 +118,9 @@ interface MealPlansDao {
     @Query("SELECT DISTINCT plan, * FROM sunday_table GROUP BY plan")
     fun getSundayPlans(): List<SundayEntity>
 
+    @Query("SELECT * FROM sunday_table WHERE plan = :planName")
+    fun getSundayByPlan(planName: String): List<SundayEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllSunday(news: List<SundayEntity>)
 
@@ -115,8 +136,11 @@ interface MealPlansDao {
     @Query("SELECT DISTINCT plan, * FROM nutrients_table GROUP BY plan")
     fun getNutrientsPlans(): List<NutrientsPlanEntity>
 
+    @Query("SELECT * FROM nutrients_table WHERE plan = :planName")
+    fun getNutrientsByPlan(planName: String): List<NutrientsPlanEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllNutrients(news: NutrientsPlanEntity)
+    fun insertAllNutrients(news: List<NutrientsPlanEntity>)
 
     @Delete
     fun deleteAllNutrients(news: List<NutrientsPlanEntity>)

@@ -112,11 +112,7 @@ class GeneratePlanFragment : Fragment() {
 
         val itemClick: (String, String, String) -> Unit = { id, image, name ->
             val action = GeneratePlanFragmentDirections.actionGeneratePlanFragmentToRecipeFragment(id, image, name)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
+            findNavController().navigate(action)
         }
 
         val adapter = MealPlanAdapter(itemClick)

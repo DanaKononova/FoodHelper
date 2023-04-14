@@ -16,6 +16,10 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.getMondayPlans()
     }
 
+    suspend fun getMondayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getMondayByPlan(planName)
+    }
+
     suspend fun insertAllMonday(news: List<MondayEntity>) = withContext(Dispatchers.IO) {
         mealPlansDao.insertAllMonday(news)
     }
@@ -34,6 +38,10 @@ class MealPlansDataBaseSource @Inject constructor(
 
     suspend fun getTuesdayPlans() = withContext(Dispatchers.IO) {
         mealPlansDao.getTuesdayPlans()
+    }
+
+    suspend fun getTuesdayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getTuesdayByPlan(planName)
     }
 
     suspend fun insertAllTuesday(news: List<TuesdayEntity>) = withContext(Dispatchers.IO) {
@@ -56,6 +64,10 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.getWednesdayPlans()
     }
 
+    suspend fun getWednesdayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getWednesdayByPlan(planName)
+    }
+
     suspend fun insertAllWednesday(news: List<WednesdayEntity>) = withContext(Dispatchers.IO) {
         mealPlansDao.insertAllWednesday(news)
     }
@@ -74,6 +86,10 @@ class MealPlansDataBaseSource @Inject constructor(
 
     suspend fun getThursdayPlans() = withContext(Dispatchers.IO) {
         mealPlansDao.getThursdayPlans()
+    }
+
+    suspend fun getThursdayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getThursdayByPlan(planName)
     }
 
     suspend fun insertAllThursday(news: List<ThursdayEntity>) = withContext(Dispatchers.IO) {
@@ -96,6 +112,10 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.getFridayPlans()
     }
 
+    suspend fun getFridayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getFridayByPlan(planName)
+    }
+
     suspend fun insertAllFriday(news: List<FridayEntity>) = withContext(Dispatchers.IO) {
         mealPlansDao.insertAllFriday(news)
     }
@@ -114,6 +134,10 @@ class MealPlansDataBaseSource @Inject constructor(
 
     suspend fun getSaturdayPlans() = withContext(Dispatchers.IO) {
         mealPlansDao.getSaturdayPlans()
+    }
+
+    suspend fun getSaturdayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getSaturdayByPlan(planName)
     }
 
     suspend fun insertAllSaturday(news: List<SaturdayEntity>) = withContext(Dispatchers.IO) {
@@ -136,6 +160,10 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.getSundayPlans()
     }
 
+    suspend fun getSundayByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getSundayByPlan(planName)
+    }
+
     suspend fun insertAllSunday(news: List<SundayEntity>) = withContext(Dispatchers.IO) {
         mealPlansDao.insertAllSunday(news)
     }
@@ -156,7 +184,11 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.getNutrientsPlans()
     }
 
-    suspend fun insertAllNutrients(news: NutrientsPlanEntity) = withContext(Dispatchers.IO) {
+    suspend fun getNutrientsByPlan(planName: String) = withContext(Dispatchers.IO) {
+        mealPlansDao.getNutrientsByPlan(planName)
+    }
+
+    suspend fun insertAllNutrients(news: List<NutrientsPlanEntity>) = withContext(Dispatchers.IO) {
         mealPlansDao.insertAllNutrients(news)
     }
 

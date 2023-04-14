@@ -25,18 +25,18 @@
     <string name="nutrientsAbout2">To read more about nutrients click on the link</string>
     <string name="nutrientsurl">https://www.healthline.com/health/food-nutrition/six-essential-nutrients</string>
     <string name="planNameTv">Choose meal plan name</string>
-    <string name="plan_name">plan name</string>
+    <string name="plan_name"><u>plan name...</u></string>
     <string-array name="timeFrame">
         <item>day</item>
         <item>week</item>
     </string-array>
     <string name="timeFrameTv">Time frame: week</string>
     <string name="filters">Choose filters</string>
-    <string name="targetCaloriesHint">calories</string>
+    <string name="targetCaloriesHint"><u>calories...</u></string>
     <string name="targetCaloriesTv">Set target calories</string>
     <string name="dietBt">Diet</string>
     <string name="dietTv">Choose diet</string>
-    <string name="excludeHint">exclude products</string>
+    <string name="excludeHint"><u>exclude products...</u></string>
     <string-array name="diets">
         <item>Gluten Free</item>
         <item>Ketogenic</item>
@@ -74,5 +74,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="add_plan_Bt">Add Plan</string>
+    <string name="plans_menu">plans</string>
+    <string name="set_current_bt">Set current</string>
+    <string name="change">Change</string>
 
 </resources>
