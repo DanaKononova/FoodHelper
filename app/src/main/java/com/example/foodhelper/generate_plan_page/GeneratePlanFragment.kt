@@ -67,6 +67,7 @@ class GeneratePlanFragment : Fragment() {
                 days
             )
         }
+        daysSpinner.dropDownVerticalOffset = 10
         daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -79,6 +80,7 @@ class GeneratePlanFragment : Fragment() {
                     day = days[dayOfWeek - 1]
                 } else day = days[position]
                 viewModel.getDayTemplate(day)
+                binding.lottieView.visibility = View.VISIBLE
                 if (parent?.getChildAt(0) != null) {
                     val selectedView = parent.getChildAt(0) as TextView
                     selectedView.setTextColor(Color.BLACK)
@@ -105,16 +107,16 @@ class GeneratePlanFragment : Fragment() {
             var checkedItem = 0
 
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Выберите элемент")
+            builder.setTitle("Choose element")
             builder.setSingleChoiceItems(diets, checkedItem) { _, which ->
                 checkedItem = which
             }
 
-            builder.setPositiveButton("OK") { _, _ ->
-                selectedDiet.text = diets[checkedItem] // получить выбранный элемент
+            builder.setPositiveButton("Ok") { _, _ ->
+                selectedDiet.text = diets[checkedItem]
             }
 
-            builder.setNegativeButton("Отмена") { _, _ ->
+            builder.setNegativeButton("Escape") { _, _ ->
             }
 
             val dialog = builder.create()
@@ -127,7 +129,11 @@ class GeneratePlanFragment : Fragment() {
         }
 
         val itemClick: (String, String, String) -> Unit = { id, image, name ->
-            val action = GeneratePlanFragmentDirections.actionGeneratePlanFragmentToRecipeFragment(id, image, name)
+            val action = GeneratePlanFragmentDirections.actionGeneratePlanFragmentToRecipeFragment(
+                id,
+                image,
+                name
+            )
             findNavController().navigate(action)
         }
 
@@ -140,12 +146,13 @@ class GeneratePlanFragment : Fragment() {
         val mealsList = mutableListOf<GenerateMealsData>()
 
         viewModel.generateTemplateLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.INVISIBLE
             mealsList.clear()
             mealsList.addAll(it.meals)
             adapter.setFood(mealsList)
             binding.caloriesAmount.text = it.nutrients.calories.toString()
             binding.carbohydratesAmount.text = it.nutrients.carbohydrates.toString()
-            binding.fatAmount.text =  it.nutrients.fat.toString()
+            binding.fatAmount.text = it.nutrients.fat.toString()
             binding.proteinAmount.text = it.nutrients.protein.toString()
             binding.caloriesTv.isVisible = true
             binding.carbohydratesTv.isVisible = true
@@ -155,12 +162,21 @@ class GeneratePlanFragment : Fragment() {
         }
 
         binding.getPlanBt.setOnClickListener {
-            viewModel.generateTemplate(timeFrame, targetCalories, selectedDiet.text.toString(), exclude, day)
+            binding.lottieView.visibility = View.VISIBLE
+            viewModel.generateTemplate(
+                timeFrame,
+                targetCalories,
+                selectedDiet.text.toString(),
+                exclude,
+                day
+            )
             viewModel.setToken("3d56490658e6406590fe5079373f64fe")
         }
-        binding.addPlanBt.setOnClickListener{
-            if (plan != "") viewModel.addPlan(plan)
-            else Toast.makeText(requireContext(), "Enter plan name", Toast.LENGTH_LONG).show()
+        binding.addPlanBt.setOnClickListener {
+            if (plan != "") {
+                viewModel.addPlan(plan)
+                Toast.makeText(requireContext(), "Successfully added", Toast.LENGTH_LONG).show()
+            } else Toast.makeText(requireContext(), "Enter plan name", Toast.LENGTH_LONG).show()
         }
 
     }

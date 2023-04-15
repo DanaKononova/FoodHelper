@@ -54,10 +54,11 @@ class NutritionFragment : Fragment() {
         binding.RecipeNameNutr.text = args.recipeName
         Glide
             .with(view)
-            .load(args.image)
+            .load("https://spoonacular.com/recipeImages/${recipeId}-312x231.${args.image}")
             .into(binding.recipeImgNutr)
 
         viewModel.nutrientsLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.GONE
             nutritionList.clear()
             nutritionList.addAll(it)
             adapter.setInstructions(it)

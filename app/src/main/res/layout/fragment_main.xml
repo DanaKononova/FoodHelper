@@ -7,34 +7,42 @@
     android:background="@color/white"
     tools:context=".main_page.FoodMainFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/processing_order" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrLayout"
-        android:background="@drawable/rounded_background"
-        app:layout_constraintCircleRadius="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background"
+        app:layout_constraintCircleRadius="50dp"
         app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/mealSpinner"
-        android:theme="@style/SpinnerTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Spinner
+            android:id="@+id/mealSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/SpinnerTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/mealTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:padding="5dp"
-        android:text="@string/breakfastTv"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mealSpinner" />
+        <TextView
+            android:id="@+id/mealTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="@string/breakfastTv"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_header2"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mealSpinner" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

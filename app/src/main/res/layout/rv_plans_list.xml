@@ -10,7 +10,7 @@
         app:layout_constraintWidth_percent="0.8"
         android:layout_height="wrap_content"
         android:text="My name"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_normal1"
         android:textColor="@color/plan_name"
         android:textStyle="bold"
         android:textAlignment="center"

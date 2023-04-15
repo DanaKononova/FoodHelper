@@ -80,6 +80,7 @@ class FoodMainFragment : Fragment() {
                     meals[2] -> viewModel.getLunchList(query)
                     meals[3] -> viewModel.getDinnerList(query)
                 }
+                binding.lottieView.visibility = View.VISIBLE
                 viewModel.setToken("3d56490658e6406590fe5079373f64fe")
             }
 
@@ -90,6 +91,7 @@ class FoodMainFragment : Fragment() {
                     val selectedView = parent.getChildAt(0) as TextView
                     selectedView.setTextColor(Color.WHITE)
                 }
+                viewModel.getBreakfastList(query)
             }
         }
 
@@ -104,23 +106,9 @@ class FoodMainFragment : Fragment() {
             GridLayoutManager(this.context, 2)
 
         viewModel.foodLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.GONE
             adapter.setFood(it)
         }
-
-//        binding.searchBt.setOnClickListener {
-//            val action = FoodMainFragmentDirections.actionMainFragmentToSearchFoodFragment()
-//            findNavController().navigate(action)
-//        }
-//
-//        binding.addTemplateBt.setOnClickListener{
-//            val action = FoodMainFragmentDirections.actionMainFragmentToGeneratePlanFragment()
-//            findNavController().navigate(action)
-//        }
-//
-//        binding.userBt.setOnClickListener{
-//            val action = FoodMainFragmentDirections.actionMainFragmentToUserFragment()
-//            findNavController().navigate(action)
-//        }
     }
 
     override fun onDestroyView() {

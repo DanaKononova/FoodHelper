@@ -25,18 +25,18 @@
     <string name="nutrientsAbout2">To read more about nutrients click on the link</string>
     <string name="nutrientsurl">https://www.healthline.com/health/food-nutrition/six-essential-nutrients</string>
     <string name="planNameTv">Choose meal plan name</string>
-    <string name="plan_name"><u>plan name...</u></string>
+    <string name="plan_name">plan name…</string>
     <string-array name="timeFrame">
         <item>day</item>
         <item>week</item>
     </string-array>
     <string name="timeFrameTv">Time frame: week</string>
     <string name="filters">Choose filters</string>
-    <string name="targetCaloriesHint"><u>calories...</u></string>
+    <string name="targetCaloriesHint">calories…</string>
     <string name="targetCaloriesTv">Set target calories</string>
     <string name="dietBt">Diet</string>
     <string name="dietTv">Choose diet</string>
-    <string name="excludeHint"><u>exclude products...</u></string>
+    <string name="excludeHint">exclude products…</string>
     <string-array name="diets">
         <item>Gluten Free</item>
         <item>Ketogenic</item>
@@ -80,5 +80,39 @@
     <string name="change">Change</string>
     <string name="all_your_plans">All your plans:</string>
     <string name="current_meal_plan_for">Current Meal Plan</string>
-
+    <string name="filtersTv">Filters</string>
+    <string name="cuisine">Cuisine</string>
+    <string name="intolerances">Intolerances</string>
+    <string-array name="cuisines">
+        <item>African</item>
+        <item>American</item>
+        <item>British</item>
+        <item>Chinese</item>
+        <item>European</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Indian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Jewish</item>
+        <item>Korean</item>
+        <item>Mexican</item>
+        <item>Spanish</item>
+        <item>Thai</item>
+    </string-array>
+    <string-array name="intolerances">
+        <item>Dairy</item>
+        <item>Egg</item>
+        <item>Gluten</item>
+        <item>Grain</item>
+        <item>Peanut</item>
+        <item>Seafood</item>
+        <item>Sesame</item>
+        <item>Shellfish</item>
+        <item>Soy</item>
+        <item>Sulfite</item>
+        <item>Tree Nut</item>
+        <item>Wheat</item>
+    </string-array>
 </resources>

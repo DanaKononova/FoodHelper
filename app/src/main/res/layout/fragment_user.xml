@@ -7,11 +7,30 @@
     android:background="@color/white"
     tools:context=".user_page.UserFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/emptyLottieView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/empty_red" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadLottieView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/empty_red" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/currentConstr"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/current_plan_background"
+        android:visibility="gone"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/plansTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.65"
@@ -26,23 +45,21 @@
             android:text="@string/current_meal_plan_for"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:textSize="@dimen/text_size_header3"
             app:layout_constraintBottom_toBottomOf="@id/daysSpinner"
-            app:layout_constraintTop_toTopOf="@id/daysSpinner"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/daysSpinner"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/daysSpinner" />
 
         <Spinner
             android:id="@+id/daysSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@id/currentPlanNameTv"
-            app:layout_constraintStart_toEndOf="@id/currentPlanTv"
+            android:background="@drawable/spinner_background"
+            android:scrollbarSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/currentPlanTv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -53,7 +70,7 @@
             android:paddingBottom="2dp"
             android:textAlignment="center"
             android:textColor="@color/very_dark_red"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_header2"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +92,7 @@
             android:text="@string/mealPlanNutrientsTv"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_normal2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/delimetr1" />
@@ -86,6 +104,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:text="@string/caloriesTv"
+            android:textSize="@dimen/text_size_small1"
             android:textColor="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mealPlanNutrientsTv" />
@@ -96,6 +115,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toEndOf="@+id/caloriesTv"
             app:layout_constraintTop_toTopOf="@+id/caloriesTv" />
 
@@ -105,6 +125,7 @@
             android:layout_height="wrap_content"
             android:text="@string/carbohydratesTv"
             android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
 
@@ -114,6 +135,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toEndOf="@+id/carbohydratesTv"
             app:layout_constraintTop_toBottomOf="@+id/caloriesTv" />
 
@@ -122,6 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fatTv"
+            android:textSize="@dimen/text_size_small1"
             android:textColor="@color/gray"
             app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
@@ -132,6 +155,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toEndOf="@+id/fatTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
 
@@ -141,6 +165,7 @@
             android:layout_height="wrap_content"
             android:text="@string/proteinTv"
             android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/fatTv" />
 
@@ -150,6 +175,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_small1"
             app:layout_constraintStart_toEndOf="@+id/proteinTv"
             app:layout_constraintTop_toBottomOf="@+id/fatTv" />
 
@@ -158,17 +184,14 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/dark_red"
-            app:layout_constraintTop_toBottomOf="@+id/proteinAmount" />
+            app:layout_constraintTop_toBottomOf="@+id/proteinAmount"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCurrentMeals"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.45"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/delimetr2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,11 +200,12 @@
         android:id="@+id/plansTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/all_your_plans"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_header3"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/rvPlansList"
         app:layout_constraintTop_toBottomOf="@id/currentConstr" />
 

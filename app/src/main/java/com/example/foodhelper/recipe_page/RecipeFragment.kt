@@ -48,7 +48,8 @@ class RecipeFragment : Fragment() {
 
         val adapter = RecipeAdapter()
         instructionRecycler.adapter = adapter
-        instructionRecycler.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        instructionRecycler.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         binding.RecipeName.text = args.recipeName
         Glide
@@ -56,12 +57,17 @@ class RecipeFragment : Fragment() {
             .load("https://spoonacular.com/recipeImages/${recipeId}-312x231.${args.image}")
             .into(binding.recipeImg)
 
-        binding.nutritionBt.setOnClickListener{
-            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(args.foodId, args.image, args.recipeName)
+        binding.nutritionBt.setOnClickListener {
+            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(
+                args.foodId,
+                args.image,
+                args.recipeName
+            )
             findNavController().navigate(action)
         }
 
-        viewModel.instructionsLiveData.observe(viewLifecycleOwner){
+        viewModel.instructionsLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.GONE
             instructionList.clear()
             instructionList.addAll(it)
             adapter.setInstructions(it)

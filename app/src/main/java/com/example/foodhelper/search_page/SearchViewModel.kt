@@ -30,9 +30,6 @@ class SearchViewModel @Inject constructor(
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
             _noInternetLiveData.value = true
-            _searchLiveData.value =
-                repository.getBreakfastList("", !(noInternetLiveData.value ?: false))
-
             when (throwable) {
                 is SocketTimeoutException -> {
                     _errorLiveData.value = R.string.socketTimeout
@@ -44,12 +41,12 @@ class SearchViewModel @Inject constructor(
 
     private val searchDebouncer = Debouncer(1000)
 
-    fun getFoodList(query: String) {
+    fun getFoodList(query: String, cuisine: String, diet: String, intolerance: String) {
         searchDebouncer.debounce {
             viewModelScope.launch(handler) {
                 _noInternetLiveData.value = false
                 _searchLiveData.value =
-                    repository.getFoodList(query, !(noInternetLiveData.value ?: false))
+                    repository.getFoodList(query, cuisine, diet, intolerance, !(noInternetLiveData.value ?: false))
             }
         }
     }

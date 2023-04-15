@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:textAlignment="center"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_small1"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

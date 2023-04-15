@@ -8,7 +8,7 @@ import com.example.domain.models.nutrients.NutrientsData
 import com.example.domain.models.user.DayPlanData
 
 interface Repository {
-    suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData>
+    suspend fun getFoodList(query: String, cuisine: String, diet: String, intolerance: String, isConnected: Boolean): List<FoodData>
 
     suspend fun getBreakfastList(query: String, isConnected: Boolean): List<FoodData>
 

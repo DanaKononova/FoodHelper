@@ -48,7 +48,7 @@ class FoodViewModel @Inject constructor(
             _foodLiveData.value = if (repository.getBreakfastUpdate()) repository.getBreakfastList(query, false)
                 else repository.getBreakfastList(query, !(noInternetLiveData.value ?: false))
         }
-        repository.setBreakfastUpdate(true)
+        repository.setBreakfastUpdate(false)
     }
 
     fun getBrunchList(query: String) {

@@ -142,6 +142,15 @@ class UserFragment : Fragment() {
         var oldCurrent = ""
         var wasPlanEmpty : Boolean
         viewModel.plansLiveData.observe(viewLifecycleOwner){
+            if (it.isEmpty()){
+                binding.currentConstr.visibility = View.GONE
+                binding.emptyLottieView.visibility = View.VISIBLE
+                binding.plansTv.visibility = View.GONE
+            } else {
+                binding.currentConstr.visibility = View.VISIBLE
+                binding.plansTv.visibility = View.VISIBLE
+                binding.loadLottieView.visibility = View.GONE
+            }
             if (plans.size != 0) {
                 oldCurrent = plans[currentPlan]
                 wasPlanEmpty = false

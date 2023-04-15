@@ -33,11 +33,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_fragments)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_add_meal, R.id.navigation_user
-            )
-        )
         navView.setupWithNavController(navController)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

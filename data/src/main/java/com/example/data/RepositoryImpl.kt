@@ -48,10 +48,10 @@ class RepositoryImpl @Inject constructor(
     private val currentPlanDBSource: CurrentPlanDataBaseSource,
     private val mealPlansDBSource: MealPlansDataBaseSource,
 ) : Repository {
-    override suspend fun getFoodList(query: String, isConnected: Boolean): List<FoodData> {
+    override suspend fun getFoodList(query: String, cuisine: String, diet: String, intolerance: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
             if (isConnected) {
-                val response = (foodService.getFood(query, userSource.getUserToken())).results
+                val response = (foodService.getFood(query, cuisine, diet, intolerance, userSource.getUserToken())).results
                 val foodList = (response ?: listOf()).map { foodMapper(it) }
                 foodList.map { foodEntityMapper(it) }
             } else emptyList()
@@ -61,9 +61,8 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getBreakfastList(query: String, isConnected: Boolean): List<FoodData> {
         return withContext(Dispatchers.IO) {
             if (isConnected) {
-                val response = (foodService.getFood(query, userSource.getUserToken()))
-
-                val foodList = (response.results ?: listOf()).map { foodMapper(it) }
+                val response = (foodService.getFood(query, userSource.getUserToken())).results
+                val foodList = (response ?: listOf()).map { foodMapper(it) }
                 foodDataBaseSource.deleteAllBreakfast(foodDataBaseSource.getAllBreakfast())
                 foodDataBaseSource.insertAllBreakfast(foodList)
                 foodList.map { foodEntityMapper(it) }
