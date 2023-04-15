@@ -15,9 +15,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [NetworkModule::class, RepositoryModule::class, ViewModelModule::class,
-        SearchViewModelModule::class, RecipeViewModelModule::class, NutritionViewModelModule::class,
-        UserViewModelModule::class, GeneratePlanViewModelModule::class, SourceModule::class,
-        DataBaseModule::class]
+        SearchViewModelModule::class, RecipeViewModelModule::class, UserViewModelModule::class,
+        GeneratePlanViewModelModule::class, SourceModule::class, DataBaseModule::class]
 )
 interface AppComponent {
     @Component.Factory

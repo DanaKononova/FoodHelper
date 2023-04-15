@@ -4,7 +4,6 @@ import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
 import com.example.domain.models.generate_template.NutrientsTemplateData
 import com.example.domain.models.instructions.InstructionsData
-import com.example.domain.models.nutrients.NutrientsData
 import com.example.domain.models.user.DayPlanData
 
 interface Repository {
@@ -17,8 +16,6 @@ interface Repository {
     suspend fun getLunchList(query: String, isConnected: Boolean): List<FoodData>
 
     suspend fun getDinnerList(query: String, isConnected: Boolean): List<FoodData>
-
-    suspend fun getNutrientsList(id: String, isConnected: Boolean): List<NutrientsData>
 
     suspend fun getInstructionsList(id: String, isConnected: Boolean): List<InstructionsData>
 

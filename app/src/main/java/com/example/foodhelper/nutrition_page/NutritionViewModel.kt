@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodhelper.R
 import com.example.domain.Repository
-import com.example.domain.models.nutrients.NutrientsData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
@@ -15,9 +14,6 @@ import javax.inject.Inject
 class NutritionViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-
-    private val _nutrientsLiveData = MutableLiveData<List<NutrientsData>>()
-    val nutrientsLiveData: LiveData<List<NutrientsData>> get() = _nutrientsLiveData
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
@@ -38,14 +34,6 @@ class NutritionViewModel @Inject constructor(
                 }
                 else -> _errorLiveData.value = R.string.exception
             }
-        }
-    }
-
-    fun getNutrientsList(id: String) {
-        viewModelScope.launch(handler) {
-            _noInternetLiveData.value = false
-            _nutrientsLiveData.value =
-                repository.getNutrientsList(id, !(noInternetLiveData.value ?: false))
         }
     }
 

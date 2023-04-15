@@ -8,8 +8,6 @@ import com.example.data.mappers.generate_template_mapper.GenerateTemplateMapper
 import com.example.data.mappers.generate_template_mapper.TemplateEntityMapper
 import com.example.data.mappers.instructions_mapper.InstructionsEntityMapper
 import com.example.data.mappers.instructions_mapper.InstructionsMapper
-import com.example.data.mappers.nutrients_mapper.NutrientsEntityMapper
-import com.example.data.mappers.nutrients_mapper.NutrientsMapper
 import com.example.data.mappers.user_mapper.ChangeNameMapper
 import com.example.data.mappers.user_mapper.DayPlanMapper
 import com.example.data.network.*
@@ -19,7 +17,6 @@ import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
 import com.example.domain.models.generate_template.NutrientsTemplateData
 import com.example.domain.models.instructions.InstructionsData
-import com.example.domain.models.nutrients.NutrientsData
 import com.example.domain.models.user.DayPlanData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,13 +24,10 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
     private val foodService: FoodService,
-    private val nutritionService: NutritionService,
     private val analyzedInstructionService: AnalyzedInstructionService,
     private val generateTemplateService: GenerateTemplateService,
     private val foodMapper: FoodResultsMapper,
     private val foodEntityMapper: FoodEntityMapper,
-    private val nutrientsMapper: NutrientsMapper,
-    private val nutrientsEntityMapper: NutrientsEntityMapper,
     private val instructionsMapper: InstructionsMapper,
     private val instructionsEntityMapper: InstructionsEntityMapper,
     private val generateTemplateMapper: GenerateTemplateMapper,
@@ -43,7 +37,6 @@ class RepositoryImpl @Inject constructor(
     private val changeNameMapper: ChangeNameMapper,
     private val userSource: UserDataSource,
     private val foodDataBaseSource: FoodDataBaseSource,
-    private val nutritionDataBaseSource: NutritionDataBaseSource,
     private val instructionsDataBaseSource: InstructionsDataBaseSource,
     private val currentPlanDBSource: CurrentPlanDataBaseSource,
     private val mealPlansDBSource: MealPlansDataBaseSource,
@@ -113,22 +106,6 @@ class RepositoryImpl @Inject constructor(
                 foodList.map { foodEntityMapper(it) }
             } else {
                 foodDataBaseSource.getAllDinner().map { foodEntityMapper(it) }
-            }
-        }
-    }
-
-    override suspend fun getNutrientsList(id: String, isConnected: Boolean): List<NutrientsData> {
-        return withContext(Dispatchers.IO) {
-            if (isConnected) {
-                val response =
-                    nutritionService.getNutrition(id, userSource.getUserToken())
-
-                val nutrientsList = (response.good ?: listOf()).map { nutrientsMapper(it) }
-                nutritionDataBaseSource.delete(nutritionDataBaseSource.getAll())
-                nutritionDataBaseSource.insertAll(nutrientsList)
-                nutrientsList.map { nutrientsEntityMapper(it) }
-            } else {
-                nutritionDataBaseSource.getAll().map { nutrientsEntityMapper(it) }
             }
         }
     }

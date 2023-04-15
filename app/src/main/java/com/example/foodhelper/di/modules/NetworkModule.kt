@@ -33,11 +33,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun getNutritionService(retrofit: Retrofit): NutritionService =
-        retrofit.create(NutritionService::class.java)
-
-    @Provides
-    @Singleton
     fun getInstructionsService(retrofit: Retrofit): AnalyzedInstructionService =
         retrofit.create(AnalyzedInstructionService::class.java)
 
