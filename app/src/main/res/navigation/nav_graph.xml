@@ -76,7 +76,11 @@
         android:id="@+id/userFragment"
         android:name="com.example.foodhelper.user_page.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/generatePlanFragment"
         android:name="com.example.foodhelper.generate_plan_page.GeneratePlanFragment"

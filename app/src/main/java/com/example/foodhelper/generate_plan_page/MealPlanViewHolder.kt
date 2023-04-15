@@ -23,7 +23,7 @@ class MealPlanViewHolder (
             .into(binding.mealImg)
 
         itemView.setOnClickListener {
-            itemClick.invoke(item.id.toString(), item.sourceUrl, item.title)
+            itemClick.invoke(item.id.toString(), item.imageType, item.title)
         }
     }
 }

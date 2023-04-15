@@ -43,11 +43,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun getMealTemplatesService(retrofit: Retrofit): MealTemplatesService =
-        retrofit.create(MealTemplatesService::class.java)
-
-    @Provides
-    @Singleton
     fun getGenerateTemplateService(retrofit: Retrofit): GenerateTemplateService =
         retrofit.create(GenerateTemplateService::class.java)
 

@@ -20,7 +20,9 @@
             android:text="@string/planNameTv"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -28,12 +30,14 @@
             android:id="@+id/planNameEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:autofillHints="name"
             android:hint="@string/plan_name"
+            android:textColorHighlight="@color/gray"
             android:textColorHint="@color/gray"
+            android:textSize="20sp"
             android:textColor="@color/gray"
             android:inputType="text"
             android:layout_marginTop="10dp"
+            android:paddingStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/planNameTv"
@@ -55,6 +59,8 @@
             android:paddingBottom="20dp"
             android:text="@string/filters"
             android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delimetr"/>
@@ -85,6 +91,7 @@
             android:hint="@string/targetCaloriesHint"
             android:textColorHint="@color/gray"
             android:textColor="@color/gray"
+            android:textSize="15sp"
             android:inputType="number"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
@@ -135,10 +142,11 @@
             android:id="@+id/excludeEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:autofillHints="text"
             android:hint="@string/excludeHint"
             android:inputType="text"
             android:textColor="@color/gray"
+            android:textSize="15sp"
+            android:textColorHint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/excludeTv"
             app:layout_constraintTop_toBottomOf="@+id/dietBt"
@@ -153,18 +161,6 @@
             app:layout_constraintTop_toBottomOf="@+id/excludeEdit" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/getPlanBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_button"
-            android:text="@string/getPlanBt"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toEndOf="@id/addPlanBt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addPlanBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -177,11 +173,26 @@
             app:layout_constraintEnd_toStartOf="@id/getPlanBt"
             app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/getPlanBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_button"
+            android:elevation="10dp"
+            android:text="@string/getPlanBt"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
+
         <Spinner
             android:id="@+id/daysSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@color/white"
             app:layout_constraintStart_toEndOf="@+id/getPlanBt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delimetr2" />

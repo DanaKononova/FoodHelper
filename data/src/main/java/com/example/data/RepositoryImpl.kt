@@ -6,18 +6,21 @@ import com.example.data.mappers.food_mapper.FoodResultsMapper
 import com.example.data.mappers.generate_template_mapper.CurrentToMealPlansMapper
 import com.example.data.mappers.generate_template_mapper.GenerateTemplateMapper
 import com.example.data.mappers.generate_template_mapper.TemplateEntityMapper
-import com.example.data.mappers.get_templates_mapper.TemplatesMapper
 import com.example.data.mappers.instructions_mapper.InstructionsEntityMapper
 import com.example.data.mappers.instructions_mapper.InstructionsMapper
 import com.example.data.mappers.nutrients_mapper.NutrientsEntityMapper
 import com.example.data.mappers.nutrients_mapper.NutrientsMapper
+import com.example.data.mappers.user_mapper.ChangeNameMapper
+import com.example.data.mappers.user_mapper.DayPlanMapper
 import com.example.data.network.*
 import com.example.data.source.*
 import com.example.domain.Repository
 import com.example.domain.models.food.FoodData
 import com.example.domain.models.generate_template.GenerateTemplateData
+import com.example.domain.models.generate_template.NutrientsTemplateData
 import com.example.domain.models.instructions.InstructionsData
 import com.example.domain.models.nutrients.NutrientsData
+import com.example.domain.models.user.DayPlanData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,7 +29,6 @@ class RepositoryImpl @Inject constructor(
     private val foodService: FoodService,
     private val nutritionService: NutritionService,
     private val analyzedInstructionService: AnalyzedInstructionService,
-    private val mealTemplatesService: MealTemplatesService,
     private val generateTemplateService: GenerateTemplateService,
     private val foodMapper: FoodResultsMapper,
     private val foodEntityMapper: FoodEntityMapper,
@@ -36,8 +38,9 @@ class RepositoryImpl @Inject constructor(
     private val instructionsEntityMapper: InstructionsEntityMapper,
     private val generateTemplateMapper: GenerateTemplateMapper,
     private val templateEntityMapper: TemplateEntityMapper,
-    private val templatesMapper: TemplatesMapper,
     private val currentToMealPlansMapper: CurrentToMealPlansMapper,
+    private val dayPlanMapper: DayPlanMapper,
+    private val changeNameMapper: ChangeNameMapper,
     private val userSource: UserDataSource,
     private val foodDataBaseSource: FoodDataBaseSource,
     private val nutritionDataBaseSource: NutritionDataBaseSource,
@@ -189,7 +192,13 @@ class RepositoryImpl @Inject constructor(
         exclude: String,
     ) {
         withContext(Dispatchers.IO) {
-            val response = generateTemplateService.generateWeekTemplate(timeFrame, targetCalories, diet, exclude, userSource.getUserToken()).week
+            val response = generateTemplateService.generateWeekTemplate(
+                timeFrame,
+                targetCalories,
+                diet,
+                exclude,
+                userSource.getUserToken()
+            ).week
             currentPlanDBSource.deleteAllMonday(currentPlanDBSource.getAllMonday())
             currentPlanDBSource.deleteAllTuesday(currentPlanDBSource.getAllTuesday())
             currentPlanDBSource.deleteAllWednesday(currentPlanDBSource.getAllWednesday())
@@ -241,15 +250,6 @@ class RepositoryImpl @Inject constructor(
                 sunday.nutrients?.let { generateTemplateMapper.toNutrientsEntity(it) }
                     ?.let { currentPlanDBSource.insertAllNutrients(it) }
             }
-
-//            mealPlansDBSource.deleteAllMonday(mealPlansDBSource.getAllMonday())
-//            mealPlansDBSource.deleteAllTuesday(mealPlansDBSource.getAllTuesday())
-//            mealPlansDBSource.deleteAllWednesday(mealPlansDBSource.getAllWednesday())
-//            mealPlansDBSource.deleteAllThursday(mealPlansDBSource.getAllThursday())
-//            mealPlansDBSource.deleteAllFriday(mealPlansDBSource.getAllFriday())
-//            mealPlansDBSource.deleteAllSaturday(mealPlansDBSource.getAllSaturday())
-//            mealPlansDBSource.deleteAllSunday(mealPlansDBSource.getAllSunday())
-//            mealPlansDBSource.deleteAllNutrients(mealPlansDBSource.getAllNutrients())
         }
     }
 
@@ -346,14 +346,9 @@ class RepositoryImpl @Inject constructor(
                     plan
                 )
             )
-            currentPlanDBSource.getAllNutrients().map {
-                mealPlansDBSource.insertAllNutrients(
-                    currentToMealPlansMapper.toNutrientsEntity(
-                        it,
-                        plan
-                    )
-                )
-            }
+            mealPlansDBSource.insertAllNutrients(
+                currentPlanDBSource.getAllNutrients()
+                    .map { currentToMealPlansMapper.toNutrientsEntity(it, plan) })
         }
     }
 
@@ -367,7 +362,160 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCurrentPlan(currentPlan: String, day: Int): List<DayPlanData> {
+        return withContext(Dispatchers.IO) {
+            val dayMeals = when (day) {
+                2 -> dayPlanMapper.fromMonday(mealPlansDBSource.getMondayByPlan(currentPlan))
+                3 -> dayPlanMapper.fromTuesday(mealPlansDBSource.getTuesdayByPlan(currentPlan))
+                4 -> dayPlanMapper.fromWednesday(
+                    mealPlansDBSource.getWednesdayByPlan(
+                        currentPlan
+                    )
+                )
+                5 -> dayPlanMapper.fromThursday(
+                    mealPlansDBSource.getThursdayByPlan(
+                        currentPlan
+                    )
+                )
+                6 -> dayPlanMapper.fromFriday(mealPlansDBSource.getFridayByPlan(currentPlan))
+                7 -> dayPlanMapper.fromSaturday(
+                    mealPlansDBSource.getSaturdayByPlan(
+                        currentPlan
+                    )
+                )
+                1 -> dayPlanMapper.fromSunday(mealPlansDBSource.getSundayByPlan(currentPlan))
+                else -> dayPlanMapper.fromMonday(mealPlansDBSource.getMondayByPlan(currentPlan))
+            }
+            dayMeals
+        }
+    }
+
+    override suspend fun getCurrentNutrients(
+        currentPlan: String,
+        day: Int
+    ): NutrientsTemplateData {
+        return withContext(Dispatchers.IO) {
+            val nutrients = when (day) {
+                2 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[0])
+                3 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[1])
+                4 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[2])
+                5 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[3])
+                6 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[4])
+                7 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[5])
+                1 -> dayPlanMapper.nutrientsMapper(mealPlansDBSource.getNutrientsByPlan(currentPlan)[6])
+                else -> dayPlanMapper.nutrientsMapper(
+                    mealPlansDBSource.getNutrientsByPlan(
+                        currentPlan
+                    )[0]
+                )
+            }
+            nutrients
+        }
+    }
+
+    override suspend fun changePlanName(oldName: String, newName: String) : List<String> {
+        return withContext(Dispatchers.IO) {
+            val mondayList = changeNameMapper.changeMondayPlan(
+                mealPlansDBSource.getMondayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteMonday(oldName)
+            mealPlansDBSource.insertAllMonday(mondayList)
+            val tuesdayList = changeNameMapper.changeTuesdayPlan(
+                mealPlansDBSource.getTuesdayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteTuesday(oldName)
+            mealPlansDBSource.insertAllTuesday(tuesdayList)
+            val wednesdayList = changeNameMapper.changeWednesdayPlan(
+                mealPlansDBSource.getWednesdayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteWednesday(oldName)
+            mealPlansDBSource.insertAllWednesday(wednesdayList)
+            val thursdayList = changeNameMapper.changeThursdayPlan(
+                mealPlansDBSource.getThursdayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteThursday(oldName)
+            mealPlansDBSource.insertAllThursday(thursdayList)
+            val fridayList = changeNameMapper.changeFridayPlan(
+                mealPlansDBSource.getFridayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteFriday(oldName)
+            mealPlansDBSource.insertAllFriday(fridayList)
+            val saturdayList = changeNameMapper.changeSaturdayPlan(
+                mealPlansDBSource.getSaturdayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteSaturday(oldName)
+            mealPlansDBSource.insertAllSaturday(saturdayList)
+            val sundayList = changeNameMapper.changeSundayPlan(
+                mealPlansDBSource.getSundayByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteSunday(oldName)
+            mealPlansDBSource.insertAllSunday(sundayList)
+            val nutrientsList = changeNameMapper.changeNutrientsPlan(
+                mealPlansDBSource.getNutrientsByPlan(oldName),
+                newName
+            )
+            mealPlansDBSource.deleteNutrients(oldName)
+            mealPlansDBSource.insertAllNutrients(nutrientsList)
+            getPlans()
+        }
+    }
+
+    override suspend fun deletePlan(name: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            mealPlansDBSource.deleteMonday(name)
+            mealPlansDBSource.deleteTuesday(name)
+            mealPlansDBSource.deleteWednesday(name)
+            mealPlansDBSource.deleteThursday(name)
+            mealPlansDBSource.deleteFriday(name)
+            mealPlansDBSource.deleteSaturday(name)
+            mealPlansDBSource.deleteSunday(name)
+            mealPlansDBSource.deleteNutrients(name)
+            getPlans()
+        }
+    }
+
     override fun setToken(token: String) {
         userSource.setUserToken(token)
     }
+
+    override fun setBreakfastUpdate(update: Boolean) {
+        userSource.setBreakfastUpdate(update)
+    }
+
+    override fun getBreakfastUpdate(): Boolean {
+        return userSource.getBreakfastUpdate()
+    }
+
+    override fun setBrunchUpdate(update: Boolean) {
+        userSource.setBrunchUpdate(update)
+    }
+
+    override fun getBrunchUpdate(): Boolean {
+        return userSource.getBrunchUpdate()
+    }
+
+    override fun setLunchUpdate(update: Boolean) {
+        userSource.setLunchUpdate(update)
+    }
+
+    override fun getLunchUpdate(): Boolean {
+        return userSource.getLunchUpdate()
+    }
+
+    override fun setDinnerUpdate(update: Boolean) {
+        userSource.setDinnerUpdate(update)
+    }
+
+    override fun getDinnerUpdate(): Boolean {
+        return userSource.getDinnerUpdate()
+    }
+
+
 }

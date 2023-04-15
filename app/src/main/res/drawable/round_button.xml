@@ -4,10 +4,5 @@
     android:thickness="0dp">
 
     <corners android:radius="20dp" />
-
-    <solid android:color="@color/white" />
-
-<!--    <padding-->
-<!--        android:left="10dp"-->
-<!--        android:right="10dp" />-->
+    <solid android:color="@color/light_bt" />
 </shape>

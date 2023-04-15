@@ -1,6 +1,7 @@
 package com.example.foodhelper.generate_plan_page
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -21,6 +23,7 @@ import com.example.domain.models.generate_template.GenerateMealsData
 import com.example.foodhelper.R
 import com.example.foodhelper.databinding.FragmentGeneratePlanBinding
 import com.example.foodhelper.FoodApp
+import java.util.*
 import javax.inject.Inject
 
 class GeneratePlanFragment : Fragment() {
@@ -55,6 +58,8 @@ class GeneratePlanFragment : Fragment() {
         val days = resources.getStringArray(R.array.days)
         var day = ""
         val daysSpinner = binding.daysSpinner
+        val calendar = Calendar.getInstance()
+        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         daysSpinner.adapter = activity?.let {
             ArrayAdapter(
                 it,
@@ -69,12 +74,23 @@ class GeneratePlanFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                day = days[position]
+                if (position == 0) {
+                    if (dayOfWeek == 1) dayOfWeek = 8
+                    day = days[dayOfWeek - 1]
+                } else day = days[position]
                 viewModel.getDayTemplate(day)
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.BLACK)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 if (day == "") day = days[0]
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.BLACK)
+                }
             }
         }
 
@@ -112,11 +128,7 @@ class GeneratePlanFragment : Fragment() {
 
         val itemClick: (String, String, String) -> Unit = { id, image, name ->
             val action = GeneratePlanFragmentDirections.actionGeneratePlanFragmentToRecipeFragment(id, image, name)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
+            findNavController().navigate(action)
         }
 
         val adapter = MealPlanAdapter(itemClick)

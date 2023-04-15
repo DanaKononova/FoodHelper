@@ -57,9 +57,7 @@ class GeneratePlanViewModel @Inject constructor(
         }
     }
 
-    fun addPlan(
-        plan: String
-    ) {
+    fun addPlan(plan: String) {
         viewModelScope.launch(handler) {
             repository.addPlanToDB(plan)
         }

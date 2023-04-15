@@ -41,7 +41,7 @@ class FoodMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recycler = binding.rvFoodList
-        var mealTv = binding.mealTv
+        val mealTv = binding.mealTv
 
         val meals = resources.getStringArray(R.array.meals)
         val textMeals = arrayOf(
@@ -95,11 +95,7 @@ class FoodMainFragment : Fragment() {
 
         val itemClick: (String, String, String) -> Unit = { id, image, name ->
             val action = FoodMainFragmentDirections.actionMainFragmentToRecipeFragment(id, image, name)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
+            findNavController().navigate(action)
         }
 
         val adapter = FoodAdapter(itemClick)
