@@ -27,7 +27,7 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textAlignment="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/currentPlanNameTv" />
@@ -42,10 +42,16 @@
             android:textStyle="bold"
             android:textAlignment="center"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/currentPlanTv" />
+        <View
+            android:id="@+id/delimetr1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark_red"
+            app:layout_constraintTop_toBottomOf="@+id/currentPlanNameTv" />
 
         <TextView
             android:id="@+id/mealPlanNutrientsTv"
@@ -54,9 +60,10 @@
             android:text="@string/mealPlanNutrientsTv"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/currentPlanNameTv" />
+            app:layout_constraintTop_toBottomOf="@id/delimetr1" />
 
         <TextView
             android:id="@+id/caloriesTv"
@@ -103,12 +110,13 @@
             android:textColor="@color/gray"
             app:layout_constraintStart_toStartOf="@+id/caloriesTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
+
         <TextView
             android:id="@+id/fatAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/fatTv"
             app:layout_constraintTop_toBottomOf="@+id/carbohydratesTv" />
 
@@ -129,17 +137,23 @@
             app:layout_constraintStart_toEndOf="@+id/proteinTv"
             app:layout_constraintTop_toBottomOf="@+id/fatTv" />
 
+        <View
+            android:id="@+id/delimetr2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark_red"
+            app:layout_constraintTop_toBottomOf="@+id/proteinAmount" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCurrentMeals"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintHeight_percent="0.5"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/proteinAmount"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/delimetr2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -147,7 +161,7 @@
         android:id="@+id/plansTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="All your plans:"
+        android:text="@string/all_your_plans"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:textAlignment="center"

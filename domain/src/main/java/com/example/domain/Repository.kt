@@ -34,10 +34,26 @@ interface Repository {
 
     suspend fun getCurrentNutrients(currentPlan: String, day: Int) : NutrientsTemplateData
 
-    suspend fun changePlanName(oldName: String, newName: String)
+    suspend fun changePlanName(oldName: String, newName: String) : List<String>
 
-    suspend fun deletePlan(name: String)
+    suspend fun deletePlan(name: String) : List<String>
 
     fun setToken(token: String)
+
+    fun setBreakfastUpdate(update: Boolean)
+
+    fun getBreakfastUpdate(): Boolean
+
+    fun setBrunchUpdate(update: Boolean)
+
+    fun getBrunchUpdate(): Boolean
+
+    fun setLunchUpdate(update: Boolean)
+
+    fun getLunchUpdate(): Boolean
+
+    fun setDinnerUpdate(update: Boolean)
+
+    fun getDinnerUpdate(): Boolean
 
 }

@@ -41,7 +41,7 @@ class FoodMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recycler = binding.rvFoodList
-        var mealTv = binding.mealTv
+        val mealTv = binding.mealTv
 
         val meals = resources.getStringArray(R.array.meals)
         val textMeals = arrayOf(

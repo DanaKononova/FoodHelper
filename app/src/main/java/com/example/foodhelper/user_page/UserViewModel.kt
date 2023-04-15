@@ -67,13 +67,13 @@ class UserViewModel @Inject constructor(
 
     fun changePlanName(oldName: String, newName: String) {
         viewModelScope.launch(handler) {
-            repository.changePlanName(oldName, newName)
+            _plansLiveData.value = repository.changePlanName(oldName, newName)
         }
     }
 
     fun deletePlan(name: String) {
         viewModelScope.launch(handler) {
-            repository.deletePlan(name)
+            _plansLiveData.value = repository.deletePlan(name)
         }
     }
 }

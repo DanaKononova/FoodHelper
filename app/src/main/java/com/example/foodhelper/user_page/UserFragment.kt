@@ -52,17 +52,20 @@ class UserFragment : Fragment() {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 
         val planItemClick: (String) -> Unit = {name ->
+            var oldName = name
+            var newName = oldName
+
             val builder = AlertDialog.Builder(requireContext())
             val dialogLayout = AlertDialogBinding.inflate(layoutInflater, null, false)
             builder.setView(dialogLayout.root)
             val alertDialog = builder.create()
 
-            dialogLayout.editPlanName.hint = name
-            var newName = name
+            dialogLayout.editPlanName.hint = oldName
             dialogLayout.changeBt.setOnClickListener {
                 newName = dialogLayout.editPlanName.text.toString()
-                viewModel.changePlanName(name, newName)
-                viewModel.getPlans()
+                if (plans.indexOf(oldName) != -1) plans[plans.indexOf(oldName)] = newName
+                viewModel.changePlanName(oldName, newName)
+                oldName = newName
             }
 
             dialogLayout.setCurrentBt.setOnClickListener {
@@ -72,6 +75,7 @@ class UserFragment : Fragment() {
 
             dialogLayout.deletePlanBt.setOnClickListener {
                 viewModel.deletePlan(newName)
+                plans.remove(newName)
                 viewModel.getPlans()
             }
             alertDialog.show()
@@ -94,10 +98,17 @@ class UserFragment : Fragment() {
         mealsRecycler.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
+        var oldCurrent = ""
+        var wasPlanEmpty : Boolean
         viewModel.plansLiveData.observe(viewLifecycleOwner){
+            if (plans.size != 0) {
+                oldCurrent = plans[currentPlan]
+                wasPlanEmpty = false
+            } else wasPlanEmpty = true
             plans.clear()
             plans.addAll(it)
-            plansAdapter.setPlans(it)
+            currentPlan = if (!wasPlanEmpty) plans.indexOf(oldCurrent) else 0
+            plansAdapter.setPlans(plans)
             binding.currentPlanNameTv.text = it[currentPlan]
             viewModel.getCurrentPlan(plans[currentPlan], dayOfWeek)
             viewModel.getCurrentNutrients(plans[currentPlan], dayOfWeek)
@@ -106,6 +117,7 @@ class UserFragment : Fragment() {
         val mealsList = mutableListOf<GenerateMealsData>()
 
         viewModel.currentPlanLiveData.observe(viewLifecycleOwner){
+            mealsList.clear()
             mealsList.addAll(it.map { dayPlan ->
                 GenerateMealsData(dayPlan.id, dayPlan.title, dayPlan.readyInMinutes, dayPlan.servings, dayPlan.sourceUrl, dayPlan.imageType)
             })

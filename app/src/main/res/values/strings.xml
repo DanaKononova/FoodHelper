@@ -77,5 +77,6 @@
     <string name="plans_menu">plans</string>
     <string name="set_current_bt">Set current</string>
     <string name="change">Change</string>
+    <string name="all_your_plans">All your plans:</string>
 
 </resources>

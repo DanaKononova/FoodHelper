@@ -413,8 +413,8 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun changePlanName(oldName: String, newName: String) {
-        withContext(Dispatchers.IO) {
+    override suspend fun changePlanName(oldName: String, newName: String) : List<String> {
+        return withContext(Dispatchers.IO) {
             val mondayList = changeNameMapper.changeMondayPlan(
                 mealPlansDBSource.getMondayByPlan(oldName),
                 newName
@@ -463,21 +463,59 @@ class RepositoryImpl @Inject constructor(
             )
             mealPlansDBSource.deleteNutrients(oldName)
             mealPlansDBSource.insertAllNutrients(nutrientsList)
+            getPlans()
         }
     }
 
-    override suspend fun deletePlan(name: String) {
-        mealPlansDBSource.deleteMonday(name)
-        mealPlansDBSource.deleteTuesday(name)
-        mealPlansDBSource.deleteWednesday(name)
-        mealPlansDBSource.deleteThursday(name)
-        mealPlansDBSource.deleteFriday(name)
-        mealPlansDBSource.deleteSaturday(name)
-        mealPlansDBSource.deleteSunday(name)
-        mealPlansDBSource.deleteNutrients(name)
+    override suspend fun deletePlan(name: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            mealPlansDBSource.deleteMonday(name)
+            mealPlansDBSource.deleteTuesday(name)
+            mealPlansDBSource.deleteWednesday(name)
+            mealPlansDBSource.deleteThursday(name)
+            mealPlansDBSource.deleteFriday(name)
+            mealPlansDBSource.deleteSaturday(name)
+            mealPlansDBSource.deleteSunday(name)
+            mealPlansDBSource.deleteNutrients(name)
+            getPlans()
+        }
     }
 
     override fun setToken(token: String) {
         userSource.setUserToken(token)
     }
+
+    override fun setBreakfastUpdate(update: Boolean) {
+        userSource.setBreakfastUpdate(update)
+    }
+
+    override fun getBreakfastUpdate(): Boolean {
+        return userSource.getBreakfastUpdate()
+    }
+
+    override fun setBrunchUpdate(update: Boolean) {
+        userSource.setBrunchUpdate(update)
+    }
+
+    override fun getBrunchUpdate(): Boolean {
+        return userSource.getBrunchUpdate()
+    }
+
+    override fun setLunchUpdate(update: Boolean) {
+        userSource.setLunchUpdate(update)
+    }
+
+    override fun getLunchUpdate(): Boolean {
+        return userSource.getLunchUpdate()
+    }
+
+    override fun setDinnerUpdate(update: Boolean) {
+        userSource.setDinnerUpdate(update)
+    }
+
+    override fun getDinnerUpdate(): Boolean {
+        return userSource.getDinnerUpdate()
+    }
+
+
 }

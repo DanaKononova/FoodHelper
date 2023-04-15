@@ -177,14 +177,14 @@
             android:id="@+id/getPlanBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@drawable/round_button"
             android:elevation="10dp"
             android:text="@string/getPlanBt"
             android:textColor="@color/black"
             android:textSize="11sp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toEndOf="@+id/addPlanBt"
-            app:layout_constraintEnd_toStartOf="@id/daysSpinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
 
         <Spinner
@@ -192,6 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@color/white"
             app:layout_constraintStart_toEndOf="@+id/getPlanBt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delimetr2" />
