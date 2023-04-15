@@ -81,7 +81,8 @@ class FoodMainFragment : Fragment() {
                     meals[3] -> viewModel.getDinnerList(query)
                 }
                 binding.lottieView.visibility = View.VISIBLE
-                viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+                //viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+                viewModel.setToken("cb44a8ae583449e59d2f9e1974e55a5c")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

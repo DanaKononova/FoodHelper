@@ -10,8 +10,6 @@ import com.example.data.db.current_plan.CurrentPlanDao
 import com.example.data.db.current_plan.CurrentPlanDataBase
 import com.example.data.db.meal_plans.MealPlansDao
 import com.example.data.db.meal_plans.MealPlansDataBase
-import com.example.data.db.nutrition.NutritionDao
-import com.example.data.db.nutrition.NutritionDataBase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,13 +20,6 @@ class DataBaseModule {
     @Singleton
     fun provideFoodDataBase(context: Context): FoodDataBase {
         return Room.databaseBuilder(context, FoodDataBase::class.java, "FoodList")
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideNutritionDataBase(context: Context): NutritionDataBase {
-        return Room.databaseBuilder(context, NutritionDataBase::class.java, "NutritionList")
             .build()
     }
 
@@ -56,10 +47,6 @@ class DataBaseModule {
     @Provides
     @Singleton
     fun provideFoodDao(db: FoodDataBase): FoodDao = db.foodDao()
-
-    @Provides
-    @Singleton
-    fun provideNutritionDao(db: NutritionDataBase): NutritionDao = db.nutritionDao()
 
     @Provides
     @Singleton

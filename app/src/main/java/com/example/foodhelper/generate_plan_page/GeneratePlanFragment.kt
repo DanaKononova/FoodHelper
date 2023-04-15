@@ -170,7 +170,7 @@ class GeneratePlanFragment : Fragment() {
                 exclude,
                 day
             )
-            viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+           // viewModel.setToken("3d56490658e6406590fe5079373f64fe")
         }
         binding.addPlanBt.setOnClickListener {
             if (plan != "") {
