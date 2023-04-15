@@ -53,16 +53,12 @@ class RecipeFragment : Fragment() {
         binding.RecipeName.text = args.recipeName
         Glide
             .with(view)
-            .load(args.image)
+            .load("https://spoonacular.com/recipeImages/${recipeId}-312x231.${args.image}")
             .into(binding.recipeImg)
 
         binding.nutritionBt.setOnClickListener{
             val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(args.foodId, args.image, args.recipeName)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
+            findNavController().navigate(action)
         }
 
         viewModel.instructionsLiveData.observe(viewLifecycleOwner){

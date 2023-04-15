@@ -62,6 +62,7 @@
     <string name="proteinTv">Protein:  </string>
     <string name="title_home">meals</string>
     <string-array name="days">
+        <item>today</item>
         <item>monday</item>
         <item>tuesday</item>
         <item>wednesday</item>
@@ -78,5 +79,6 @@
     <string name="set_current_bt">Set current</string>
     <string name="change">Change</string>
     <string name="all_your_plans">All your plans:</string>
+    <string name="current_meal_plan_for">Current Meal Plan</string>
 
 </resources>

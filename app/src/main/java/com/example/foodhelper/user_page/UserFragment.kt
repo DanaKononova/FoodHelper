@@ -1,11 +1,15 @@
 package com.example.foodhelper.user_page
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -16,6 +20,7 @@ import com.example.core.ViewModelFactory
 import com.example.domain.models.generate_template.GenerateMealsData
 import com.example.foodhelper.databinding.FragmentUserBinding
 import com.example.foodhelper.FoodApp
+import com.example.foodhelper.R
 import com.example.foodhelper.databinding.AlertDialogBinding
 import com.example.foodhelper.generate_plan_page.GeneratePlanFragmentDirections
 import com.example.foodhelper.generate_plan_page.MealPlanAdapter
@@ -49,7 +54,43 @@ class UserFragment : Fragment() {
         var currentPlan = 0
 
         val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+        val days = resources.getStringArray(R.array.days)
+        val daysSpinner = binding.daysSpinner
+        daysSpinner.adapter = activity?.let {
+            ArrayAdapter(
+                it,
+                android.R.layout.simple_spinner_dropdown_item,
+                days
+            )
+        }
+        daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                dayOfWeek = ((position + 2) % 7) - 1
+                if (dayOfWeek == 0) dayOfWeek = 7 - 1
+                if (position == 0) dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+                viewModel.getCurrentPlan(plans[currentPlan], dayOfWeek)
+                viewModel.getCurrentNutrients(plans[currentPlan], dayOfWeek)
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.BLACK)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+                if (parent?.getChildAt(0) != null) {
+                    val selectedView = parent.getChildAt(0) as TextView
+                    selectedView.setTextColor(Color.BLACK)
+                }
+            }
+        }
 
         val planItemClick: (String) -> Unit = {name ->
             var oldName = name

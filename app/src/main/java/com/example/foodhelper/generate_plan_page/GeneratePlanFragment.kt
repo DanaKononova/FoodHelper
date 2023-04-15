@@ -23,6 +23,7 @@ import com.example.domain.models.generate_template.GenerateMealsData
 import com.example.foodhelper.R
 import com.example.foodhelper.databinding.FragmentGeneratePlanBinding
 import com.example.foodhelper.FoodApp
+import java.util.*
 import javax.inject.Inject
 
 class GeneratePlanFragment : Fragment() {
@@ -57,6 +58,8 @@ class GeneratePlanFragment : Fragment() {
         val days = resources.getStringArray(R.array.days)
         var day = ""
         val daysSpinner = binding.daysSpinner
+        val calendar = Calendar.getInstance()
+        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         daysSpinner.adapter = activity?.let {
             ArrayAdapter(
                 it,
@@ -71,7 +74,10 @@ class GeneratePlanFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                day = days[position]
+                if (position == 0) {
+                    if (dayOfWeek == 1) dayOfWeek = 8
+                    day = days[dayOfWeek - 1]
+                } else day = days[position]
                 viewModel.getDayTemplate(day)
                 if (parent?.getChildAt(0) != null) {
                     val selectedView = parent.getChildAt(0) as TextView

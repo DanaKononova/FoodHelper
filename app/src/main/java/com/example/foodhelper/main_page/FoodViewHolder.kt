@@ -16,11 +16,11 @@ class FoodViewHolder(
 
         Glide
             .with(itemView)
-            .load(item.image)
+            .load("https://spoonacular.com/recipeImages/${item.id}-312x231.${item.imageType}")
             .into(binding.foodImg)
 
         itemView.setOnClickListener {
-            itemClick.invoke(item.id.toString(), item.image, item.title)
+            itemClick.invoke(item.id.toString(), item.imageType, item.title)
         }
     }
 }
