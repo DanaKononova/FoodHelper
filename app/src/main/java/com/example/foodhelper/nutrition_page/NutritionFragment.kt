@@ -32,7 +32,6 @@ class NutritionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recipeId = args.foodId
-
         binding.RecipeNameNutr.text = args.recipeName
 
         Glide

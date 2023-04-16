@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
     val errorLiveData: LiveData<Int> get() = _errorLiveData
 
     private val _noInternetLiveData = MutableLiveData<Boolean>()
-    val noInternetLiveData: LiveData<Boolean> get() = _noInternetLiveData
+    private val noInternetLiveData: LiveData<Boolean> get() = _noInternetLiveData
 
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
@@ -46,7 +46,13 @@ class SearchViewModel @Inject constructor(
             viewModelScope.launch(handler) {
                 _noInternetLiveData.value = false
                 _searchLiveData.value =
-                    repository.getFoodList(query, cuisine, diet, intolerance, !(noInternetLiveData.value ?: false))
+                    repository.getFoodList(
+                        query,
+                        cuisine,
+                        diet,
+                        intolerance,
+                        !(noInternetLiveData.value ?: false)
+                    )
             }
         }
     }

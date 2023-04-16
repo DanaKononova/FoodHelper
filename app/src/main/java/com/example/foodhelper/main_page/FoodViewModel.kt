@@ -45,7 +45,8 @@ class FoodViewModel @Inject constructor(
     fun getBreakfastList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (repository.getBreakfastUpdate()) repository.getBreakfastList(query, false)
+            _foodLiveData.value =
+                if (repository.getBreakfastUpdate()) repository.getBreakfastList(query, false)
                 else repository.getBreakfastList(query, !(noInternetLiveData.value ?: false))
         }
         repository.setBreakfastUpdate(false)
@@ -54,7 +55,8 @@ class FoodViewModel @Inject constructor(
     fun getBrunchList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (repository.getBrunchUpdate()) repository.getBrunchList(query, false)
+            _foodLiveData.value =
+                if (repository.getBrunchUpdate()) repository.getBrunchList(query, false)
                 else repository.getBrunchList(query, !(noInternetLiveData.value ?: false))
         }
         repository.setBrunchUpdate(true)
@@ -63,7 +65,8 @@ class FoodViewModel @Inject constructor(
     fun getLunchList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (repository.getLunchUpdate()) repository.getLunchList(query, false)
+            _foodLiveData.value =
+                if (repository.getLunchUpdate()) repository.getLunchList(query, false)
                 else repository.getLunchList(query, !(noInternetLiveData.value ?: false))
         }
         repository.setLunchUpdate(true)
@@ -72,7 +75,8 @@ class FoodViewModel @Inject constructor(
     fun getDinnerList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (repository.getDinnerUpdate()) repository.getDinnerList(query, false)
+            _foodLiveData.value =
+                if (repository.getDinnerUpdate()) repository.getDinnerList(query, false)
                 else repository.getDinnerList(query, !(noInternetLiveData.value ?: false))
         }
         repository.setDinnerUpdate(true)

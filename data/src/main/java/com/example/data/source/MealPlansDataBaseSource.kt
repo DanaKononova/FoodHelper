@@ -28,7 +28,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllMonday(news)
     }
 
-    suspend fun deleteMonday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteMonday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteMonday(plan)
     }
 
@@ -52,7 +52,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllTuesday(news)
     }
 
-    suspend fun deleteTuesday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteTuesday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteTuesday(plan)
     }
 
@@ -76,7 +76,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllWednesday(news)
     }
 
-    suspend fun deleteWednesday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteWednesday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteWednesday(plan)
     }
 
@@ -100,7 +100,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllThursday(news)
     }
 
-    suspend fun deleteThursday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteThursday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteThursday(plan)
     }
 
@@ -124,7 +124,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllFriday(news)
     }
 
-    suspend fun deleteFriday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteFriday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteFriday(plan)
     }
 
@@ -148,7 +148,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllSaturday(news)
     }
 
-    suspend fun deleteSaturday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteSaturday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteSaturday(plan)
     }
 
@@ -172,7 +172,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllSunday(news)
     }
 
-    suspend fun deleteSunday(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteSunday(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteSunday(plan)
     }
 
@@ -196,7 +196,7 @@ class MealPlansDataBaseSource @Inject constructor(
         mealPlansDao.deleteAllNutrients(news)
     }
 
-    suspend fun deleteNutrients(plan: String) = withContext(Dispatchers.IO){
+    suspend fun deleteNutrients(plan: String) = withContext(Dispatchers.IO) {
         mealPlansDao.deleteNutrients(plan)
     }
 }

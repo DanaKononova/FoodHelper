@@ -26,12 +26,11 @@ class RecipeViewModel @Inject constructor(
     val errorLiveData: LiveData<Int> get() = _errorLiveData
 
     private val _noInternetLiveData = MutableLiveData<Boolean>()
-    val noInternetLiveData: LiveData<Boolean> get() = _noInternetLiveData
+    private val noInternetLiveData: LiveData<Boolean> get() = _noInternetLiveData
 
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
             _noInternetLiveData.value = true
-
             when (throwable) {
                 is SocketTimeoutException -> {
                     _errorLiveData.value = R.string.socketTimeout

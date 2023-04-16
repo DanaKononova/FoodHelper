@@ -3,7 +3,7 @@ package com.example.foodhelper.user_page
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvPlansListBinding
 
-class PlansViewHolder (
+class PlansViewHolder(
     private val binding: RvPlansListBinding,
     private val itemClick: (String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {

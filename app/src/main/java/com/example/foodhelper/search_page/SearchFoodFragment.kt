@@ -16,7 +16,6 @@ import com.example.foodhelper.databinding.FragmentSearchFoodBinding
 import com.example.domain.models.food.FoodData
 import com.example.foodhelper.FoodApp
 import com.example.foodhelper.R
-import com.example.foodhelper.databinding.AlertDialogBinding
 import com.example.foodhelper.databinding.FiltersDialogBinding
 import com.example.foodhelper.main_page.FoodAdapter
 import javax.inject.Inject
@@ -38,7 +37,7 @@ class SearchFoodFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchFoodBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,12 +47,18 @@ class SearchFoodFragment : Fragment() {
         val editText = binding.searchText
 
         val itemClick: (String, String, String) -> Unit = { id, image, name ->
-            val action = SearchFoodFragmentDirections.actionSearchFoodFragmentToRecipeFragment(id, image, name)
+            val action = SearchFoodFragmentDirections.actionSearchFoodFragmentToRecipeFragment(
+                id,
+                image,
+                name
+            )
             findNavController().navigate(action)
         }
 
         val adapter = FoodAdapter(itemClick)
         recycler.adapter = adapter
+        recycler.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         val foodList = mutableListOf<FoodData>()
 
@@ -64,7 +69,7 @@ class SearchFoodFragment : Fragment() {
         editText.addTextChangedListener { text ->
             binding.emptyLottieView.visibility = View.GONE
             query = text.toString()
-            var food = if (query != ""){
+            val food = if (query != "") {
                 viewModel.getFoodList(query, cuisine, diet, intolerance)
                 binding.lottieView.visibility = View.VISIBLE
                 foodList
@@ -80,65 +85,14 @@ class SearchFoodFragment : Fragment() {
             val dialogLayout = FiltersDialogBinding.inflate(layoutInflater, null, false)
             builder.setView(dialogLayout.root)
             val alertDialog = builder.create()
-            dialogLayout.cuisineBt.setOnClickListener {
-                val cuisines = resources.getStringArray(R.array.cuisines)
-                var selectedItem = 0
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("Choose element")
-                builder.setSingleChoiceItems(cuisines, selectedItem) { _, which ->
-                    selectedItem = which
-                }
 
-                builder.setPositiveButton("Ok") { _, _ ->
-                    dialogLayout.cuisineTv.text = cuisines[selectedItem]
-                    cuisine = cuisines[selectedItem]
-                }
+            cuisine = cuisineListener(dialogLayout)
+            diet = dietListener(dialogLayout)
+            intolerance = intoleranceListener(dialogLayout)
 
-                val dialog = builder.create()
-                dialog.show()
-            }
-
-            dialogLayout.dietBt.setOnClickListener {
-                val diets = resources.getStringArray(R.array.diets)
-                var selectedItem = 0
-
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("Choose element")
-                builder.setSingleChoiceItems(diets, selectedItem) { _, which ->
-                    selectedItem = which
-                }
-
-                builder.setPositiveButton("Ok") { _, _ ->
-                    dialogLayout.dietTv.text = diets[selectedItem]
-                    diet = diets[selectedItem]
-                }
-
-                val dialog = builder.create()
-                dialog.show()
-            }
-
-            dialogLayout.intolerancesBt.setOnClickListener {
-                val intolerances = resources.getStringArray(R.array.intolerances)
-                var selectedItem = 0
-
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("Choose element")
-                builder.setSingleChoiceItems(intolerances, selectedItem) { _, which ->
-                    selectedItem = which
-                }
-
-                builder.setPositiveButton("Ok") { _, _ ->
-                    dialogLayout.intolerancesTv.text = intolerances[selectedItem]
-                    intolerance = intolerances[selectedItem]
-                }
-
-                val dialog = builder.create()
-                dialog.show()
-            }
             alertDialog.show()
         }
 
-        recycler.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         viewModel.searchLiveData.observe(viewLifecycleOwner) {
             binding.lottieView.visibility = View.GONE
             if (it.isEmpty()) binding.emptyLottieView.visibility = View.VISIBLE
@@ -146,8 +100,74 @@ class SearchFoodFragment : Fragment() {
             foodList.addAll(it)
             adapter.setFood(it)
         }
+    }
 
-       // viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+    private fun cuisineListener(dialogLayout: FiltersDialogBinding): String {
+        var cuisine = ""
+        dialogLayout.cuisineBt.setOnClickListener {
+            val cuisines = resources.getStringArray(R.array.cuisines)
+            var selectedItem = 0
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Choose element")
+            builder.setSingleChoiceItems(cuisines, selectedItem) { _, which ->
+                selectedItem = which
+            }
+
+            builder.setPositiveButton("Ok") { _, _ ->
+                dialogLayout.cuisineTv.text = cuisines[selectedItem]
+                cuisine = cuisines[selectedItem]
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+        return cuisine
+    }
+
+    private fun dietListener(dialogLayout: FiltersDialogBinding): String{
+        var diet = ""
+        dialogLayout.dietBt.setOnClickListener {
+            val diets = resources.getStringArray(R.array.diets)
+            var selectedItem = 0
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Choose element")
+            builder.setSingleChoiceItems(diets, selectedItem) { _, which ->
+                selectedItem = which
+            }
+
+            builder.setPositiveButton("Ok") { _, _ ->
+                dialogLayout.dietTv.text = diets[selectedItem]
+                diet = diets[selectedItem]
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+        return diet
+    }
+
+    private fun intoleranceListener(dialogLayout: FiltersDialogBinding): String{
+        var intolerance = ""
+        dialogLayout.intolerancesBt.setOnClickListener {
+            val intolerances = resources.getStringArray(R.array.intolerances)
+            var selectedItem = 0
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Choose element")
+            builder.setSingleChoiceItems(intolerances, selectedItem) { _, which ->
+                selectedItem = which
+            }
+
+            builder.setPositiveButton("Ok") { _, _ ->
+                dialogLayout.intolerancesTv.text = intolerances[selectedItem]
+                intolerance = intolerances[selectedItem]
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+        return intolerance
     }
 
     override fun onDestroyView() {

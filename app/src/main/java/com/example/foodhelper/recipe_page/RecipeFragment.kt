@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +35,7 @@ class RecipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRecipeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,7 +44,6 @@ class RecipeFragment : Fragment() {
         val recipeId = args.foodId
         val instructionList = mutableListOf<InstructionsData>()
         val instructionRecycler = binding.rvRecipeList
-
         val adapter = RecipeAdapter()
         instructionRecycler.adapter = adapter
         instructionRecycler.layoutManager =
@@ -57,14 +55,7 @@ class RecipeFragment : Fragment() {
             .load("https://spoonacular.com/recipeImages/${recipeId}-312x231.${args.image}")
             .into(binding.recipeImg)
 
-        binding.nutritionBt.setOnClickListener {
-            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(
-                args.foodId,
-                args.image,
-                args.recipeName
-            )
-            findNavController().navigate(action)
-        }
+        nutritionListener()
 
         viewModel.instructionsLiveData.observe(viewLifecycleOwner) {
             binding.lottieView.visibility = View.GONE
@@ -74,7 +65,17 @@ class RecipeFragment : Fragment() {
         }
 
         viewModel.getInstructionsList(recipeId)
-    //    viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+    }
+
+    private fun nutritionListener(){
+        binding.nutritionBt.setOnClickListener {
+            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(
+                args.foodId,
+                args.image,
+                args.recipeName
+            )
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroyView() {

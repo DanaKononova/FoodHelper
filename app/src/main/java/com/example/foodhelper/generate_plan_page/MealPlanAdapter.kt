@@ -1,14 +1,15 @@
 package com.example.foodhelper.generate_plan_page
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.generate_template.GenerateMealsData
 import com.example.foodhelper.databinding.RvMealPlanListBinding
 
-class MealPlanAdapter (
+class MealPlanAdapter(
     private val itemClick: (String, String, String) -> Unit
-): RecyclerView.Adapter<MealPlanViewHolder>() {
+) : RecyclerView.Adapter<MealPlanViewHolder>() {
 
     private val mealPlanList = mutableListOf<GenerateMealsData>()
 
@@ -24,6 +25,7 @@ class MealPlanAdapter (
 
     override fun getItemCount(): Int = mealPlanList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFood(list: List<GenerateMealsData>) {
         mealPlanList.clear()
         mealPlanList.addAll(list)

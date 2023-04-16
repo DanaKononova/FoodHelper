@@ -1,12 +1,13 @@
 package com.example.foodhelper.recipe_page
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvRecipeListBinding
 import com.example.domain.models.instructions.InstructionsData
 
-class RecipeAdapter() : RecyclerView.Adapter<RecipeViewHolder>() {
+class RecipeAdapter : RecyclerView.Adapter<RecipeViewHolder>() {
 
     private val instructionsList = mutableListOf<InstructionsData>()
 
@@ -22,6 +23,7 @@ class RecipeAdapter() : RecyclerView.Adapter<RecipeViewHolder>() {
 
     override fun getItemCount(): Int = instructionsList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setInstructions(list: List<InstructionsData>) {
         instructionsList.clear()
         instructionsList.addAll(list)

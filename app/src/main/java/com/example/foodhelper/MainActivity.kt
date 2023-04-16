@@ -61,7 +61,9 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.userFragment)
                     true
                 }
-                else -> {false}
+                else -> {
+                    false
+                }
             }
         }
         val colorStateList = ColorStateList(

@@ -1,5 +1,6 @@
 package com.example.foodhelper.main_page
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ class FoodAdapter(
 
     override fun getItemCount(): Int = foodList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFood(list: List<FoodData>) {
         foodList.clear()
         foodList.addAll(list)
