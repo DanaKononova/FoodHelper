@@ -86,9 +86,61 @@ class SearchFoodFragment : Fragment() {
             builder.setView(dialogLayout.root)
             val alertDialog = builder.create()
 
-            cuisine = cuisineListener(dialogLayout)
-            diet = dietListener(dialogLayout)
-            intolerance = intoleranceListener(dialogLayout)
+            dialogLayout.cuisineBt.setOnClickListener {
+                val cuisines = resources.getStringArray(R.array.cuisines)
+                var selectedItem = 0
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Choose element")
+                builder.setSingleChoiceItems(cuisines, selectedItem) { _, which ->
+                    selectedItem = which
+                }
+
+                builder.setPositiveButton("Ok") { _, _ ->
+                    dialogLayout.cuisineTv.text = cuisines[selectedItem]
+                    cuisine = cuisines[selectedItem]
+                }
+
+                val dialog = builder.create()
+                dialog.show()
+            }
+
+            dialogLayout.dietBt.setOnClickListener {
+                val diets = resources.getStringArray(R.array.diets)
+                var selectedItem = 0
+
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Choose element")
+                builder.setSingleChoiceItems(diets, selectedItem) { _, which ->
+                    selectedItem = which
+                }
+
+                builder.setPositiveButton("Ok") { _, _ ->
+                    dialogLayout.dietTv.text = diets[selectedItem]
+                    diet = diets[selectedItem]
+                }
+
+                val dialog = builder.create()
+                dialog.show()
+            }
+
+            dialogLayout.intolerancesBt.setOnClickListener {
+                val intolerances = resources.getStringArray(R.array.intolerances)
+                var selectedItem = 0
+
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Choose element")
+                builder.setSingleChoiceItems(intolerances, selectedItem) { _, which ->
+                    selectedItem = which
+                }
+
+                builder.setPositiveButton("Ok") { _, _ ->
+                    dialogLayout.intolerancesTv.text = intolerances[selectedItem]
+                    intolerance = intolerances[selectedItem]
+                }
+
+                val dialog = builder.create()
+                dialog.show()
+            }
 
             alertDialog.show()
         }
@@ -100,74 +152,6 @@ class SearchFoodFragment : Fragment() {
             foodList.addAll(it)
             adapter.setFood(it)
         }
-    }
-
-    private fun cuisineListener(dialogLayout: FiltersDialogBinding): String {
-        var cuisine = ""
-        dialogLayout.cuisineBt.setOnClickListener {
-            val cuisines = resources.getStringArray(R.array.cuisines)
-            var selectedItem = 0
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Choose element")
-            builder.setSingleChoiceItems(cuisines, selectedItem) { _, which ->
-                selectedItem = which
-            }
-
-            builder.setPositiveButton("Ok") { _, _ ->
-                dialogLayout.cuisineTv.text = cuisines[selectedItem]
-                cuisine = cuisines[selectedItem]
-            }
-
-            val dialog = builder.create()
-            dialog.show()
-        }
-        return cuisine
-    }
-
-    private fun dietListener(dialogLayout: FiltersDialogBinding): String{
-        var diet = ""
-        dialogLayout.dietBt.setOnClickListener {
-            val diets = resources.getStringArray(R.array.diets)
-            var selectedItem = 0
-
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Choose element")
-            builder.setSingleChoiceItems(diets, selectedItem) { _, which ->
-                selectedItem = which
-            }
-
-            builder.setPositiveButton("Ok") { _, _ ->
-                dialogLayout.dietTv.text = diets[selectedItem]
-                diet = diets[selectedItem]
-            }
-
-            val dialog = builder.create()
-            dialog.show()
-        }
-        return diet
-    }
-
-    private fun intoleranceListener(dialogLayout: FiltersDialogBinding): String{
-        var intolerance = ""
-        dialogLayout.intolerancesBt.setOnClickListener {
-            val intolerances = resources.getStringArray(R.array.intolerances)
-            var selectedItem = 0
-
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Choose element")
-            builder.setSingleChoiceItems(intolerances, selectedItem) { _, which ->
-                selectedItem = which
-            }
-
-            builder.setPositiveButton("Ok") { _, _ ->
-                dialogLayout.intolerancesTv.text = intolerances[selectedItem]
-                intolerance = intolerances[selectedItem]
-            }
-
-            val dialog = builder.create()
-            dialog.show()
-        }
-        return intolerance
     }
 
     override fun onDestroyView() {

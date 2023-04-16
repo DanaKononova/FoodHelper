@@ -113,6 +113,8 @@ class UserFragment : Fragment() {
 
             dialogLayout.deletePlanBt.setOnClickListener {
                 viewModel.deletePlan(newName)
+                if (currentPlan >= plans.indexOf(newName)) currentPlan--
+
                 plans.remove(newName)
                 viewModel.getPlans()
             }
