@@ -30,16 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_fragments)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_add_meal, R.id.navigation_user
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -68,13 +61,12 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.userFragment)
                     true
                 }
-                else -> {false}
+                else -> {
+                    false
+                }
             }
         }
-
-
-
-                val colorStateList = ColorStateList(
+        val colorStateList = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf(
                 ContextCompat.getColor(this, R.color.light_red),
                 ContextCompat.getColor(this, R.color.white)

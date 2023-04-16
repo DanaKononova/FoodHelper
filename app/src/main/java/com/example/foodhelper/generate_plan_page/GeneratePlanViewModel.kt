@@ -49,11 +49,17 @@ class GeneratePlanViewModel @Inject constructor(
         }
     }
 
-    fun getDatTemplate(
+    fun getDayTemplate(
         day: String
     ) {
         viewModelScope.launch(handler) {
             _generateTemplateLiveData.value = repository.generateDayTemplate(day)
+        }
+    }
+
+    fun addPlan(plan: String) {
+        viewModelScope.launch(handler) {
+            repository.addPlanToDB(plan)
         }
     }
 

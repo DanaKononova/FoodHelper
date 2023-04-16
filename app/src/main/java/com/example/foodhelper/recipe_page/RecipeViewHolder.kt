@@ -1,16 +1,18 @@
 package com.example.foodhelper.recipe_page
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodhelper.databinding.RvRecipeListBinding
 import com.example.domain.models.instructions.InstructionsData
 
-class RecipeViewHolder (
+class RecipeViewHolder(
     private val binding: RvRecipeListBinding,
     private val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    @SuppressLint("SetTextI18n")
     fun onBind(item: InstructionsData) {
         val equipmentRecycler = binding.rvEquipmentList
         val ingredientRecycler = binding.rvIngredientList

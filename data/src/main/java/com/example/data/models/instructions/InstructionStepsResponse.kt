@@ -1,10 +1,10 @@
 package com.example.data.models.instructions
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class InstructionStepsResponse (
-    @SerializedName("equipment") val equipment: List<EquipmentIngredientResponse>? = null,
-    @SerializedName("ingredients") val ingredients: List<EquipmentIngredientResponse>? = null,
-    @SerializedName("number") val number: Int? = null,
-    @SerializedName("step") val step: String? = null
+    @Json(name = "equipment") val equipment: List<EquipmentIngredientResponse>? = null,
+    @Json(name = "ingredients") val ingredients: List<EquipmentIngredientResponse>? = null,
+    @Json(name = "number") val number: Int? = null,
+    @Json(name = "step") val step: String? = null
 )

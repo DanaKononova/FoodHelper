@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.ViewModelFactory
@@ -34,15 +33,34 @@ class FoodMainFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recycler = binding.rvFoodList
-        var mealTv = binding.mealTv
+        spinnerInitializer()
 
+        val itemClick: (String, String, String) -> Unit = { id, image, name ->
+            val action =
+                FoodMainFragmentDirections.actionMainFragmentToRecipeFragment(id, image, name)
+            findNavController().navigate(action)
+        }
+
+        val recycler = binding.rvFoodList
+        val adapter = FoodAdapter(itemClick)
+        recycler.adapter = adapter
+        recycler.layoutManager =
+            GridLayoutManager(this.context, 2)
+
+        viewModel.foodLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.GONE
+            adapter.setFood(it)
+        }
+    }
+
+    private fun spinnerInitializer() {
+        val mealTv = binding.mealTv
         val meals = resources.getStringArray(R.array.meals)
         val textMeals = arrayOf(
             getString(R.string.breakfastTv),
@@ -51,7 +69,7 @@ class FoodMainFragment : Fragment() {
             getString(R.string.dinnerTv)
         )
         val spinner = binding.mealSpinner
-        var query = meals[0]
+        var query: String
 
         spinner.adapter = this.context?.let {
             ArrayAdapter(
@@ -74,12 +92,13 @@ class FoodMainFragment : Fragment() {
                 query = meals[position]
                 println(query)
                 mealTv.text = textMeals[position]
-                when (query){
+                when (query) {
                     meals[0] -> viewModel.getBreakfastList(query)
                     meals[1] -> viewModel.getBrunchList(query)
                     meals[2] -> viewModel.getLunchList(query)
                     meals[3] -> viewModel.getDinnerList(query)
                 }
+                binding.lottieView.visibility = View.VISIBLE
                 viewModel.setToken("3d56490658e6406590fe5079373f64fe")
             }
 
@@ -90,41 +109,9 @@ class FoodMainFragment : Fragment() {
                     val selectedView = parent.getChildAt(0) as TextView
                     selectedView.setTextColor(Color.WHITE)
                 }
+                viewModel.getBreakfastList(query)
             }
         }
-
-        val itemClick: (String, String, String) -> Unit = { id, image, name ->
-            val action = FoodMainFragmentDirections.actionMainFragmentToRecipeFragment(id, image, name)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
-        }
-
-        val adapter = FoodAdapter(itemClick)
-        recycler.adapter = adapter
-        recycler.layoutManager =
-            GridLayoutManager(this.context, 2)
-
-        viewModel.foodLiveData.observe(viewLifecycleOwner) {
-            adapter.setFood(it)
-        }
-
-//        binding.searchBt.setOnClickListener {
-//            val action = FoodMainFragmentDirections.actionMainFragmentToSearchFoodFragment()
-//            findNavController().navigate(action)
-//        }
-//
-//        binding.addTemplateBt.setOnClickListener{
-//            val action = FoodMainFragmentDirections.actionMainFragmentToGeneratePlanFragment()
-//            findNavController().navigate(action)
-//        }
-//
-//        binding.userBt.setOnClickListener{
-//            val action = FoodMainFragmentDirections.actionMainFragmentToUserFragment()
-//            findNavController().navigate(action)
-//        }
     }
 
     override fun onDestroyView() {

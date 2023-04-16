@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Repository
-import com.example.domain.models.generate_template.GenerateTemplateData
-import com.example.domain.models.get_templates.TemplatesData
-import com.example.domain.models.user.UserData
+import com.example.domain.models.generate_template.NutrientsTemplateData
+import com.example.domain.models.user.DayPlanData
 import com.example.foodhelper.R
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -18,14 +17,14 @@ class UserViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _userLiveData = MutableLiveData<UserData>()
-    val userLiveData: LiveData<UserData> get() = _userLiveData
+    private val _plansLiveData = MutableLiveData<List<String>>()
+    val plansLiveData: LiveData<List<String>> get() = _plansLiveData
 
-    private val _templatesLiveData = MutableLiveData<List<TemplatesData>>()
-    val templatesLiveData: LiveData<List<TemplatesData>> get() = _templatesLiveData
+    private val _currentNutrientsLiveData = MutableLiveData<NutrientsTemplateData>()
+    val currentNutrientsLiveData: LiveData<NutrientsTemplateData> get() = _currentNutrientsLiveData
 
-    private val _generateTemplateLiveData = MutableLiveData<GenerateTemplateData>()
-    val generateTemplateLiveData: LiveData<GenerateTemplateData> get() = _generateTemplateLiveData
+    private val _currentPlanLiveData = MutableLiveData<List<DayPlanData>>()
+    val currentPlanLiveData: LiveData<List<DayPlanData>> get() = _currentPlanLiveData
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
@@ -44,29 +43,37 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUserInfo(
-        username: String,
-        firstName: String,
-        lastName: String,
-        email: String
-    ) {
+    fun getPlans() {
         viewModelScope.launch(handler) {
-            _userLiveData.value =
-                repository.getUserInfo(username, firstName, lastName, email)
+            _plansLiveData.value = repository.getPlans()
         }
     }
 
-    fun getTemplates(
-        username: String,
-        hash: String
-    ) {
+    fun getCurrentPlan(planName: String, day: Int) {
         viewModelScope.launch(handler) {
-            _templatesLiveData.value =
-                repository.getTemplates(username, hash)
+            _currentPlanLiveData.value = repository.getCurrentPlan(planName, day)
+        }
+    }
+
+    fun getCurrentNutrients(planName: String, day: Int) {
+        viewModelScope.launch(handler) {
+            _currentNutrientsLiveData.value = repository.getCurrentNutrients(planName, day)
         }
     }
 
     fun setToken(token: String) {
         repository.setToken(token)
+    }
+
+    fun changePlanName(oldName: String, newName: String) {
+        viewModelScope.launch(handler) {
+            _plansLiveData.value = repository.changePlanName(oldName, newName)
+        }
+    }
+
+    fun deletePlan(name: String) {
+        viewModelScope.launch(handler) {
+            _plansLiveData.value = repository.deletePlan(name)
+        }
     }
 }

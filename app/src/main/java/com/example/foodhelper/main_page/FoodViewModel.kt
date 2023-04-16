@@ -17,10 +17,6 @@ class FoodViewModel @Inject constructor(
 ) : ViewModel() {
     private val _foodLiveData = MutableLiveData<List<FoodData>>()
     val foodLiveData: LiveData<List<FoodData>> get() = _foodLiveData
-    private var wasBreakfastRequest = false
-    private var wasBrunchRequest = false
-    private var wasLunchRequest = false
-    private var wasDinnerRequest = false
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
@@ -33,6 +29,7 @@ class FoodViewModel @Inject constructor(
 
     private val handler = CoroutineExceptionHandler { _, throwable: Throwable ->
         viewModelScope.launch {
+            println(throwable.message)
             _noInternetLiveData.value = true
             _foodLiveData.value = repository.getBreakfastList("", false)
 
@@ -48,37 +45,41 @@ class FoodViewModel @Inject constructor(
     fun getBreakfastList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (wasBreakfastRequest) repository.getBreakfastList(query, false)
+            _foodLiveData.value =
+                if (repository.getBreakfastUpdate()) repository.getBreakfastList(query, false)
                 else repository.getBreakfastList(query, !(noInternetLiveData.value ?: false))
         }
-        wasBreakfastRequest = true
+        repository.setBreakfastUpdate(false)
     }
 
     fun getBrunchList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (wasBrunchRequest) repository.getBrunchList(query, false)
+            _foodLiveData.value =
+                if (repository.getBrunchUpdate()) repository.getBrunchList(query, false)
                 else repository.getBrunchList(query, !(noInternetLiveData.value ?: false))
         }
-        wasBrunchRequest = true
+        repository.setBrunchUpdate(true)
     }
 
     fun getLunchList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (wasLunchRequest) repository.getLunchList(query, false)
+            _foodLiveData.value =
+                if (repository.getLunchUpdate()) repository.getLunchList(query, false)
                 else repository.getLunchList(query, !(noInternetLiveData.value ?: false))
         }
-        wasLunchRequest = true
+        repository.setLunchUpdate(true)
     }
 
     fun getDinnerList(query: String) {
         viewModelScope.launch(handler) {
             _noInternetLiveData.value = false
-            _foodLiveData.value = if (wasDinnerRequest) repository.getDinnerList(query, false)
+            _foodLiveData.value =
+                if (repository.getDinnerUpdate()) repository.getDinnerList(query, false)
                 else repository.getDinnerList(query, !(noInternetLiveData.value ?: false))
         }
-        wasDinnerRequest = true
+        repository.setDinnerUpdate(true)
     }
 
     fun setToken(token: String) {

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +35,7 @@ class RecipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRecipeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,34 +44,38 @@ class RecipeFragment : Fragment() {
         val recipeId = args.foodId
         val instructionList = mutableListOf<InstructionsData>()
         val instructionRecycler = binding.rvRecipeList
-
         val adapter = RecipeAdapter()
         instructionRecycler.adapter = adapter
-        instructionRecycler.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        instructionRecycler.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         binding.RecipeName.text = args.recipeName
         Glide
             .with(view)
-            .load(args.image)
+            .load("https://spoonacular.com/recipeImages/${recipeId}-312x231.${args.image}")
             .into(binding.recipeImg)
 
-        binding.nutritionBt.setOnClickListener{
-            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(args.foodId, args.image, args.recipeName)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_popup_enter)
-                .setExitAnim(androidx.transition.R.anim.abc_popup_exit)
-                .build()
-            findNavController().navigate(action, navOptions)
-        }
+        nutritionListener()
 
-        viewModel.instructionsLiveData.observe(viewLifecycleOwner){
+        viewModel.instructionsLiveData.observe(viewLifecycleOwner) {
+            binding.lottieView.visibility = View.GONE
             instructionList.clear()
             instructionList.addAll(it)
             adapter.setInstructions(it)
         }
 
         viewModel.getInstructionsList(recipeId)
-        viewModel.setToken("3d56490658e6406590fe5079373f64fe")
+    }
+
+    private fun nutritionListener(){
+        binding.nutritionBt.setOnClickListener {
+            val action = RecipeFragmentDirections.actionRecipeFragmentToNutritionFragment(
+                args.foodId,
+                args.image,
+                args.recipeName
+            )
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroyView() {
